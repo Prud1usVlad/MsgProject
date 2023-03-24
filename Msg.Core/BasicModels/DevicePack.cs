@@ -11,10 +11,10 @@ public class DevicePack
 
     public DateOnly DateBought { get; set; }
 
-    //public long UserId { get; set; }
+    public string UserId { get; set; }
     public long PackTypeId { get; set; }
 
-    //public virtual User User { get; set; }
+    public virtual User User { get; set; }
     public virtual PackType PackType { get; set; }
     public virtual ICollection<Device> Devices { get; set; }
 }
