@@ -40,6 +40,9 @@ public partial class ApplicationContext : DbContext
         
         modelBuilder.Entity<PlantDataPiece>()
             .HasKey(x => new { x.PlantId, x.DataPieceId });
+
+        modelBuilder.Entity<DeviceInPack>()
+            .HasKey(x => new { x.PackTypeId, x.DeviceTypeId });
         
         modelBuilder.Entity<Device>()
             .HasOne(d => d.DeviceType)
