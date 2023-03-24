@@ -31,6 +31,7 @@ public partial class ApplicationContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        ApplyAllSeedings(modelBuilder);
 
         modelBuilder.Entity<DeviceDataPiece>()
             .HasKey(x => new { x.DeviceId, x.DataPieceId });
