@@ -1,8 +1,30 @@
 {
   "version": 2,
-  "dgSpecHash": "MRE3SYoT7NGKUcSnjThDgWXgybdmRZcsDJ15DZpfpa0CgOkB7RlwRxUDlKWD8ASv3HyQdDbe+Sv7pbhNAXxlag==",
+  "dgSpecHash": "NqKD8E7aJ4FVoMWCPy01aBKZ5zz66cpmH6NAob0mHW53nJmh39UOGgUMwlvSLnQtXEX1ToHQm6wYwkMZwikyvA==",
   "success": true,
   "projectFilePath": "D:\\NURE\\ThirdCourse\\MsgProject\\Msg.Core\\Msg.Core.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\vmlf\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
+    "C:\\Users\\vmlf\\.nuget\\packages\\microsoft.entityframeworkcore\\8.0.0-preview.2.23128.3\\microsoft.entityframeworkcore.8.0.0-preview.2.23128.3.nupkg.sha512",
+    "C:\\Users\\vmlf\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\8.0.0-preview.2.23128.3\\microsoft.entityframeworkcore.abstractions.8.0.0-preview.2.23128.3.nupkg.sha512",
+    "C:\\Users\\vmlf\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\8.0.0-preview.2.23128.3\\microsoft.entityframeworkcore.analyzers.8.0.0-preview.2.23128.3.nupkg.sha512",
+    "C:\\Users\\vmlf\\.nuget\\packages\\microsoft.entityframeworkcore.design\\8.0.0-preview.2.23128.3\\microsoft.entityframeworkcore.design.8.0.0-preview.2.23128.3.nupkg.sha512",
+    "C:\\Users\\vmlf\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\8.0.0-preview.2.23128.3\\microsoft.entityframeworkcore.relational.8.0.0-preview.2.23128.3.nupkg.sha512",
+    "C:\\Users\\vmlf\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\8.0.0-preview.2.23128.3\\microsoft.entityframeworkcore.tools.8.0.0-preview.2.23128.3.nupkg.sha512",
+    "C:\\Users\\vmlf\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\8.0.0-preview.2.23128.3\\microsoft.extensions.caching.abstractions.8.0.0-preview.2.23128.3.nupkg.sha512",
+    "C:\\Users\\vmlf\\.nuget\\packages\\microsoft.extensions.caching.memory\\8.0.0-preview.2.23128.3\\microsoft.extensions.caching.memory.8.0.0-preview.2.23128.3.nupkg.sha512",
+    "C:\\Users\\vmlf\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\8.0.0-preview.2.23128.3\\microsoft.extensions.configuration.abstractions.8.0.0-preview.2.23128.3.nupkg.sha512",
+    "C:\\Users\\vmlf\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\8.0.0-preview.2.23128.3\\microsoft.extensions.dependencyinjection.8.0.0-preview.2.23128.3.nupkg.sha512",
+    "C:\\Users\\vmlf\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0-preview.2.23128.3\\microsoft.extensions.dependencyinjection.abstractions.8.0.0-preview.2.23128.3.nupkg.sha512",
+    "C:\\Users\\vmlf\\.nuget\\packages\\microsoft.extensions.dependencymodel\\8.0.0-preview.2.23128.3\\microsoft.extensions.dependencymodel.8.0.0-preview.2.23128.3.nupkg.sha512",
+    "C:\\Users\\vmlf\\.nuget\\packages\\microsoft.extensions.logging\\8.0.0-preview.2.23128.3\\microsoft.extensions.logging.8.0.0-preview.2.23128.3.nupkg.sha512",
+    "C:\\Users\\vmlf\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0-preview.2.23128.3\\microsoft.extensions.logging.abstractions.8.0.0-preview.2.23128.3.nupkg.sha512",
+    "C:\\Users\\vmlf\\.nuget\\packages\\microsoft.extensions.options\\8.0.0-preview.2.23128.3\\microsoft.extensions.options.8.0.0-preview.2.23128.3.nupkg.sha512",
+    "C:\\Users\\vmlf\\.nuget\\packages\\microsoft.extensions.primitives\\8.0.0-preview.2.23128.3\\microsoft.extensions.primitives.8.0.0-preview.2.23128.3.nupkg.sha512",
+    "C:\\Users\\vmlf\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
+    "C:\\Users\\vmlf\\.nuget\\packages\\system.codedom\\4.4.0\\system.codedom.4.4.0.nupkg.sha512",
+    "C:\\Users\\vmlf\\.nuget\\packages\\system.text.encodings.web\\8.0.0-preview.2.23128.3\\system.text.encodings.web.8.0.0-preview.2.23128.3.nupkg.sha512",
+    "C:\\Users\\vmlf\\.nuget\\packages\\system.text.json\\8.0.0-preview.2.23128.3\\system.text.json.8.0.0-preview.2.23128.3.nupkg.sha512"
+  ],
   "logs": []
 }
