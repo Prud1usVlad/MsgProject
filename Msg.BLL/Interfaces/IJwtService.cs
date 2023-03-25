@@ -10,6 +10,6 @@ namespace Msg.BLL.Interfaces
 {
     public interface IJwtService
     {
-        public AuthResponse CreateToken(User user);
+        public Task<AuthResponse> CreateTokenAsync(User user);
     }
 }

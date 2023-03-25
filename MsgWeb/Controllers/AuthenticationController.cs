@@ -37,7 +37,7 @@ namespace MsgWeb.Controllers
             if (!isPasswordValid)
                 return ValidationProblem();
 
-            return Ok(_jwtService.CreateToken(user));
+            return Ok(await _jwtService.CreateTokenAsync(user));
         }
 
         private bool ValidateModel(LoginModel model) =>
