@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Msg.BLL.AuthenticationServices;
+using Msg.BLL.Interfaces;
 using Msg.Core.BasicModels;
 using Msg.DAL;
 
@@ -8,6 +10,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddDbContext<ApplicationContext>();
+
+builder.Services.AddScoped<IJwtService, JwtService>();
+
+
+
 
 builder.Services.AddIdentityCore<User>(options =>
 {

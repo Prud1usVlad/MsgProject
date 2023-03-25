@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MsgCore.ViewModels
+namespace Msg.Core.RequestModels
 {
     public class UserCreateModel
     {

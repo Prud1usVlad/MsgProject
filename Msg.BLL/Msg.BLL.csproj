@@ -18,6 +18,13 @@
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
+      <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.27.0" />
+      <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.27.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Msg.Core\Msg.Core.csproj" />
+      <ProjectReference Include="..\Msg.DAL\Msg.DAL.csproj" />
     </ItemGroup>
 
 </Project>

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Msg.Core.BasicModels;
-using MsgCore.ViewModels;
+using Msg.Core.RequestModels;
+using Msg.BLL.AuthenticationServices;
+using Msg.Core.ResponseModels;
 
 namespace MsgWeb.Controllers
 {
@@ -42,7 +44,6 @@ namespace MsgWeb.Controllers
             }
         }
 
-        
         private bool ValidateModel(UserCreateModel model)
         {
             if (model == null || model.Email == "" || 
