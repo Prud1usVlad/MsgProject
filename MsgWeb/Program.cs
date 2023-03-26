@@ -8,6 +8,7 @@ using Msg.Core.BasicModels;
 using Msg.DAL;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using MsgWeb.Controllers.Crud;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -113,5 +114,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.UseCors("AllowAllHeaders");
+
+app.MapPlantEndpoints();
 
 app.Run();
