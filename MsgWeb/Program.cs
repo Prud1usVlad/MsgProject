@@ -8,6 +8,7 @@ using Msg.Core.BasicModels;
 using Msg.DAL;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using Msg.BLL.BasicServices;
 //using MsgWeb.Controllers.Crud;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationContext>();
 
 builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<IPlantService, PlantService>();
 
 
 
@@ -68,6 +70,7 @@ builder.Services.AddAuthentication(options =>
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+
 }).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
