@@ -1,14 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using Msg.Core.BasicModels;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-
 namespace Msg.DAL;
 
-public partial class ApplicationContext : DbContext
+public partial class ApplicationContext : IdentityDbContext<User>
 {
     public DbSet<DataPiece> DataPieces { get; set; }
     public DbSet<Device> Devices { get; set; }
@@ -21,6 +22,7 @@ public partial class ApplicationContext : DbContext
     public DbSet<PlantDataPiece> PlantDataPieces { get; set; }
     public DbSet<Substrate> Substrates { get; set; }
     public DbSet<SubstrateDataPiece> SubstrateDataPieces { get; set; }
+    public DbSet<User> Users { get; set; }
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -88,8 +90,10 @@ public partial class ApplicationContext : DbContext
         modelBuilder.Entity<DevicePack>()
             .HasOne(d => d.PackType)
             .WithMany(p => p.DevicePacks);
-        
-        // TODO
-        // Add USER connections
+
+        modelBuilder.Entity<DevicePack>()
+            .HasOne(p => p.User)
+            .WithMany(u => u.DevicePacks);
+            
     }
 }

@@ -1,5 +1,8 @@
-namespace MsgCore.BasicModels;
+using Microsoft.AspNetCore.Identity;
 
-public class User
+namespace Msg.Core.BasicModels;
+
+public class User : IdentityUser
 {
+    public virtual ICollection<DevicePack> DevicePacks { get; set; }
 }
