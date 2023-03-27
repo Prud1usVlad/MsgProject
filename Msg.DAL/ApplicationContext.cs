@@ -23,6 +23,7 @@ public partial class ApplicationContext : IdentityDbContext<User>
     public DbSet<Substrate> Substrates { get; set; }
     public DbSet<SubstrateDataPiece> SubstrateDataPieces { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<DataLabel> DataLabels { get; set; }
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -46,7 +47,10 @@ public partial class ApplicationContext : IdentityDbContext<User>
 
         modelBuilder.Entity<DeviceInPack>()
             .HasKey(x => new { x.PackTypeId, x.DeviceTypeId });
-        
+
+        modelBuilder.Entity<DataLabelDataPiece>()
+            .HasKey(x => new { x.DataLabelId, x.DataPieceId });
+
         modelBuilder.Entity<Device>()
             .HasOne(d => d.DeviceType)
             .WithMany(t => t.Devices);
@@ -78,6 +82,14 @@ public partial class ApplicationContext : IdentityDbContext<User>
         modelBuilder.Entity<SubstrateDataPiece>()
             .HasOne(p => p.DataPiece)
             .WithMany(d => d.SubstrateDataPieces);
+
+        modelBuilder.Entity<DataLabelDataPiece>()
+            .HasOne(p => p.DataLabel)
+            .WithMany(d => d.DataLabelDataPieces);
+
+        modelBuilder.Entity<DataLabelDataPiece>()
+            .HasOne(p => p.DataPiece)
+            .WithMany(d => d.DataLabelDataPieces);
 
         modelBuilder.Entity<DeviceInPack>()
             .HasOne(d => d.DeviceType)

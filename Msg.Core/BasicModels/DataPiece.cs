@@ -12,6 +12,7 @@ public class DataPiece
     public string? Name { get; set; } = "";
     public string? MeasureUnit { get; set; } = "";
 
+    public virtual ICollection<DataLabelDataPiece> DataLabelDataPieces { get; set; }
     public virtual ICollection<PlantDataPiece> PlantDataPieces { get; set; }
     public virtual ICollection<SubstrateDataPiece> SubstrateDataPieces { get; set; }
     public virtual ICollection<DeviceDataPiece> DeviceDataPieces { get; set; }

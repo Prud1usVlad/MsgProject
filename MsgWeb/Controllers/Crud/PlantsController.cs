@@ -27,6 +27,7 @@ namespace MsgWeb.Controllers.Crud
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PlantModel>>> GetPlants()
         {
+
             try
             {
                 var plants = await _plantService.GetPlantsAsync();
