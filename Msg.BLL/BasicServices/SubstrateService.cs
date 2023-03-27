@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Msg.BLL.Interfaces;
 using Msg.Core.BasicModels;
+using Msg.Core.Enums;
 using Msg.Core.RequestModels;
 using Msg.DAL;
 using System;
@@ -73,18 +74,39 @@ namespace Msg.BLL.BasicServices
                 .ToListAsync();
         }
 
-        public Task<List<Substrate>> GetSubstratesAsync(SubstrateFilterModel filter)
+        public async Task<List<Substrate>> GetSubstratesAsync(SubstrateFilterModel filter)
         {
-            throw new NotImplementedException();
-            // TODO Implement!
+            var substrates = await _context.Substrates
+                .Include(p => p.Characteristics)
+                .ThenInclude(c => c.DataPiece)
+                .ToListAsync();
+
+            return substrates.Where(substrate => (
+                substrate.Volume <= filter.MaxVolume && substrate.Volume >= filter.MinVolume &&
+                substrate.Price <= filter.MaxPrice && substrate.Price >= filter.MinPrice &&
+                substrate.Characteristics.FirstOrDefault(c => (
+                    c.DataPieceId == (long)DataPieceType.Acidity &&
+                    c.Value <= filter.MaxAcidity && 
+                    c.Value >= filter.MinAcidity
+                )) is not null &&
+                substrate.Characteristics.FirstOrDefault(c => (
+                    c.DataPieceId == (long)DataPieceType.ElectricalCapacity &&
+                    c.Value <= filter.MaxElectricalCapacity &&
+                    c.Value >= filter.MinElectricalCapacity
+                )) is not null &&
+                substrate.Characteristics.FirstOrDefault(c => (
+                    c.DataPieceId == (long)DataPieceType.MoisureContent &&
+                    c.Value <= filter.MaxMoisureContent &&
+                    c.Value >= filter.MinMoisureContent
+                )) is not null
+            )).ToList();
         }
 
         public async Task UpdateSubstrateAsync(Substrate substrate)
         {
-            _context.Entry(substrate).State = EntityState.Modified;
-
             try
             {
+                _context.Update(substrate);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)

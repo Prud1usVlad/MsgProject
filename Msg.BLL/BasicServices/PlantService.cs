@@ -74,10 +74,9 @@ namespace Msg.BLL.BasicServices
 
         public async Task UpdatePlantAsync(Plant plant)
         {
-            _context.Entry(plant).State = EntityState.Modified;
-
             try
             {
+                _context.Update(plant);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)

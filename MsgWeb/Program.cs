@@ -19,9 +19,7 @@ builder.Services.AddDbContext<ApplicationContext>();
 
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IPlantService, PlantService>();
-
-
-
+builder.Services.AddScoped<ISubstrateService, SubstrateService>();
 
 builder.Services.AddIdentityCore<User>(options =>
 {

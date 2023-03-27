@@ -23,7 +23,6 @@ namespace MsgWeb.Controllers.Crud
             _plantService = plantService;
         }
 
-        // GET: api/Plants
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PlantModel>>> GetPlants()
         {
@@ -39,7 +38,6 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
-        // GET: api/Plants/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Plant>> GetPlantById(long id)
         {
@@ -55,8 +53,7 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
-        // GET: api/Plants/beans
-        [HttpGet("{name}")]
+        [HttpGet("Name/{name}")]
         public async Task<ActionResult<Plant>> GetPlantByName(string name)
         {
             try
@@ -71,7 +68,6 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
-        // PUT: api/Plants/
         [HttpPut]
         public async Task<IActionResult> PutPlant(PlantModel model)
         {
@@ -88,7 +84,6 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
-        // POST: api/Plants
         [HttpPost]
         public async Task<ActionResult<long>> PostPlant(PlantModel model)
         {
@@ -103,7 +98,6 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
-        // DELETE: api/Plants/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePlant(long id)
         {
@@ -150,6 +144,7 @@ namespace MsgWeb.Controllers.Crud
                     new PlantDataPiece
                     {
                         DataPieceId = c.DataPieceId,
+                        PlantId = model.Id,
                         Value = c.Value,
                     }).ToList(),
             };
