@@ -14,14 +14,12 @@ namespace MsgWeb.Controllers.Crud
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PlantsController : ControllerBase
+    public class PlantsController : ErrorHandlingControllerBase
     {
-        private readonly ApplicationContext _context;
         private readonly IPlantService _plantService;
 
-        public PlantsController(ApplicationContext context, IPlantService plantService)
+        public PlantsController(IPlantService plantService)
         {
-            _context = context;
             _plantService = plantService;
         }
 
@@ -90,7 +88,6 @@ namespace MsgWeb.Controllers.Crud
         }
 
         // POST: api/Plants
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<long>> PostPlant(PlantModel model)
         {
@@ -158,9 +155,6 @@ namespace MsgWeb.Controllers.Crud
 
             return plant;
         }
-
-        private ActionResult<T> GetProperReturnValue<T>(Exception exception) { return BadRequest(exception.Message); }
-        private ActionResult GetProperReturnValue(Exception exception) { return BadRequest(exception.Message); }
     }
 
 }
