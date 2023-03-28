@@ -58,9 +58,9 @@ namespace MsgWeb.Controllers.Crud
         {
             try
             {
-                var plant = await _plantService.GetPlantAsync(name);
+                var plants = await _plantService.GetPlantsAsync(name);
 
-                return Ok(GetModelFromPlant(plant));
+                return Ok(plants.Select(GetModelFromPlant));
             }
             catch (Exception ex)
             {

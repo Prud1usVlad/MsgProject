@@ -10,7 +10,7 @@ namespace Msg.BLL.Interfaces
     public interface IPlantService
     {
         public Task<Plant> GetPlantAsync(long id);
-        public Task<Plant> GetPlantAsync(string name);
+        public Task<List<Plant>> GetPlantsAsync(string name);
         public Task<List<Plant>> GetPlantsAsync();
         public Task<long> AddPlantAsync(Plant plant);
         public Task UpdatePlantAsync(Plant plant);

@@ -52,9 +52,9 @@ namespace MsgWeb.Controllers.Crud
         {
             try
             {
-                var substrate = await _substrateService.GetSubstrateAsync(name);
+                var substrates = await _substrateService.GetSubstratesAsync(name);
 
-                return Ok(GetModelFromSubstrate(substrate));
+                return Ok(substrates.Select(GetModelFromSubstrate));
             }
             catch (Exception ex)
             {

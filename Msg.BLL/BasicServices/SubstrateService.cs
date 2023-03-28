@@ -53,17 +53,14 @@ namespace Msg.BLL.BasicServices
             return substrate;
         }
 
-        public async Task<Substrate> GetSubstrateAsync(string name)
+        public async Task<List<Substrate>> GetSubstratesAsync(string name)
         {
-            var substrate = await _context.Substrates
+            var normalizedName = name.ToUpper();
+            return await _context.Substrates
                 .Include(p => p.Characteristics)
                 .ThenInclude(c => c.DataPiece)
-                .FirstOrDefaultAsync(p => p.Name == name);
-
-            if (substrate == null)
-                throw new NullReferenceException();
-
-            return substrate;
+                .Where(p => p.Name.ToUpper().Contains(normalizedName))
+                .ToListAsync();
         }
 
         public async Task<List<Substrate>> GetSubstratesAsync()

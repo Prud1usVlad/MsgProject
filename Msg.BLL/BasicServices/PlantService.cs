@@ -51,17 +51,14 @@ namespace Msg.BLL.BasicServices
             return plant;
         }
 
-        public async Task<Plant> GetPlantAsync(string name)
+        public async Task<List<Plant>> GetPlantsAsync(string name)
         {
-            var plant = await _context.Plants
+            var normalizedName = name.ToUpper();
+            return await _context.Plants
                 .Include(p => p.Characteristics)
                 .ThenInclude(c => c.DataPiece)
-                .FirstOrDefaultAsync(p => p.Name == name);
-
-            if (plant == null)
-                throw new NullReferenceException();
-
-            return plant;
+                .Where(p => p.Name.ToUpper().Contains(normalizedName))
+                .ToListAsync();
         }
 
         public async Task<List<Plant>> GetPlantsAsync()
