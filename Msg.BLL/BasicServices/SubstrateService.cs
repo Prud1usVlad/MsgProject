@@ -76,30 +76,39 @@ namespace Msg.BLL.BasicServices
 
         public async Task<List<Substrate>> GetSubstratesAsync(SubstrateFilterModel filter)
         {
-            var substrates = await _context.Substrates
+            IEnumerable<Substrate> substrates = await _context.Substrates
                 .Include(p => p.Characteristics)
                 .ThenInclude(c => c.DataPiece)
                 .ToListAsync();
 
-            return substrates.Where(substrate => (
-                substrate.Volume <= filter.MaxVolume && substrate.Volume >= filter.MinVolume &&
-                substrate.Price <= filter.MaxPrice && substrate.Price >= filter.MinPrice &&
+            substrates = substrates.Where(substrate =>
+                substrate.Volume <= filter.MaxVolume && substrate.Volume >= filter.MinVolume);
+
+            substrates = substrates.Where(substrate =>
+                substrate.Price <= filter.MaxPrice && substrate.Price >= filter.MinPrice);
+
+            substrates = substrates.Where(substrate =>
                 substrate.Characteristics.FirstOrDefault(c => (
                     c.DataPieceId == (long)DataPieceType.Acidity &&
-                    c.Value <= filter.MaxAcidity && 
+                    c.Value <= filter.MaxAcidity &&
                     c.Value >= filter.MinAcidity
-                )) is not null &&
+                )) is not null);
+
+            substrates = substrates.Where(substrate =>
                 substrate.Characteristics.FirstOrDefault(c => (
                     c.DataPieceId == (long)DataPieceType.ElectricalCapacity &&
                     c.Value <= filter.MaxElectricalCapacity &&
                     c.Value >= filter.MinElectricalCapacity
-                )) is not null &&
+                )) is not null);
+
+            substrates = substrates.Where(substrate =>
                 substrate.Characteristics.FirstOrDefault(c => (
                     c.DataPieceId == (long)DataPieceType.MoisureContent &&
                     c.Value <= filter.MaxMoisureContent &&
                     c.Value >= filter.MinMoisureContent
-                )) is not null
-            )).ToList();
+                )) is not null);
+
+            return substrates.ToList();
         }
 
         public async Task UpdateSubstrateAsync(Substrate substrate)

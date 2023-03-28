@@ -62,7 +62,7 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
-        [HttpGet("Filtre/{name}")]
+        [HttpPost("Filtre")]
         public async Task<ActionResult<IEnumerable<SubstrateModel>>> FiltreSubstrates(SubstrateFilterModel filtre)
         {
             try
