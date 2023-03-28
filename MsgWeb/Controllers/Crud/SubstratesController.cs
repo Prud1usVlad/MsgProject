@@ -107,7 +107,7 @@ namespace MsgWeb.Controllers.Crud
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePlant(long id)
+        public async Task<IActionResult> DeleteSubstrate(long id)
         {
             try
             {
