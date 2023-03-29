@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Msg.DAL;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Msg.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230327121720_AddedDataLabels")]
+    partial class AddedDataLabels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -192,110 +195,6 @@ namespace Msg.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DataLabels");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            Label = "PlantRequired"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            Label = "SubstrateRequired"
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            Label = "OptimizingModelRequired"
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            Label = "DeviceActionRequired"
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            Label = "Optional"
-                        });
-                });
-
-            modelBuilder.Entity("Msg.Core.BasicModels.DataLabelDataPiece", b =>
-                {
-                    b.Property<long>("DataLabelId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("DataPieceId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("DataLabelId", "DataPieceId");
-
-                    b.HasIndex("DataPieceId");
-
-                    b.ToTable("DataLabelDataPiece");
-
-                    b.HasData(
-                        new
-                        {
-                            DataLabelId = 1L,
-                            DataPieceId = 1L
-                        },
-                        new
-                        {
-                            DataLabelId = 2L,
-                            DataPieceId = 1L
-                        },
-                        new
-                        {
-                            DataLabelId = 3L,
-                            DataPieceId = 1L
-                        },
-                        new
-                        {
-                            DataLabelId = 4L,
-                            DataPieceId = 1L
-                        },
-                        new
-                        {
-                            DataLabelId = 1L,
-                            DataPieceId = 2L
-                        },
-                        new
-                        {
-                            DataLabelId = 2L,
-                            DataPieceId = 2L
-                        },
-                        new
-                        {
-                            DataLabelId = 3L,
-                            DataPieceId = 2L
-                        },
-                        new
-                        {
-                            DataLabelId = 4L,
-                            DataPieceId = 2L
-                        },
-                        new
-                        {
-                            DataLabelId = 1L,
-                            DataPieceId = 3L
-                        },
-                        new
-                        {
-                            DataLabelId = 2L,
-                            DataPieceId = 3L
-                        },
-                        new
-                        {
-                            DataLabelId = 3L,
-                            DataPieceId = 3L
-                        },
-                        new
-                        {
-                            DataLabelId = 4L,
-                            DataPieceId = 3L
-                        });
                 });
 
             modelBuilder.Entity("Msg.Core.BasicModels.DataPiece", b =>
@@ -306,6 +205,9 @@ namespace Msg.DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
+                    b.Property<long>("DataLabelId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("MeasureUnit")
                         .HasColumnType("text");
 
@@ -314,27 +216,9 @@ namespace Msg.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DataPieces");
+                    b.HasIndex("DataLabelId");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            MeasureUnit = "pH",
-                            Name = "Acidity"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            MeasureUnit = "mS cm",
-                            Name = "Electrical Capacity"
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            MeasureUnit = "%",
-                            Name = "Moisure Content"
-                        });
+                    b.ToTable("DataPieces");
                 });
 
             modelBuilder.Entity("Msg.Core.BasicModels.Device", b =>
@@ -487,20 +371,6 @@ namespace Msg.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Plants");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            Description = "Regular beens",
-                            Name = "Beens"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            Description = "Regular cucumber",
-                            Name = "Cucumber"
-                        });
                 });
 
             modelBuilder.Entity("Msg.Core.BasicModels.PlantDataPiece", b =>
@@ -519,44 +389,6 @@ namespace Msg.DAL.Migrations
                     b.HasIndex("DataPieceId");
 
                     b.ToTable("PlantDataPieces");
-
-                    b.HasData(
-                        new
-                        {
-                            PlantId = 1L,
-                            DataPieceId = 1L,
-                            Value = 6.0
-                        },
-                        new
-                        {
-                            PlantId = 1L,
-                            DataPieceId = 2L,
-                            Value = 0.90000000000000002
-                        },
-                        new
-                        {
-                            PlantId = 1L,
-                            DataPieceId = 3L,
-                            Value = 35.0
-                        },
-                        new
-                        {
-                            PlantId = 2L,
-                            DataPieceId = 1L,
-                            Value = 6.2999999999999998
-                        },
-                        new
-                        {
-                            PlantId = 2L,
-                            DataPieceId = 2L,
-                            Value = 0.69999999999999996
-                        },
-                        new
-                        {
-                            PlantId = 2L,
-                            DataPieceId = 3L,
-                            Value = 48.0
-                        });
                 });
 
             modelBuilder.Entity("Msg.Core.BasicModels.Substrate", b =>
@@ -585,40 +417,6 @@ namespace Msg.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Substrates");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            Description = "GT1  (30%  sand  +20% organic  soil +  50% coco  coir)",
-                            Name = "GT1",
-                            Price = 4.0,
-                            Volume = 2.0
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            Description = "GT2  (75%  coco  coir  +  25% rice husk)",
-                            Name = "GT2",
-                            Price = 14.0,
-                            Volume = 5.0
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            Description = "GT3  (75% coco coir + CaO 2.2 mg/kg + acid humic 0.41%)",
-                            Name = "GT3",
-                            Price = 13.99,
-                            Volume = 3.5
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            Description = "GT4  (75% white sphagnum peat  +25% vermiculite (size  4–6  mm))",
-                            Name = "GT4",
-                            Price = 18.0,
-                            Volume = 6.0
-                        });
                 });
 
             modelBuilder.Entity("Msg.Core.BasicModels.SubstrateDataPiece", b =>
@@ -637,80 +435,6 @@ namespace Msg.DAL.Migrations
                     b.HasIndex("DataPieceId");
 
                     b.ToTable("SubstrateDataPieces");
-
-                    b.HasData(
-                        new
-                        {
-                            SubstrateId = 1L,
-                            DataPieceId = 1L,
-                            Value = 6.2000000000000002
-                        },
-                        new
-                        {
-                            SubstrateId = 1L,
-                            DataPieceId = 2L,
-                            Value = 1.3999999999999999
-                        },
-                        new
-                        {
-                            SubstrateId = 1L,
-                            DataPieceId = 3L,
-                            Value = 48.0
-                        },
-                        new
-                        {
-                            SubstrateId = 2L,
-                            DataPieceId = 1L,
-                            Value = 6.0
-                        },
-                        new
-                        {
-                            SubstrateId = 2L,
-                            DataPieceId = 2L,
-                            Value = 0.40000000000000002
-                        },
-                        new
-                        {
-                            SubstrateId = 2L,
-                            DataPieceId = 3L,
-                            Value = 38.0
-                        },
-                        new
-                        {
-                            SubstrateId = 3L,
-                            DataPieceId = 1L,
-                            Value = 6.5
-                        },
-                        new
-                        {
-                            SubstrateId = 3L,
-                            DataPieceId = 2L,
-                            Value = 0.80000000000000004
-                        },
-                        new
-                        {
-                            SubstrateId = 3L,
-                            DataPieceId = 3L,
-                            Value = 55.0
-                        },
-                        new
-                        {
-                            SubstrateId = 4L,
-                            DataPieceId = 1L,
-                            Value = 6.2000000000000002
-                        },
-                        new
-                        {
-                            SubstrateId = 4L,
-                            DataPieceId = 2L,
-                            Value = 0.59999999999999998
-                        },
-                        new
-                        {
-                            SubstrateId = 4L,
-                            DataPieceId = 3L,
-                            Value = 41.0
-                        });
                 });
 
             modelBuilder.Entity("Msg.Core.BasicModels.User", b =>
@@ -781,15 +505,15 @@ namespace Msg.DAL.Migrations
                         {
                             Id = "b74ddd14-6340-4840-95c2-db12554843e5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d04832b1-20d1-4d11-94bd-7826c78d150c",
+                            ConcurrencyStamp = "763529e8-5cf8-4034-846c-1c157752fcb4",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEE4tJB0RpyFvqM+LphhxDOpB3KHVIEOuGpWBDyfmQipF1lcRtZXmZmM0tlDSjSke/A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDiQFZOuDmhCaGhF6yKS4bq3EhkRAG9W6LdsWHb1ugbMsh/bH0weAIH28G/j/k1euw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3c725f3d-7d5c-4d42-a90d-cc1400bcc0ad",
+                            SecurityStamp = "eb20d61c-d9b7-40ca-afa1-88a362c8f665",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -846,23 +570,15 @@ namespace Msg.DAL.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Msg.Core.BasicModels.DataLabelDataPiece", b =>
+            modelBuilder.Entity("Msg.Core.BasicModels.DataPiece", b =>
                 {
                     b.HasOne("Msg.Core.BasicModels.DataLabel", "DataLabel")
-                        .WithMany("DataLabelDataPieces")
+                        .WithMany("DataPieces")
                         .HasForeignKey("DataLabelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Msg.Core.BasicModels.DataPiece", "DataPiece")
-                        .WithMany("DataLabelDataPieces")
-                        .HasForeignKey("DataPieceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("DataLabel");
-
-                    b.Navigation("DataPiece");
                 });
 
             modelBuilder.Entity("Msg.Core.BasicModels.Device", b =>
@@ -981,13 +697,11 @@ namespace Msg.DAL.Migrations
 
             modelBuilder.Entity("Msg.Core.BasicModels.DataLabel", b =>
                 {
-                    b.Navigation("DataLabelDataPieces");
+                    b.Navigation("DataPieces");
                 });
 
             modelBuilder.Entity("Msg.Core.BasicModels.DataPiece", b =>
                 {
-                    b.Navigation("DataLabelDataPieces");
-
                     b.Navigation("DeviceDataPieces");
 
                     b.Navigation("PlantDataPieces");
