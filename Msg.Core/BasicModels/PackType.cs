@@ -13,6 +13,7 @@ public class PackType
     public string? Description { get; set; }
     public double Price { get; set; }
 
+    public virtual ICollection<Order> Orders { get; set; }
     public virtual ICollection<DeviceInPack> DevicesInPack { get; set; }
     public virtual ICollection<DevicePack> DevicePacks { get; set; }
 }

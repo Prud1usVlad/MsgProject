@@ -24,6 +24,7 @@ public partial class ApplicationContext : IdentityDbContext<User>
     public DbSet<SubstrateDataPiece> SubstrateDataPieces { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<DataLabel> DataLabels { get; set; }
+    public DbSet<Order> Orders { get; set; }
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -106,6 +107,14 @@ public partial class ApplicationContext : IdentityDbContext<User>
         modelBuilder.Entity<DevicePack>()
             .HasOne(p => p.User)
             .WithMany(u => u.DevicePacks);
+
+        modelBuilder.Entity<Order>()
+            .HasOne(o => o.PackType)
+            .WithMany(t => t.Orders);
+
+        modelBuilder.Entity<Order>()
+            .HasOne(o => o.User)
+            .WithMany(u => u.Orders);
             
     }
 }
