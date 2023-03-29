@@ -22,6 +22,7 @@ builder.Services.AddScoped<IPlantService, PlantService>();
 builder.Services.AddScoped<ISubstrateService, SubstrateService>();
 builder.Services.AddScoped<IDataPieceService, DataPieceService>();
 builder.Services.AddScoped<IDeviceTypeService, DeviceTypeService>();
+builder.Services.AddScoped<IPackTypeService, PackTypeService>();
 
 builder.Services.AddIdentityCore<User>(options =>
 {
