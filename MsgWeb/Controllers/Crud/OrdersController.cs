@@ -13,10 +13,12 @@ namespace MsgWeb.Controllers.Crud
     public class OrdersController : ErrorHandlingControllerBase
     {
         private readonly IOrderService _orderService;
+        private readonly IMailingService _mailingService;
 
-        public OrdersController(IOrderService orderService)
+        public OrdersController(IOrderService orderService, IMailingService mailingService)
         {
             _orderService = orderService;
+            _mailingService = mailingService;
         }
 
         [HttpGet]
@@ -30,6 +32,20 @@ namespace MsgWeb.Controllers.Crud
             catch (Exception ex)
             {
                 return GetProperReturnValue<IEnumerable<OrderViewModel>>(ex);
+            }
+        }
+
+        [HttpGet("test")]
+        public async Task<IActionResult> GetEmail()
+        {
+            try
+            {
+                _mailingService.SendUserCredentials(new User(), "user", "Password");
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return GetProperReturnValue(ex);
             }
         }
 

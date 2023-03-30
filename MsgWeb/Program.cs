@@ -9,6 +9,7 @@ using Msg.DAL;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using Msg.BLL.BasicServices;
+using Msg.BLL.AdvancedServices;
 //using MsgWeb.Controllers.Crud;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +26,7 @@ builder.Services.AddScoped<IDeviceTypeService, DeviceTypeService>();
 builder.Services.AddScoped<IPackTypeService, PackTypeService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IMailingService, MailingService>();
 
 builder.Services.AddIdentityCore<User>(options =>
 {

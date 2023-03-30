@@ -137,6 +137,23 @@ namespace MsgWeb.Controllers
             }
         }
 
+        [HttpPost("ChangePassword")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(model.UserId);
+
+                await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return GetProperReturnValue(ex);
+            }
+        }
+
         private bool ValidateModel(UserModel model)
         {
             if (model == null || model.Email == "" || model.Phone == "" ||

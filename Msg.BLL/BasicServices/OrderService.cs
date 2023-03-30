@@ -15,13 +15,17 @@ namespace Msg.BLL.BasicServices
     {
         private readonly ApplicationContext _context;
         private readonly IUserService _userService;
-
+        private readonly IMailingService _mailingService;
         private readonly DateTime anchorDate = new DateTime(2001, 1, 1);
 
-        public OrderService(ApplicationContext context, IUserService userService)
+        private string passwordCash;
+        private string usernameCash;
+
+        public OrderService(ApplicationContext context, IUserService userService, IMailingService mailingService)
         {
             _context = context;
             _userService = userService;
+            _mailingService = mailingService;
         }
 
         public async Task<long> AddOrderAsync(Order order)
@@ -43,6 +47,8 @@ namespace Msg.BLL.BasicServices
             var user = await _context.Users
                 .FirstOrDefaultAsync(u => u.Email == order.Email);
 
+            var newUserCreated = user is null;
+
             var packType = await _context.PackTypes
                 .Include(t => t.DevicesInPack)
                 .FirstOrDefaultAsync(t => t.Id == order.PackTypeId);
@@ -55,6 +61,10 @@ namespace Msg.BLL.BasicServices
             _context.Orders.Update(order);
 
             await _context.SaveChangesAsync();
+
+            if (newUserCreated)
+                _mailingService.SendUserCredentials(user, usernameCash, passwordCash);
+
         }
 
         public async Task DeleteOrderAsync(long id)
@@ -84,14 +94,17 @@ namespace Msg.BLL.BasicServices
 
         private async Task<User> CreateNewUser(Order order)
         {
+            passwordCash = Guid.NewGuid().ToString("d").Substring(1, 8);
+            usernameCash = "user_" + GetTimestamp();
+
             return await _userService.CreateUserAsync(
                 new User()
                 {
-                    UserName = "user_" + GetTimestamp(),
+                    UserName = usernameCash,
                     Email = order.Email,
                     PhoneNumber = order.Phone
                 },
-                Guid.NewGuid().ToString("d").Substring(1, 8),
+                passwordCash,
                 new[] { "User" }
             );
         }
