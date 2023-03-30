@@ -13,8 +13,6 @@ namespace Msg.BLL.Interfaces
         public Task<List<Order>> GetOrdersAsync();
         public Task<long> AddOrderAsync(Order order);
         public Task DeleteOrderAsync(long id);
-        public void SetProcessed(long orderId, bool value);
-        public Task ConfirmOrder(Order order);
-
+        public Task ConfirmOrder(long order);
     }
 }

@@ -22,7 +22,6 @@ namespace MsgWeb.Controllers
             _userService = userService;
         }
 
-
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserViewModel>>> GetUsers()
         {

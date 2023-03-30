@@ -14,15 +14,13 @@ namespace Msg.Core.BasicModels
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 
-        public DateTime? DateTime { get; set; }
+        public DateOnly? Date { get; set; }
         public string? Email { get; set; }
         public string? Phone { get; set; }
         public bool Processed { get; set; } = false;
 
-        public long? PackTypeId { get; set; }
-        public long? UserId { get; set; }
+        public long PackTypeId { get; set; }
 
         public virtual PackType PackType { get; set; }
-        public virtual User User { get; set; }
     }
 }

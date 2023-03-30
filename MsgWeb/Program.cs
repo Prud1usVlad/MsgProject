@@ -24,6 +24,7 @@ builder.Services.AddScoped<IDataPieceService, DataPieceService>();
 builder.Services.AddScoped<IDeviceTypeService, DeviceTypeService>();
 builder.Services.AddScoped<IPackTypeService, PackTypeService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 builder.Services.AddIdentityCore<User>(options =>
 {

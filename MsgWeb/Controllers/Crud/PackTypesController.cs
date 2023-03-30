@@ -9,11 +9,11 @@ namespace MsgWeb.Controllers.Crud
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PackTypeController : ErrorHandlingControllerBase
+    public class PackTypesController : ErrorHandlingControllerBase
     {
         private readonly IPackTypeService _packTypeService;
 
-        public PackTypeController(IPackTypeService packTypeService)
+        public PackTypesController(IPackTypeService packTypeService)
         {
             _packTypeService = packTypeService;
         }

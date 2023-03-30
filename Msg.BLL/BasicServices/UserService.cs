@@ -53,6 +53,8 @@ namespace Msg.BLL.BasicServices
             {
                 if (deleteUserOnError)
                     await _userManager.DeleteAsync(user);
+
+                throw;
             }
         }
     }

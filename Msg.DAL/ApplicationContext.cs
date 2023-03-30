@@ -111,10 +111,5 @@ public partial class ApplicationContext : IdentityDbContext<User>
         modelBuilder.Entity<Order>()
             .HasOne(o => o.PackType)
             .WithMany(t => t.Orders);
-
-        modelBuilder.Entity<Order>()
-            .HasOne(o => o.User)
-            .WithMany(u => u.Orders);
-            
     }
 }
