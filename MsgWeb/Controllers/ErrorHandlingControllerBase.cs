@@ -25,7 +25,7 @@ namespace MsgWeb.Controllers
             }
             else
             {
-                return BadRequest(exception);
+                return BadRequest(exception.Message);
             }
         }
     }

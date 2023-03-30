@@ -9,11 +9,11 @@ namespace MsgWeb.Controllers.Crud
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DeviceTypeController : ErrorHandlingControllerBase
+    public class DeviceTypesController : ErrorHandlingControllerBase
     {
         private readonly IDeviceTypeService _deviceTypeService;
 
-        public DeviceTypeController(IDeviceTypeService deviceTypeService)
+        public DeviceTypesController(IDeviceTypeService deviceTypeService)
         {
             _deviceTypeService = deviceTypeService;
         }
@@ -24,8 +24,8 @@ namespace MsgWeb.Controllers.Crud
 
             try
             {
-                var substrates = await _deviceTypeService.GetDeviceTypesAsync();
-                return Ok(substrates.Select(GetModelFromDeviceType));
+                var deviceTypes = await _deviceTypeService.GetDeviceTypesAsync();
+                return Ok(deviceTypes.Select(GetModelFromDeviceType));
             }
             catch (Exception ex)
             {

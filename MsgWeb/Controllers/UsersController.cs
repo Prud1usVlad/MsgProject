@@ -4,71 +4,176 @@ using Msg.Core.BasicModels;
 using Msg.Core.RequestModels;
 using Msg.BLL.AuthenticationServices;
 using Msg.Core.ResponseModels;
+using Msg.BLL.Interfaces;
+using Msg.BLL.BasicServices;
 
 namespace MsgWeb.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UsersController : ErrorHandlingControllerBase
     {
         private readonly UserManager<User> _userManager;
+        private readonly IUserService _userService;
 
-        public UsersController(UserManager<User> userManager)
+        public UsersController(UserManager<User> userManager, IUserService userService)
         {
             _userManager = userManager;
+            _userService = userService;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<UserViewModel>>> GetUsers()
+        {
+            try
+            {
+                var users = await _userService.GetUsersAsync();
+                var result = new List<UserViewModel>();
+                foreach (var user in users)
+                    result.Add(await GetViewModelFromUser(user));
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return GetProperReturnValue<IEnumerable<UserViewModel>>(ex);
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<UserViewModel>> GetUserById(string id)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(id);
+
+                return await GetViewModelFromUser(user);
+            }
+            catch (Exception ex)
+            {
+                return GetProperReturnValue<UserViewModel>(ex);
+            }
+        }
+
+        [HttpGet("Email/{email}")]
+        public async Task<ActionResult<UserViewModel>> GetUserByName(string email)
+        {
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(email);
+
+                if (user is null)
+                    throw new NullReferenceException();
+
+                return Ok(await GetViewModelFromUser(user));
+            }
+            catch (Exception ex)
+            {
+                return GetProperReturnValue<UserViewModel>(ex);
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> PutUser(UserModel model)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(model.Id);
+
+                user.PhoneNumber = model.Phone;
+                user.UserName = model.UserName;
+                user.Email = model.Email;
+
+                await _userManager.UpdateAsync(user);
+                
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return GetProperReturnValue(ex);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteDeviceType(string id)
+        {
+            try
+            {
+                await _userManager.DeleteAsync(await _userManager.FindByIdAsync(id));
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return GetProperReturnValue(ex);
+            }
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserCreateModel>> PostUser(UserCreateModel model)
+        public async Task<ActionResult<UserModel>> PostUser(UserModel model)
         {
             try
             {
                 if (!ValidateModel(model))
                     return ValidationProblem();
 
-                var result = await _userManager.CreateAsync(
-                    new User() { UserName = model.UserName, Email = model.Email },
-                    model.Password);
-
-                if (!result.Succeeded)
-                    return BadRequest(result.Errors);
-
-                await AddUserRoles(model, true);
+                var user = await _userService.CreateUserAsync(
+                    new User()
+                    {
+                        UserName = model.UserName,
+                        Email = model.Email,
+                        PhoneNumber = model.Phone
+                    },
+                    model.Password,
+                    model.Roles
+                );
 
                 model.Password = "";
                 return Created("", model);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return GetProperReturnValue<UserModel>(ex);
             }
         }
 
-        private bool ValidateModel(UserCreateModel model)
+        [HttpPost("ChangePassword")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
         {
-            if (model == null || model.Email == "" || 
+            try
+            {
+                var user = await _userManager.FindByIdAsync(model.UserId);
+
+                await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return GetProperReturnValue(ex);
+            }
+        }
+
+        private bool ValidateModel(UserModel model)
+        {
+            if (model == null || model.Email == "" || model.Phone == "" ||
                 model.UserName == "" || model.Password == "")
                 return false;
             else
                 return true;
         }
 
-        private async Task AddUserRoles(UserCreateModel model, bool deleteUserOnError = false)
+        private async Task<UserViewModel> GetViewModelFromUser(User user)
         {
-            var user = await _userManager.FindByNameAsync(model.UserName);
-
-            try
+            return new UserViewModel
             {
-                if (model.Roles.Count != 0)
-                    await _userManager.AddToRolesAsync(user, model.Roles);
-                else
-                    await _userManager.AddToRoleAsync(user, "User");
-            }
-            catch 
-            {
-                if (deleteUserOnError)
-                    await _userManager.DeleteAsync(user);
-            }
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email,
+                Phone = user.PhoneNumber,
+                PacksCount = (user.DevicePacks is null) ? 0 : user.DevicePacks.Count(), 
+                Roles = await _userManager.GetRolesAsync(user),
+            };
         }
 
     }

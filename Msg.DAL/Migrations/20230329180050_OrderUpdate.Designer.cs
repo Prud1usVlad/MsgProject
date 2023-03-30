@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Msg.DAL;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Msg.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230329180050_OrderUpdate")]
+    partial class OrderUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -453,8 +456,8 @@ namespace Msg.DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<DateOnly?>("Date")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("DateTime")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
                         .HasColumnType("text");
@@ -816,15 +819,15 @@ namespace Msg.DAL.Migrations
                         {
                             Id = "b74ddd14-6340-4840-95c2-db12554843e5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7cfc849e-5e6f-4b4f-b6d2-0aae0468d738",
+                            ConcurrencyStamp = "1652b48e-bb0f-4499-8343-aba520d0b1bb",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAELdI3cC6dgG0vwsbogts7sW8bv4NoDRsktGTQSvRtqH4Gzn/66SlAlsDDkTYo73J+A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKmYGbexa/SMHzoAS/q2udnDihWnXZ+l8YhubiQJOODz+UQX5Ema7pqmQlDALjXfkg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d12196cb-8b40-4b11-908a-2f0074977bce",
+                            SecurityStamp = "81257f36-7dce-48db-8dc2-94709513b487",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -984,11 +987,13 @@ namespace Msg.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Msg.Core.BasicModels.User", null)
+                    b.HasOne("Msg.Core.BasicModels.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId");
 
                     b.Navigation("PackType");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Msg.Core.BasicModels.PlantDataPiece", b =>

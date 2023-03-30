@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Msg.DAL;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Msg.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230329091948_AddedOrder")]
+    partial class AddedOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,14 +56,14 @@ namespace Msg.DAL.Migrations
                             Id = "fab4fac1-c546-41de-aebc-a14da6895711",
                             ConcurrencyStamp = "1",
                             Name = "Admin",
-                            NormalizedName = "ADMIN"
+                            NormalizedName = "Admin"
                         },
                         new
                         {
                             Id = "c7b013f0-5201-4317-abd8-c211f91b7330",
                             ConcurrencyStamp = "2",
                             Name = "User",
-                            NormalizedName = "USER"
+                            NormalizedName = "User"
                         });
                 });
 
@@ -453,13 +456,14 @@ namespace Msg.DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<DateOnly?>("Date")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("DateTime")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
-                    b.Property<long>("PackTypeId")
+                    b.Property<long?>("PackTypeId")
+                        .IsRequired()
                         .HasColumnType("bigint");
 
                     b.Property<string>("Phone")
@@ -468,14 +472,18 @@ namespace Msg.DAL.Migrations
                     b.Property<bool>("Processed")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("UserId")
+                    b.Property<long?>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("UserId1")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PackTypeId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Orders");
                 });
@@ -816,15 +824,15 @@ namespace Msg.DAL.Migrations
                         {
                             Id = "b74ddd14-6340-4840-95c2-db12554843e5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7cfc849e-5e6f-4b4f-b6d2-0aae0468d738",
+                            ConcurrencyStamp = "8b0673da-deb1-4161-8f72-c426977edc17",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAELdI3cC6dgG0vwsbogts7sW8bv4NoDRsktGTQSvRtqH4Gzn/66SlAlsDDkTYo73J+A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPqnzYGSZ4i3WOoQkpuhv9T2nYPqrmKjxYTR8KsLvrE5baKMv25u4IL6BVUXpF1VWA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d12196cb-8b40-4b11-908a-2f0074977bce",
+                            SecurityStamp = "b08317d2-2d08-4667-b137-7a51dbb6222b",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -984,11 +992,15 @@ namespace Msg.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Msg.Core.BasicModels.User", null)
+                    b.HasOne("Msg.Core.BasicModels.User", "User")
                         .WithMany("Orders")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("PackType");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Msg.Core.BasicModels.PlantDataPiece", b =>
