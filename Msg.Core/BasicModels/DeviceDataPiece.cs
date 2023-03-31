@@ -5,6 +5,7 @@ public class DeviceDataPiece
     public long DeviceId { get; set; }
     public long DataPieceId { get; set; }
 
+    public DateOnly Date { get; set; }
     public double Value { get; set; }
 
     public virtual Device Device { get; set; }
