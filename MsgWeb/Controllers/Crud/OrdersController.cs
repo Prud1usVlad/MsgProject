@@ -35,20 +35,6 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
-        [HttpGet("test")]
-        public async Task<IActionResult> GetEmail()
-        {
-            try
-            {
-                _mailingService.SendUserCredentials(new User(), "user", "Password");
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return GetProperReturnValue(ex);
-            }
-        }
-
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderViewModel>> GetOrderById(long id)
         {
