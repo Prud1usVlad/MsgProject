@@ -48,7 +48,7 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
-        [HttpGet("NameId/{name}")]
+        [HttpGet("Name/{name}")]
         public async Task<ActionResult<IEnumerable<DataPieceViewModel>>> GetDataPieces(string name)
         {
             try
