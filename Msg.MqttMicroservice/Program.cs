@@ -2,6 +2,9 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using System.Text.Json;
 using System.Text;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Msg.DAL;
+using Msg.MqttMicroservice.Configurations;
+using Msg.MqttMicroservice.Services;
 
 namespace Msg.MqttMicroservice
 {
@@ -10,6 +13,12 @@ namespace Msg.MqttMicroservice
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder();
+
+            builder.Services.AddSingleton<ApplicationContext>();
+
+            builder.Services.AddSingleton<MqttConnectionOptions>(e => 
+                MqttConnectionOptions.GetDefault(builder.Configuration));
+            builder.Services.AddSingleton<MqttSubscriber>();
 
             builder.Services.AddHealthChecks();
 

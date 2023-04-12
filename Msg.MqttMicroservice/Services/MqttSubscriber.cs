@@ -2,23 +2,26 @@
 using MQTTnet.Extensions.ManagedClient;
 using MQTTnet;
 using Msg.MqttMicroservice.Configurations;
+using Msg.DAL;
 
 namespace Msg.MqttMicroservice.Services
 {
     public class MqttSubscriber
     {
         private readonly IConfiguration _configuration;
+        private readonly ApplicationContext _context;
 
         protected IManagedMqttClient mqttClient;
         protected ManagedMqttClientOptions mqttOptions;
 
         public MqttConnectionOptions connectionOptions;
 
-        public MqttSubscriber(MqttConnectionOptions options, IConfiguration configuration)
+        public MqttSubscriber(MqttConnectionOptions options, IConfiguration configuration, ApplicationContext context)
         {
             InitFields(options);
             SetUpHandlers();
             _configuration = configuration;
+            _context = context;
         }
 
         public async Task Connect(string topic)
