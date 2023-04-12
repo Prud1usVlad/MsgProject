@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Msg.DAL", "Msg.DAL\Msg.DAL.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Msg.BLL", "Msg.BLL\Msg.BLL.csproj", "{8D3833FE-CBA6-43AC-A5A6-ADAE8A1CA5FE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Msg.MqttMicroservice", "Msg.MqttMicroservice\Msg.MqttMicroservice.csproj", "{B50426B1-5AD8-49AF-A9C4-B9FEF2339590}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,8 +35,15 @@ Global
 		{8D3833FE-CBA6-43AC-A5A6-ADAE8A1CA5FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D3833FE-CBA6-43AC-A5A6-ADAE8A1CA5FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D3833FE-CBA6-43AC-A5A6-ADAE8A1CA5FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B50426B1-5AD8-49AF-A9C4-B9FEF2339590}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B50426B1-5AD8-49AF-A9C4-B9FEF2339590}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B50426B1-5AD8-49AF-A9C4-B9FEF2339590}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B50426B1-5AD8-49AF-A9C4-B9FEF2339590}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {899AF7D4-C6E3-4E5E-A435-4F3F598139B3}
 	EndGlobalSection
 EndGlobal
