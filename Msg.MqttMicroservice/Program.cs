@@ -20,6 +20,8 @@ namespace Msg.MqttMicroservice
                 MqttConnectionOptions.GetDefault(builder.Configuration));
             builder.Services.AddSingleton<MqttSubscriber>();
 
+            builder.Services.AddSingleton<IDeviceDataPieceService, DeviceDataPieceService>();
+
             builder.Services.AddHealthChecks();
 
             builder.Services.AddHostedService<MainTask>();

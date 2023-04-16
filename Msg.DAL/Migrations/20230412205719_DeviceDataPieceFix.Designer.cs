@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Msg.DAL;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Msg.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230412205719_DeviceDataPieceFix")]
+    partial class DeviceDataPieceFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -365,11 +368,8 @@ namespace Msg.DAL.Migrations
 
             modelBuilder.Entity("Msg.Core.BasicModels.DeviceDataPiece", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<long>("DeviceId")
                         .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<long>("DataPieceId")
                         .HasColumnType("bigint");
@@ -377,17 +377,18 @@ namespace Msg.DAL.Migrations
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
 
-                    b.Property<long>("DeviceId")
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<double>("Value")
                         .HasColumnType("double precision");
 
-                    b.HasKey("Id");
+                    b.HasKey("DeviceId", "DataPieceId");
 
                     b.HasIndex("DataPieceId");
-
-                    b.HasIndex("DeviceId");
 
                     b.ToTable("DeviceDataPieces");
                 });
@@ -827,15 +828,15 @@ namespace Msg.DAL.Migrations
                         {
                             Id = "b74ddd14-6340-4840-95c2-db12554843e5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "384001fc-6232-435e-a0fa-c4d8e053fb54",
+                            ConcurrencyStamp = "6f560414-8fcb-421e-af6a-375557f5f747",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKwDbTRU7f5E1RachQnhXYydZKFagvFp5gbAmNC+wfo076JXk421C5HmyEsmy1GPzA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAED/+4orKoIwyB/BcwNsFmnA1TWN3J+cpRFO0wqQYzChTYqKAJ/qXGK3PyLClsDQfDA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "10638171-4263-481d-a537-baee257104fc",
+                            SecurityStamp = "5cd6bac1-5aac-442c-a065-f45e09f59620",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });

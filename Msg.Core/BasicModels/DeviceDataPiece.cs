@@ -1,7 +1,14 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Msg.Core.BasicModels;
 
 public class DeviceDataPiece
 {
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public long Id { get; set; }
+
     public long DeviceId { get; set; }
     public long DataPieceId { get; set; }
 

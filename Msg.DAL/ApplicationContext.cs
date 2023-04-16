@@ -37,9 +37,6 @@ public partial class ApplicationContext : IdentityDbContext<User>
         base.OnModelCreating(modelBuilder);
         ApplyAllSeedings(modelBuilder);
 
-        modelBuilder.Entity<DeviceDataPiece>()
-            .HasKey(x => new { x.DeviceId, x.DataPieceId });
-        
         modelBuilder.Entity<SubstrateDataPiece>()
             .HasKey(x => new { x.SubstrateId, x.DataPieceId });
         

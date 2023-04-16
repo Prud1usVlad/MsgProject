@@ -3,6 +3,8 @@ using MQTTnet.Extensions.ManagedClient;
 using MQTTnet;
 using Msg.MqttMicroservice.Configurations;
 using Msg.DAL;
+using System.Text.Json;
+using Msg.MqttMicroservice.Models;
 
 namespace Msg.MqttMicroservice.Services
 {
@@ -10,18 +12,32 @@ namespace Msg.MqttMicroservice.Services
     {
         private readonly IConfiguration _configuration;
         private readonly ApplicationContext _context;
+        private readonly IDeviceDataPieceService _deviceDataPieceService;
 
         protected IManagedMqttClient mqttClient;
         protected ManagedMqttClientOptions mqttOptions;
+        protected JsonSerializerOptions jsonSerializerOptions;
 
         public MqttConnectionOptions connectionOptions;
 
-        public MqttSubscriber(MqttConnectionOptions options, IConfiguration configuration, ApplicationContext context)
+        public MqttSubscriber(
+            MqttConnectionOptions options, 
+            IConfiguration configuration, 
+            ApplicationContext context, 
+            IDeviceDataPieceService deviceDataPieceService
+        )
         {
             InitFields(options);
             SetUpHandlers();
             _configuration = configuration;
             _context = context;
+
+            jsonSerializerOptions = new JsonSerializerOptions()
+            {
+                PropertyNameCaseInsensitive = true,
+                AllowTrailingCommas = true,
+            };
+            _deviceDataPieceService = deviceDataPieceService;
         }
 
         public async Task Connect(string topic)
@@ -77,9 +93,31 @@ namespace Msg.MqttMicroservice.Services
 
         private async Task MessageRecievedAsync(MqttApplicationMessageReceivedEventArgs arg)
         {
-            Console.WriteLine("Message recieved!");
+            Console.WriteLine();
+            Console.WriteLine(new string('-', 38));
+            Console.WriteLine($"Message recieved | {DateTime.Now}");
             var str = arg.ApplicationMessage.ConvertPayloadToString();
-            Console.WriteLine(str);
+
+            var message = JsonSerializer.Deserialize<MqttMessage>(str, jsonSerializerOptions);
+
+            await TrySaveMessage(message);
+        }
+
+        private async Task TrySaveMessage(MqttMessage message)
+        {
+            try
+            {
+                await _deviceDataPieceService.ProcessMqttMessage(message);
+
+                Console.WriteLine($"Recieved data from device: {message.DeviceId} | V{message.DeviceVersion}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Occured error with message: {ex.Message} ");
+            }
+
+            Console.WriteLine(new string('-', 38));
+
         }
     }
 }
