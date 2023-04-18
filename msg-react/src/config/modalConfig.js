@@ -5,8 +5,9 @@ import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
 import Input from '@mui/joy/Input';
 import { Trans } from 'react-i18next';
+import { apiConfig } from "./apiConfig";
 
-const API_URL = "http://192.168.1.239:5157/api/";
+const API_URL = apiConfig.url;
 
 export const dataPieceDetails = {
     header:"dmh_dpDetails",

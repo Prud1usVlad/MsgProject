@@ -1,4 +1,4 @@
-import { Button, Grid, Stack, Box, Chip } from "@mui/joy";
+import { Button, Grid, Stack, Box, Chip, Typography } from "@mui/joy";
 import { useTranslation, Trans } from "react-i18next";
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
@@ -7,11 +7,11 @@ import { Table, Column, HeaderCell, Cell } from 'rsuite-table';
 import 'rsuite-table/dist/css/rsuite-table.css'
 import DetailsModal from "../components/DetailsModal";
 import { substrateDetails, substrateCreate } from '../config/modalConfig';
+import { apiConfig } from "../config/apiConfig";
 
-var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJKV1QgdG9rZW4iLCJqdGkiOiI1ZWU3NTJmNC0xMzFkLTQyYTMtOTQyYi02N2VhYjRjMjU2M2UiLCJpYXQiOiIwNC4wNC4yMDIzIDEwOjQ3OjM4Iiwicm9sZSI6IkFkbWluIiwiZXhwIjoxNjgwNjkxNjU4LCJpc3MiOiJodHRwOi8vMTkyLjE2OC4xLjIzOTo1MTU3LyIsImF1ZCI6Imh0dHA6Ly8xOTIuMTY4LjEuMjM5OjUxNTcvIn0.0CVfsBeaJ3WzTlO9KQ9XBz9fLRuhOfIaT-yfUkH_dgY" 
-
-const headers = { headers: { 'Authorization': `Bearer ${token}`}};
-const API_URL = "http://192.168.1.239:5157/api/";
+const session = JSON.parse(localStorage.getItem("session"));
+const headers = { headers: { 'Authorization': `Bearer ${session.token}`}};
+const API_URL = apiConfig.url;
 
 export default function Substrates() {
     const { t, i18n } = useTranslation();
@@ -56,7 +56,7 @@ export default function Substrates() {
     }
 
     return (
-        <Grid container sm={12}>
+        <Grid container sm={12} p={3}>
 
             <DetailsModal open={showModal}
                 config={modalConfig} 
@@ -66,28 +66,27 @@ export default function Substrates() {
             >
 
             </DetailsModal>
-            <Grid sm={2}></Grid>
-            <Grid sm={8}>
+            <Grid sm={12}>
                 <Grid container display="flex"
                     justifyContent="space-between"
                     alignItems="center">
-                    <h1><Trans i18nKey={"sList"} /></h1>
+                    <Typography level="h1" my={1} ><Trans i18nKey={"sList"} /></Typography>
                     <Grid width={250} display="flex"
                         justifyContent="space-between"
                         alignItems="center">
                         <Button color="primary"
                             onClick={() => setUpdate(true)}
                             size="lg"
-                            variant="outlined"><Trans i18nKey={"reload"}
+                            variant="solid"><Trans i18nKey={"reload"}
                             sx={{mx:4}}/></Button>
                         <Button color="primary"
                             onClick={onCreate}
                             size="lg"
-                            variant="outlined"><Trans i18nKey={"add"}
+                            variant="solid"><Trans i18nKey={"add"}
                             sx={{m:4}}/></Button>
                     </Grid>
                 </Grid>
-                <Table height={500} data={data} bordered wordWrap hover>
+                <Table height={500} data={data} hover={false} wordWrap>
                     <Column width={140} sortable fixed>
                         <HeaderCell><Trans i18nKey={"id"} /></HeaderCell>
                         <Cell dataKey="id" />
@@ -148,7 +147,6 @@ export default function Substrates() {
                     </Column>
                 </Table>
             </Grid>
-            <Grid sm={2}></Grid>
         </Grid>
     );
 }
