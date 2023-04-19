@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Msg.BLL.BasicServices;
 using Msg.BLL.Interfaces;
 using Msg.Core.BasicModels;
 using Msg.Core.Enums;
-using Msg.Core.RequestModels;
 using Msg.Core.ResponseModels;
+
 
 namespace MsgWeb.Controllers.Crud
 {
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class DataPiecesController : ErrorHandlingControllerBase
@@ -100,6 +100,34 @@ namespace MsgWeb.Controllers.Crud
             return await GetDataPieces(DataPieceLabel.DeviceActionRequired);
         }
 
+        [HttpPost]
+        public async Task<ActionResult<long>> PostDataPice(DataPieceViewModel model)
+        {
+            try
+            {
+                return await _dataPieceService
+                    .CreateDataPieceAsync(GetDataPieceFromModel(model));
+            }
+            catch (Exception ex)
+            {
+                return GetProperReturnValue(ex);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteDataPice(long id)
+        {
+            try
+            {
+                await _dataPieceService.DeleteDataPieceAsync(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return GetProperReturnValue(ex);
+            }
+        }
+
         private DataPieceViewModel GetModelFromDataPiece(DataPiece dataPiece)
         {
             return new DataPieceViewModel()
@@ -109,6 +137,18 @@ namespace MsgWeb.Controllers.Crud
                 MeasureUnit = dataPiece.MeasureUnit,
                 Labels = dataPiece.DataLabelDataPieces
                     .Select(i => i.DataLabel.Label).ToList(),
+            };
+        }
+
+        private DataPiece GetDataPieceFromModel(DataPieceViewModel model)
+        {
+            return new DataPiece() 
+            {
+                Id = model.Id,
+                Name = model.Name,
+                MeasureUnit = model.MeasureUnit,
+                DataLabelDataPieces = _dataPieceService
+                    .GetDataLabelDataPieces(model.Labels, model.Id),
             };
         }
     }

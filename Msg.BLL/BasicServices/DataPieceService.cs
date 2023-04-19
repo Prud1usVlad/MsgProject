@@ -20,6 +20,38 @@ namespace Msg.BLL.BasicServices
             _context = context;
         }
 
+        public async Task<long> CreateDataPieceAsync(DataPiece dataPiece)
+        {
+            _context.DataPieces.Add(dataPiece);
+
+            await _context.SaveChangesAsync();
+
+            return dataPiece.Id;
+        }
+
+        public async Task DeleteDataPieceAsync(long id)
+        {
+            var dataPiece = await _context.DataPieces.FindAsync(id);
+            if (dataPiece == null)
+                throw new NullReferenceException();
+
+            _context.DataPieces.Remove(dataPiece);
+            await _context.SaveChangesAsync();
+        }
+
+        public List<DataLabelDataPiece> GetDataLabelDataPieces(List<string> names, long dataPieceId)
+        {
+            var labels = _context.DataLabels
+                .ToDictionary(l => l.Label, l => l.Id);
+
+            return names.Select(n =>
+                new DataLabelDataPiece 
+                { 
+                    DataLabelId = labels[n], 
+                    DataPieceId = dataPieceId}
+                ).ToList();
+        }
+
         public async Task<DataPiece> GetDataPieceAsync(long id)
         {
             var dataPiece = await _context.DataPieces
