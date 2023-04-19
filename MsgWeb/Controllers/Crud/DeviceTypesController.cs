@@ -113,6 +113,7 @@ namespace MsgWeb.Controllers.Crud
                 Id = type.Id,
                 Name = type.Name,
                 Description = type.Description,
+                Image = type.Image,
             };
         }
 
@@ -123,6 +124,7 @@ namespace MsgWeb.Controllers.Crud
                 Id = model.Id,
                 Name = model.Name,
                 Description = model.Description,
+                Image = model.Image,
             };
         }
     }

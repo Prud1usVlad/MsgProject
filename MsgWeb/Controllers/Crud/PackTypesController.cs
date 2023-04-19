@@ -114,6 +114,7 @@ namespace MsgWeb.Controllers.Crud
                 Name = type.Name,
                 Description = type.Description,
                 Price = type.Price,
+                Image = type.Image,
                 DevicesInPack = type.DevicesInPack.Select(d =>
                     new DeviceInPackModel
                     {
@@ -133,6 +134,7 @@ namespace MsgWeb.Controllers.Crud
                 Name = model.Name,
                 Description = model.Description,
                 Price = model.Price,
+                Image = model.Image,
                 DevicesInPack = model.DevicesInPack.Select(d =>
                     new DeviceInPack
                     {
