@@ -25,6 +25,9 @@ public partial class ApplicationContext : IdentityDbContext<User>
     public DbSet<User> Users { get; set; }
     public DbSet<DataLabel> DataLabels { get; set; }
     public DbSet<Order> Orders { get; set; }
+    public DbSet<Warning> Warnings { get; set; }
+    public DbSet<Blend> Blends { get; set; }
+    public DbSet<BlendComponent> BlendComponents { get; set; }
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -37,9 +40,6 @@ public partial class ApplicationContext : IdentityDbContext<User>
         base.OnModelCreating(modelBuilder);
         ApplyAllSeedings(modelBuilder);
 
-        modelBuilder.Entity<DeviceDataPiece>()
-            .HasKey(x => new { x.DeviceId, x.DataPieceId });
-        
         modelBuilder.Entity<SubstrateDataPiece>()
             .HasKey(x => new { x.SubstrateId, x.DataPieceId });
         
@@ -60,6 +60,9 @@ public partial class ApplicationContext : IdentityDbContext<User>
             .HasOne(d => d.DevicePack)
             .WithMany(p => p.Devices);
 
+        modelBuilder.Entity<Device>()
+            .HasOne(d => d.Plant);
+
         modelBuilder.Entity<DeviceDataPiece>()
             .HasOne(p => p.Device)
             .WithMany(d => d.DataPieces);
@@ -67,6 +70,10 @@ public partial class ApplicationContext : IdentityDbContext<User>
         modelBuilder.Entity<DeviceDataPiece>()
             .HasOne(p => p.DataPiece)
             .WithMany(d => d.DeviceDataPieces);
+
+        modelBuilder.Entity<DeviceDataPiece>()
+            .HasOne(p => p.Warning)
+            .WithMany(w => w.DeviceDataPieces);
         
         modelBuilder.Entity<PlantDataPiece>()
             .HasOne(p => p.Plant)
@@ -111,5 +118,17 @@ public partial class ApplicationContext : IdentityDbContext<User>
         modelBuilder.Entity<Order>()
             .HasOne(o => o.PackType)
             .WithMany(t => t.Orders);
+
+        modelBuilder.Entity<Blend>()
+            .HasOne(b => b.User)
+            .WithMany(u => u.Blends);
+
+        modelBuilder.Entity<BlendComponent>()
+            .HasOne(c => c.Blend)
+            .WithMany(b => b.Components);
+
+        modelBuilder.Entity<BlendComponent>()
+            .HasOne(c => c.Substrate);
+
     }
 }

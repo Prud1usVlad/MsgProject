@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Msg.DAL;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Msg.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230418175752_WarningAndBlend")]
+    partial class WarningAndBlend
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -408,16 +411,11 @@ namespace Msg.DAL.Migrations
                     b.Property<long>("PackId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("PlantId")
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
 
                     b.HasIndex("DevicePackId");
 
                     b.HasIndex("DeviceTypeId");
-
-                    b.HasIndex("PlantId");
 
                     b.ToTable("Devices");
                 });
@@ -892,15 +890,15 @@ namespace Msg.DAL.Migrations
                         {
                             Id = "b74ddd14-6340-4840-95c2-db12554843e5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8c36fc79-b1d3-45ea-bc6a-93258d32d9ea",
+                            ConcurrencyStamp = "d407340b-d9a5-4072-9d70-751fa13dc879",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFlpYOS4NOybCMQbhgTNINmQ6sIbvGt1WOWK1Ro/dADRDIXBMeZMWy59Z+Kcu2cb/w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMDyIQ8PQADJPWg3fj2xIu0yS5FN6CI09BoT4cnSDQslTnZPfAmmh/5/W9jsMsoThQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2a480235-72f7-4dec-8917-67fb251744f5",
+                            SecurityStamp = "283a4bf5-0d6f-45a9-9679-594b3fde3982",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -1036,15 +1034,9 @@ namespace Msg.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Msg.Core.BasicModels.Plant", "Plant")
-                        .WithMany()
-                        .HasForeignKey("PlantId");
-
                     b.Navigation("DevicePack");
 
                     b.Navigation("DeviceType");
-
-                    b.Navigation("Plant");
                 });
 
             modelBuilder.Entity("Msg.Core.BasicModels.DeviceDataPiece", b =>

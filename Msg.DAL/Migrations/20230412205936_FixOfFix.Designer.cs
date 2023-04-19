@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Msg.DAL;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Msg.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230412205936_FixOfFix")]
+    partial class FixOfFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -175,60 +178,6 @@ namespace Msg.DAL.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("Msg.Core.BasicModels.Blend", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<DateOnly?>("Date")
-                        .HasColumnType("date");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<double?>("Volume")
-                        .HasColumnType("double precision");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Blends");
-                });
-
-            modelBuilder.Entity("Msg.Core.BasicModels.BlendComponent", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<long>("BlendId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("SubstrateId")
-                        .HasColumnType("bigint");
-
-                    b.Property<double>("Volume")
-                        .HasColumnType("double precision");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BlendId");
-
-                    b.HasIndex("SubstrateId");
-
-                    b.ToTable("BlendComponents");
                 });
 
             modelBuilder.Entity("Msg.Core.BasicModels.DataLabel", b =>
@@ -408,16 +357,11 @@ namespace Msg.DAL.Migrations
                     b.Property<long>("PackId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("PlantId")
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
 
                     b.HasIndex("DevicePackId");
 
                     b.HasIndex("DeviceTypeId");
-
-                    b.HasIndex("PlantId");
 
                     b.ToTable("Devices");
                 });
@@ -442,17 +386,11 @@ namespace Msg.DAL.Migrations
                     b.Property<double>("Value")
                         .HasColumnType("double precision");
 
-                    b.Property<long?>("WarningId")
-                        .IsRequired()
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
 
                     b.HasIndex("DataPieceId");
 
                     b.HasIndex("DeviceId");
-
-                    b.HasIndex("WarningId");
 
                     b.ToTable("DeviceDataPieces");
                 });
@@ -892,34 +830,18 @@ namespace Msg.DAL.Migrations
                         {
                             Id = "b74ddd14-6340-4840-95c2-db12554843e5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8c36fc79-b1d3-45ea-bc6a-93258d32d9ea",
+                            ConcurrencyStamp = "384001fc-6232-435e-a0fa-c4d8e053fb54",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFlpYOS4NOybCMQbhgTNINmQ6sIbvGt1WOWK1Ro/dADRDIXBMeZMWy59Z+Kcu2cb/w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKwDbTRU7f5E1RachQnhXYydZKFagvFp5gbAmNC+wfo076JXk421C5HmyEsmy1GPzA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2a480235-72f7-4dec-8917-67fb251744f5",
+                            SecurityStamp = "10638171-4263-481d-a537-baee257104fc",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
-                });
-
-            modelBuilder.Entity("Msg.Core.BasicModels.Warning", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<bool>("IsSolved")
-                        .HasColumnType("boolean");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Warnings");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -973,36 +895,6 @@ namespace Msg.DAL.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Msg.Core.BasicModels.Blend", b =>
-                {
-                    b.HasOne("Msg.Core.BasicModels.User", "User")
-                        .WithMany("Blends")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Msg.Core.BasicModels.BlendComponent", b =>
-                {
-                    b.HasOne("Msg.Core.BasicModels.Blend", "Blend")
-                        .WithMany("Components")
-                        .HasForeignKey("BlendId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Msg.Core.BasicModels.Substrate", "Substrate")
-                        .WithMany()
-                        .HasForeignKey("SubstrateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Blend");
-
-                    b.Navigation("Substrate");
-                });
-
             modelBuilder.Entity("Msg.Core.BasicModels.DataLabelDataPiece", b =>
                 {
                     b.HasOne("Msg.Core.BasicModels.DataLabel", "DataLabel")
@@ -1036,15 +928,9 @@ namespace Msg.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Msg.Core.BasicModels.Plant", "Plant")
-                        .WithMany()
-                        .HasForeignKey("PlantId");
-
                     b.Navigation("DevicePack");
 
                     b.Navigation("DeviceType");
-
-                    b.Navigation("Plant");
                 });
 
             modelBuilder.Entity("Msg.Core.BasicModels.DeviceDataPiece", b =>
@@ -1061,17 +947,9 @@ namespace Msg.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Msg.Core.BasicModels.Warning", "Warning")
-                        .WithMany("DeviceDataPieces")
-                        .HasForeignKey("WarningId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("DataPiece");
 
                     b.Navigation("Device");
-
-                    b.Navigation("Warning");
                 });
 
             modelBuilder.Entity("Msg.Core.BasicModels.DeviceInPack", b =>
@@ -1165,11 +1043,6 @@ namespace Msg.DAL.Migrations
                     b.Navigation("Substrate");
                 });
 
-            modelBuilder.Entity("Msg.Core.BasicModels.Blend", b =>
-                {
-                    b.Navigation("Components");
-                });
-
             modelBuilder.Entity("Msg.Core.BasicModels.DataLabel", b =>
                 {
                     b.Navigation("DataLabelDataPieces");
@@ -1224,16 +1097,9 @@ namespace Msg.DAL.Migrations
 
             modelBuilder.Entity("Msg.Core.BasicModels.User", b =>
                 {
-                    b.Navigation("Blends");
-
                     b.Navigation("DevicePacks");
 
                     b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("Msg.Core.BasicModels.Warning", b =>
-                {
-                    b.Navigation("DeviceDataPieces");
                 });
 #pragma warning restore 612, 618
         }
