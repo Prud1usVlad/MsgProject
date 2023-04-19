@@ -13,6 +13,7 @@ import { CssVarsProvider } from '@mui/joy/styles';
 import Login from './pages/Login';
 import { CustomProvider } from 'rsuite';
 import "rsuite/dist/rsuite.min.css";
+import Packs from './pages/Packs';
 
 
 
@@ -37,6 +38,7 @@ function App() {
             <Route path="/Substrates" element={ isLogined ? <Substrates /> : <Home />} />
             <Route path="/Plants" element={ isLogined ? <Plants /> : <Home />} />
             <Route path="/Login" element={<Login />} />
+            <Route path="/Packs" element={<Packs />} />
         </Routes>
 
       </Grid>
