@@ -5,14 +5,14 @@ using Msg.MqttMicroservice.Configurations;
 using Msg.DAL;
 using System.Text.Json;
 using Msg.MqttMicroservice.Models;
+using Msg.MqttMicroservice.HealthChecks;
 
 namespace Msg.MqttMicroservice.Services
 {
     public class MqttSubscriber
     {
-        private readonly IConfiguration _configuration;
-        private readonly ApplicationContext _context;
         private readonly IDeviceDataPieceService _deviceDataPieceService;
+        private readonly SystemHealthCheck _healthCheck;
 
         protected IManagedMqttClient mqttClient;
         protected ManagedMqttClientOptions mqttOptions;
@@ -21,16 +21,12 @@ namespace Msg.MqttMicroservice.Services
         public MqttConnectionOptions connectionOptions;
 
         public MqttSubscriber(
-            MqttConnectionOptions options, 
-            IConfiguration configuration, 
-            ApplicationContext context, 
-            IDeviceDataPieceService deviceDataPieceService
-        )
+            MqttConnectionOptions options,
+            IDeviceDataPieceService deviceDataPieceService,
+            SystemHealthCheck healthCheck)
         {
             InitFields(options);
             SetUpHandlers();
-            _configuration = configuration;
-            _context = context;
 
             jsonSerializerOptions = new JsonSerializerOptions()
             {
@@ -38,6 +34,7 @@ namespace Msg.MqttMicroservice.Services
                 AllowTrailingCommas = true,
             };
             _deviceDataPieceService = deviceDataPieceService;
+            _healthCheck = healthCheck;
         }
 
         public async Task Connect(string topic)
@@ -76,18 +73,21 @@ namespace Msg.MqttMicroservice.Services
         private Task ConnectedAsync(MqttClientConnectedEventArgs arg)
         {
             Console.WriteLine("Connected");
+            _healthCheck.ServiceState = ServiceState.Connected;
             return Task.CompletedTask;
         }
 
         private Task DisconnectedAsync(MqttClientDisconnectedEventArgs arg)
         {
             Console.WriteLine("Disconnected");
+            _healthCheck.ServiceState = ServiceState.Disconnected;
             return Task.CompletedTask;
         }
 
         private Task ConnectingFailedAsync(ConnectingFailedEventArgs arg)
         {
             Console.WriteLine("Connection failed check network or broker!");
+            _healthCheck.ServiceState = ServiceState.ConnectingFailed;
             return Task.CompletedTask;
         }
 

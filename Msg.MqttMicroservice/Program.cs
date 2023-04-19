@@ -1,10 +1,10 @@
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using System.Text.Json;
 using System.Text;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Msg.DAL;
 using Msg.MqttMicroservice.Configurations;
 using Msg.MqttMicroservice.Services;
+using Msg.MqttMicroservice.HealthChecks;
 
 namespace Msg.MqttMicroservice
 {
@@ -18,21 +18,24 @@ namespace Msg.MqttMicroservice
 
             builder.Services.AddSingleton<MqttConnectionOptions>(e => 
                 MqttConnectionOptions.GetDefault(builder.Configuration));
-            builder.Services.AddSingleton<MqttSubscriber>();
 
+            builder.Services.AddSingleton<MqttSubscriber>();
             builder.Services.AddSingleton<IDeviceDataPieceService, DeviceDataPieceService>();
 
-            builder.Services.AddHealthChecks();
-
             builder.Services.AddHostedService<MainTask>();
+            builder.Services.AddSingleton<SystemHealthCheck>();
 
-            // Add services to the container.
+            builder.Services.AddHealthChecks()
+                .AddCheck<SystemHealthCheck>(
+                    "System",
+                    tags: new[] { "ready" });
 
             var app = builder.Build();
 
-            app.MapHealthChecks("/health", new HealthCheckOptions
+            app.MapHealthChecks("/health", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
             {
-                ResponseWriter = WriteResponse
+                ResponseWriter = WriteResponse,
+                Predicate = healthCheck => healthCheck.Tags.Contains("ready")
             });
 
             app.Run();

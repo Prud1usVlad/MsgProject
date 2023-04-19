@@ -1,4 +1,5 @@
 ﻿using Msg.MqttMicroservice.Configurations;
+using Msg.MqttMicroservice.HealthChecks;
 using Msg.MqttMicroservice.Services;
 
 namespace Msg.MqttMicroservice
@@ -17,15 +18,12 @@ namespace Msg.MqttMicroservice
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            StartUpMqttClient();
+            await StartUpMqttClient();
         }
 
-        private void StartUpMqttClient()
+        private async Task StartUpMqttClient()
         {
-            _subscriber.Connect(_configuration["Mqtt:Topic"]);
-
-            Console.WriteLine("Press enter to exit.");
-            Console.ReadLine();
+            await _subscriber.Connect(_configuration["Mqtt:Topic"]);
         }
     }
 }
