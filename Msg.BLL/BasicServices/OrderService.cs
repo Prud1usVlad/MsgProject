@@ -55,8 +55,6 @@ namespace Msg.BLL.BasicServices
 
             var devicePack = await CreateDevicePack(order, user, packType);
 
-            _context.DevicePacks.Add(devicePack);
-
             order.Processed = true;
             _context.Orders.Update(order);
 
@@ -129,6 +127,8 @@ namespace Msg.BLL.BasicServices
             };
 
             _context.DevicePacks.Add(devicePack);
+
+            _context.SaveChanges();
 
             FillPackWithDevices(packType, devicePack);
 

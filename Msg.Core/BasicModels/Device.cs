@@ -11,8 +11,10 @@ public class Device
 
     public long PackId { get; set; }
     public long DeviceTypeId { get; set; }
+    public long? PlantId { get; set; }
 
     public virtual ICollection<DeviceDataPiece> DataPieces { get; set; }
     public virtual DeviceType DeviceType { get; set; }
     public virtual DevicePack DevicePack { get; set; }
+    public virtual Plant Plant { get; set; }
 }

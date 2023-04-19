@@ -60,6 +60,9 @@ public partial class ApplicationContext : IdentityDbContext<User>
             .HasOne(d => d.DevicePack)
             .WithMany(p => p.Devices);
 
+        modelBuilder.Entity<Device>()
+            .HasOne(d => d.Plant);
+
         modelBuilder.Entity<DeviceDataPiece>()
             .HasOne(p => p.Device)
             .WithMany(d => d.DataPieces);
