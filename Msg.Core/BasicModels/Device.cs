@@ -9,7 +9,7 @@ public class Device
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long Id { get; set; }
 
-    public long PackId { get; set; }
+    public long DevicePackId { get; set; }
     public long DeviceTypeId { get; set; }
     public long? PlantId { get; set; }
 

@@ -75,6 +75,7 @@ i18n
           devices: "Devices",
           statistic: "Statistic",
           offers: "Offers",
+          lorem: "Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In molestie odio nec purus auctor laoreet vitae nec dolor. Curabitur iaculis arcu at viverra accumsan. Nunc faucibus, mauris placerat sagittis eleifend, est arcu finibus leo, ut consequat justo eros et orci. Aenean efficitur porttitor maximus. Suspendisse potenti. Nulla facilisi. Maecenas lobortis suscipit metus, ac lobortis leo."
         }
       },
       ua: {
@@ -144,6 +145,7 @@ i18n
             devices: "Прилади",
             statistic: "Статистика",
             offers: "Пропозиції",
+            lorem: "Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In molestie odio nec purus auctor laoreet vitae nec dolor. Curabitur iaculis arcu at viverra accumsan. Nunc faucibus, mauris placerat sagittis eleifend, est arcu finibus leo, ut consequat justo eros et orci. Aenean efficitur porttitor maximus. Suspendisse potenti. Nulla facilisi. Maecenas lobortis suscipit metus, ac lobortis leo."
         }
       }
     },

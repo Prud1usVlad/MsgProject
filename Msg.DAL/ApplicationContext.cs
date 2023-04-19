@@ -46,9 +46,6 @@ public partial class ApplicationContext : IdentityDbContext<User>
         modelBuilder.Entity<PlantDataPiece>()
             .HasKey(x => new { x.PlantId, x.DataPieceId });
 
-        modelBuilder.Entity<DeviceInPack>()
-            .HasKey(x => new { x.PackTypeId, x.DeviceTypeId });
-
         modelBuilder.Entity<DataLabelDataPiece>()
             .HasKey(x => new { x.DataLabelId, x.DataPieceId });
 
