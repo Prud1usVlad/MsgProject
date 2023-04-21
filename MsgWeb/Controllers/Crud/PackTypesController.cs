@@ -122,6 +122,7 @@ namespace MsgWeb.Controllers.Crud
                         Name = d.DeviceType.Name,
                         Description = d.DeviceType.Description,
                         Amount = d.Amount,
+                        Image = d.DeviceType.Image,
                     }).ToList()
             };
         }

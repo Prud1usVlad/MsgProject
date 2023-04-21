@@ -1,4 +1,4 @@
-import { Grid, Select, Stack, Typography, Option, Box, List, ListItem, ListItemButton, ListItemDecorator, ListItemContent, Chip, Card, Button, AspectRatio } from "@mui/joy"
+import { Grid, Stack, Typography, Card, Button, AspectRatio, Modal, Sheet, ModalClose, Box, ModalOverflow, ModalDialog  } from "@mui/joy"
 import Divider from '@mui/material/Divider';
 import { useTranslation, Trans } from "react-i18next";
 import { useState, useEffect } from 'react';
@@ -6,8 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import { apiConfig } from "../config/apiConfig";
 import axios from "axios";
 import PackTypeCard from "../components/PackTypeCard";
+import PackTypeCardLg from "../components/PackTypeCardLg";
 
-const session = JSON.parse(localStorage.getItem("session"));
+const session = JSON.parse(localStorage.getItem("session")) || {};
 const headers = { headers: { 'Authorization': `Bearer ${session.token}`}};
 const currencyRateHeaders = { headers: { "apikey": apiConfig.currencyRateKey}}
 const API_URL = apiConfig.url;
@@ -26,9 +27,9 @@ export default function Packs() {
 
     const [ data, setData ] = useState([]);
     const [ update, setUpdate ] = useState(true);
-    const [ selectedId, setSelectedId ] = useState(0);
+    const [ selected, setSelected ] = useState({});
     const [ showModal, setShowModal ] = useState(false);
-    const [ currencyRate, setCurrencyRate ] = useState({});
+    const [ currencyRate, setCurrencyRate ] = useState(testingCurrencyRate);
 
     const { t, i18n } = useTranslation();
     const navigate = useNavigate();
@@ -57,6 +58,18 @@ export default function Packs() {
             fetchData();
     }, [update]);
 
+    const onDetails = (packType) => {
+        setSelected(packType)
+        setShowModal(true)
+    }
+
+    const getPrice = (packType) => {
+        if (i18n.language === "ua")
+            return "₴ " + Math.round(currencyRate.rates.UAH * packType.price);
+        else 
+            return "$ " + packType.price
+    } 
+
     return(
 
         <Stack p={3}>
@@ -74,13 +87,48 @@ export default function Packs() {
                 columns={{ sx: 3}}> 
 
                 { data.map((item) => (
-                    <Grid m={3}> 
+                    <Grid m={3} key={item.Id}> 
                         <PackTypeCard packType={item} 
-                            currencyRate={currencyRate}/> 
+                            currencyRate={currencyRate}
+                            onDetails={() => onDetails(item)}
+                        /> 
                     </Grid>
                 ))}
 
             </Grid>
+
+
+            <Modal
+                aria-labelledby="modal-title"
+                aria-describedby="modal-desc"
+                open={showModal}
+                onClose={() => setShowModal(false)}
+                sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                
+            >
+                <ModalOverflow>
+                <ModalDialog
+                    aria-labelledby="basic-modal-dialog-title"
+                    aria-describedby="basic-modal-dialog-description"
+                    sx={{ maxWidth: 1000, minWidth: 400 }}
+                >
+                    <ModalClose variant="outlined"
+                        sx={{
+                            top: 'calc(-1/4 * var(--IconButton-size))',
+                            right: 'calc(-1/4 * var(--IconButton-size))',
+                            boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
+                            borderRadius: '50%',
+                            bgcolor: 'background.body',
+                        }}
+                    />
+
+                    <PackTypeCardLg 
+                        packType={selected} 
+                        onOrder={() => navigate(`/Order/${selected.id}`)}
+                        getPrice={() => getPrice(selected)}/>
+                </ModalDialog>
+                </ModalOverflow>
+            </Modal>
         </Stack>
 
 

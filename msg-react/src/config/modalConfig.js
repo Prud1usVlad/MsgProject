@@ -1,4 +1,4 @@
-import { Button, Grid, Stack, Box, Chip, List, ListItem, Checkbox } from "@mui/joy";
+import { Button, Grid, Stack, Box, Chip, List, ListItem, Checkbox, Card, AspectRatio, Typography  } from "@mui/joy";
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import FormControl from '@mui/joy/FormControl';
@@ -396,4 +396,106 @@ export const plantCreate = {
             }
         },
     ]
+}
+
+export const orderDetails = {
+    header:"dmh_oDetails",
+    subheader:"dmsh_oDetails",
+    controllerAddress:API_URL + "Orders/",
+    submitAction: async (data, address, headers) => await axios.post(address + "Confirm/" + data.id, null, headers),
+    showSubmit:true,
+    dataModel: {
+        id:0,
+        name:"",
+        description: "string",
+        photoUrl: "string",
+        characteristics: []
+    },
+    properties: [
+        {
+            name:"id",
+            label:"id",
+            type:"string",
+            disabled:true
+        },
+        {
+            name:"date",
+            label:"date",
+            type:"string",
+            disabled:true,
+        },
+        {
+            name:"processed",
+            label:"proc",
+            type:"custom",
+            disabled:true,
+            generate: (el) => {
+                return (
+                    <Chip color={ el ? "success" : "danger"}
+                        size="md"
+                        variant="solid">{ el ? <Trans i18nKey={"yes"}/> : <Trans i18nKey={"no"}/> }</Chip>
+                )
+            }
+        },
+        {
+            name:"email",
+            label:"email",
+            type:"string",
+            disabled:true,
+        },
+        {
+            name:"phone",
+            label:"phone",
+            type:"string",
+            disabled:true,
+        },
+        {
+            name:"packType",
+            label:"chars",
+            type:"custom",
+            disabled:true,
+            generate: (el) => { 
+                return (
+                    <Card
+                        variant="outlined"
+                        orientation="horizontal"
+                        sx={{
+                            width: 300,
+                            gap: 2,
+                            my: 1
+                        }}
+                    >
+                        <AspectRatio ratio="1" sx={{ width: 65 }}>
+                            <img
+                                src={el.image}
+                                loading="lazy"
+                                alt=""
+                            />
+                        </AspectRatio>
+                        <div>
+                            <Typography level="h5" mb={0.5}>
+                                {el.name}
+                            </Typography>
+                            <Typography level="h6" mb={0.5}>
+                                ID: {el.id}
+                            </Typography>
+                        </div>
+                    </Card>
+                )
+                
+            }
+        },
+    ]
+}
+
+export const globalError = {
+    variant: "danger",
+    header: "error",
+    text: "gError"
+}
+
+export const orderSuccess = {
+    variant: "success",
+    header: "success",
+    text: "orderSuccess",
 }

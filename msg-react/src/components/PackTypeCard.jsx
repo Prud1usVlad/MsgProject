@@ -13,7 +13,6 @@ export default function PackTypeCard(props) {
     const navigate = useNavigate();
 
     const GetPrice = () => {
-        console.log(props)
         if (i18n.language === "ua")
             return "₴ " + Math.round(props.currencyRate.rates.UAH * props.packType.price);
         else 
@@ -44,6 +43,7 @@ export default function PackTypeCard(props) {
               color="primary"
               aria-label="Explore Bahamas Islands"
               sx={{ ml: 'auto', fontWeight: 600 }}
+              onClick={ props.onDetails }
             >
               <Trans i18nKey={"details"}/>
             </Button>
