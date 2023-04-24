@@ -6,24 +6,24 @@ import { useNavigate } from 'react-router-dom';
 import { Table, Column, HeaderCell, Cell } from 'rsuite-table';
 import 'rsuite-table/dist/css/rsuite-table.css'
 import DetailsModal from "../components/DetailsModal";
-import { packTypeCreate, packTypeDetails } from '../config/modalConfig';
+import { deviceTypeCreate, deviceTypeDetails } from '../config/modalConfig';
 import { apiConfig } from "../config/apiConfig";
 
 const session = JSON.parse(localStorage.getItem("session")) || {};
 const headers = { headers: { 'Authorization': `Bearer ${session.token}`}};
 const API_URL = apiConfig.url;
 
-export default function PackTypes() {
+export default function DeviceTypes() {
     const { t, i18n } = useTranslation();
     const [ data, setData ] = useState([]);
     const [ update, setUpdate ] = useState(true);
     const [ selectedId, setSelectedId ] = useState(0);
     const [ showModal, setShowModal ] = useState(false);
-    const [ modalConfig, setModalConfig ] = useState(packTypeDetails);
+    const [ modalConfig, setModalConfig ] = useState(deviceTypeDetails);
 
     useEffect(() => {
         async function fetchData() {
-            let responce = await axios.get(API_URL + "PackTypes", headers);
+            let responce = await axios.get(API_URL + "DeviceTypes", headers);
             console.log(responce);
             setData(responce.data);
             setUpdate(false);
@@ -36,19 +36,19 @@ export default function PackTypes() {
     const onDetails = (id) => {
         setSelectedId(id); 
         setShowModal(true);
-        setModalConfig(packTypeDetails); 
+        setModalConfig(deviceTypeDetails); 
     }
 
     const onCreate = (id) => {
         setSelectedId(0);
         setShowModal(true);
-        setModalConfig(packTypeCreate);
+        setModalConfig(deviceTypeCreate);
     }
 
     const onDelete = async (id) => {
         if (id !== 0) {
             if (window.confirm(t("onDelete"))) {
-                await axios.delete(API_URL + "PackTypes/" + id, headers)
+                await axios.delete(API_URL + "DeviceTypes/" + id, headers)
             }
         }
 
@@ -70,7 +70,7 @@ export default function PackTypes() {
                 <Grid container display="flex"
                     justifyContent="space-between"
                     alignItems="center">
-                    <Typography level="h1" my={1}><Trans i18nKey={"ptList"} /></Typography>
+                    <Typography level="h1" my={1}><Trans i18nKey={"dtList"} /></Typography>
                     <Grid width={250} display="flex"
                         justifyContent="space-between"
                         alignItems="center">
@@ -97,7 +97,7 @@ export default function PackTypes() {
                         <Cell dataKey="name" />
                     </Column>
 
-                    <Column flexGrow={3} minWidth={400} sortable>
+                    <Column flexGrow={3} sortable>
                         <HeaderCell><Trans i18nKey={"desc"} /></HeaderCell>
                         <Cell dataKey="description" />
                     </Column>
@@ -123,33 +123,6 @@ export default function PackTypes() {
                                     />
                                 </AspectRatio>
                             )}
-                        </Cell>
-                    </Column>
-
-                    <Column width={100} sortable>
-                        <HeaderCell><Trans i18nKey={"price"} /></HeaderCell>
-                        <Cell dataKey="price" />
-                    </Column>
-
-                    <Column width={200}>
-                        
-                        <HeaderCell><Trans i18nKey={"actions"} /></HeaderCell>
-                        <Cell>
-                        {rowData => (
-                            <Stack>
-                                {rowData.devicesInPack.map((el, idx) => {
-                                    return(
-                                        <Chip 
-                                            color="info" 
-                                            size="sm" 
-                                            variant="soft" 
-                                            sx={{m:1}}>
-                                                {el.name + ": X" + el.amount}
-                                        </Chip>            
-                                    )
-                                })}
-                            </Stack>)
-                        }
                         </Cell>
                     </Column>
 

@@ -10,7 +10,7 @@ import Typography from '@mui/joy/Typography';
 import ModalClose from '@mui/joy/ModalClose';
 import { Trans } from 'react-i18next';
 import axios from "axios";
-import { Grid, Textarea } from '@mui/joy';
+import { Grid, Textarea, AspectRatio } from '@mui/joy';
 import ModalOverflow from '@mui/joy/ModalOverflow';
 
 
@@ -60,6 +60,53 @@ export default function DetailsModal(props) {
                         value={data[property.name]} 
                         onChange={e => updateData(property.name, e.target.value)} />
                 </FormControl>
+            )
+        }
+        if (property.type === "float") {
+            return(
+                <FormControl key={key}>
+                    <FormLabel><Trans i18nKey={property.label} /></FormLabel>
+                    <Input disabled={ property.disabled } 
+                        value={data[property.name]} 
+                        onChange={e => updateData(property.name, e.target.value)}
+                        type="number"
+                        slotProps={{
+                            input: {
+                                min: 0,
+                                step: 1,
+                            },
+                            }} />
+                </FormControl>
+            )
+        }
+        else if (property.type === "image") {
+            return(
+                <Stack justifyContent="center"
+                    alignItems="center">
+                    <AspectRatio
+                        variant="outlined"
+                        ratio="4/3"
+                        sx={{
+                            width: 250,
+                            bgcolor: 'background.level2',
+                            borderRadius: 'md',
+                        }}
+                    >
+                        <img
+                            src={data[property.name]}
+                            loading="lazy"
+                            alt=""
+                            
+                        />
+                    </AspectRatio>
+
+                    <FormControl key={key} sx={{ width: "100%", mt:1 }}>
+                        <FormLabel><Trans i18nKey={property.label} /></FormLabel>
+                        <Input disabled={ property.disabled } 
+                        value={data[property.name]} 
+                        onChange={e => updateData(property.name, e.target.value)} />
+                    </FormControl>
+                </Stack>
             )
         }
         else if (property.type === "custom") {

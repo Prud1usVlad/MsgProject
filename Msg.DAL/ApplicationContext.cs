@@ -127,5 +127,8 @@ public partial class ApplicationContext : IdentityDbContext<User>
         modelBuilder.Entity<BlendComponent>()
             .HasOne(c => c.Substrate);
 
+        modelBuilder.Entity<DeviceDataPiece>()
+            .Property(p => p.WarningId).IsRequired(false);
+
     }
 }

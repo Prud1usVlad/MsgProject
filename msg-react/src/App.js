@@ -16,6 +16,9 @@ import "rsuite/dist/rsuite.min.css";
 import Packs from './pages/Packs';
 import LeftOrder from './pages/LeftOrder';
 import Orders from './pages/Orders';
+import Statistics from './pages/Statistics';
+import DeviceTypes from './pages/DeviceTypes';
+import PackTypes from './pages/PackTypes';
 
 
 
@@ -42,6 +45,9 @@ function App() {
             <Route path="/Substrates" element={ isLogined ? <Substrates /> : <Home />} />
             <Route path="/Plants" element={ isLogined ? <Plants /> : <Home />} />
             <Route path="/Orders" element={ isLogined ? <Orders /> : <Home />} />
+            <Route path="/Statistic" element={ isLogined ? <Statistics /> : <Home />} />
+            <Route path="/Devices" element={ isLogined ? <DeviceTypes /> : <Home />} />
+            <Route path="/Packs" element={ isLogined ? <PackTypes /> : <Home />} />
             <Route path="/Login" element={<Login />} />
             <Route path="/Offers" element={<Packs />} />
             <Route path="/Order/:packTypeId" element={<LeftOrder />} />

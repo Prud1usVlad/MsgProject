@@ -20,6 +20,8 @@ export default function SideMenue(props) {
         i18n.changeLanguage(lng);
     };
 
+    console.log(session);
+
     const logOut = () => {
         localStorage.removeItem("session");
         navigate("/");

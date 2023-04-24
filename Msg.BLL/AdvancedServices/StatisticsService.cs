@@ -22,20 +22,22 @@ namespace Msg.BLL.AdvancedServices
             foreach (var name in packTypeNames)
                 propFunctions.Add(name, (data) => data.Count(i => i.PackType.Name == name).ToString());
 
-            return _context.DevicePacks
+            var packTypes = _context.DevicePacks
                 .Include(p => p.PackType)
-                .GroupBy(p => p.DateBought)
-                .AsEnumerable()
-                .Select(g => GenerateDictionary(g, g.Key.ToString(), propFunctions))
-                .ToList();
+                .AsEnumerable();
+
+            return new List<Dictionary<string, string>> { GenerateDictionary(packTypes, "devicePacks", propFunctions) };
+
+
         }
 
         public async Task<List<Dictionary<string, string>>> GetMqttPayloadStatistic()
         {
-            return _context.DeviceDataPieces
+            var c = _context.DeviceDataPieces
                 .GroupBy(p => p.Date)
-                .AsEnumerable()
-                .Select(g => new Dictionary<string, string>()
+                .AsEnumerable();
+
+            return c.Select(g => new Dictionary<string, string>()
                 {
                     { "Label", g.Key.ToString() },
                     { "Amount", g.Count().ToString() }
