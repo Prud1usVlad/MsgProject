@@ -46,9 +46,6 @@ public partial class ApplicationContext : IdentityDbContext<User>
         modelBuilder.Entity<PlantDataPiece>()
             .HasKey(x => new { x.PlantId, x.DataPieceId });
 
-        modelBuilder.Entity<DeviceInPack>()
-            .HasKey(x => new { x.PackTypeId, x.DeviceTypeId });
-
         modelBuilder.Entity<DataLabelDataPiece>()
             .HasKey(x => new { x.DataLabelId, x.DataPieceId });
 
@@ -129,6 +126,9 @@ public partial class ApplicationContext : IdentityDbContext<User>
 
         modelBuilder.Entity<BlendComponent>()
             .HasOne(c => c.Substrate);
+
+        modelBuilder.Entity<DeviceDataPiece>()
+            .Property(p => p.WarningId).IsRequired(false);
 
     }
 }

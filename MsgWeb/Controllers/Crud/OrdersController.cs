@@ -111,6 +111,7 @@ namespace MsgWeb.Controllers.Crud
                     Id = order.PackTypeId,
                     Name = order.PackType.Name,
                     Price = order.PackType.Price,
+                    Image = order.PackType.Image,
                 }
 
             };

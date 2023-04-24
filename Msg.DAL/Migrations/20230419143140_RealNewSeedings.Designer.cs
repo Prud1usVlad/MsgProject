@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Msg.DAL;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Msg.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230419143140_RealNewSeedings")]
+    partial class RealNewSeedings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -449,6 +452,7 @@ namespace Msg.DAL.Migrations
                         .HasColumnType("double precision");
 
                     b.Property<long?>("WarningId")
+                        .IsRequired()
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -583,7 +587,7 @@ namespace Msg.DAL.Migrations
                         new
                         {
                             Id = 1L,
-                            DateBought = new DateOnly(2023, 4, 23),
+                            DateBought = new DateOnly(2023, 4, 19),
                             PackTypeId = 1L,
                             UserId = "b74ddd14-6340-4840-95c2-db12554843e5"
                         });
@@ -598,9 +602,6 @@ namespace Msg.DAL.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Image")
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
@@ -675,9 +676,6 @@ namespace Msg.DAL.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Image")
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
@@ -1035,15 +1033,15 @@ namespace Msg.DAL.Migrations
                         {
                             Id = "b74ddd14-6340-4840-95c2-db12554843e5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "290bdc5d-603d-44eb-94e0-e1d9ab84978e",
+                            ConcurrencyStamp = "7e4e639e-e733-4a04-ba4d-f1db470a1dbe",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPBHT4ftztHuTnrmqdGf5F/oKskXvvgq2Zw+e4KNec1E/6feLMOII93S6oe8Di6lIQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPAyI5k3RzgSpj1EGvuFYUIYOt4EpG3phgUMfEivdONMxjZxbke44CIcLLrCItnj8Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1a2c1ca7-5ac4-476e-99bc-ea4aa8592a95",
+                            SecurityStamp = "7a657e80-97d3-4d85-a4f0-8954093e7189",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -1206,7 +1204,9 @@ namespace Msg.DAL.Migrations
 
                     b.HasOne("Msg.Core.BasicModels.Warning", "Warning")
                         .WithMany("DeviceDataPieces")
-                        .HasForeignKey("WarningId");
+                        .HasForeignKey("WarningId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("DataPiece");
 

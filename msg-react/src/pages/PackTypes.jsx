@@ -1,4 +1,4 @@
-import { Button, Grid, Stack, Box, Chip, Typography } from "@mui/joy";
+import { Button, Grid, Stack, Box, Chip, Typography, AspectRatio } from "@mui/joy";
 import { useTranslation, Trans } from "react-i18next";
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
@@ -6,24 +6,24 @@ import { useNavigate } from 'react-router-dom';
 import { Table, Column, HeaderCell, Cell } from 'rsuite-table';
 import 'rsuite-table/dist/css/rsuite-table.css'
 import DetailsModal from "../components/DetailsModal";
-import { plantDetails, plantCreate } from '../config/modalConfig';
+import { packTypeCreate, packTypeDetails } from '../config/modalConfig';
 import { apiConfig } from "../config/apiConfig";
 
 const session = JSON.parse(localStorage.getItem("session")) || {};
 const headers = { headers: { 'Authorization': `Bearer ${session.token}`}};
 const API_URL = apiConfig.url;
 
-export default function Plants() {
+export default function PackTypes() {
     const { t, i18n } = useTranslation();
     const [ data, setData ] = useState([]);
     const [ update, setUpdate ] = useState(true);
     const [ selectedId, setSelectedId ] = useState(0);
     const [ showModal, setShowModal ] = useState(false);
-    const [ modalConfig, setModalConfig ] = useState(plantDetails);
+    const [ modalConfig, setModalConfig ] = useState(packTypeDetails);
 
     useEffect(() => {
         async function fetchData() {
-            let responce = await axios.get(API_URL + "Plants", headers);
+            let responce = await axios.get(API_URL + "PackTypes", headers);
             console.log(responce);
             setData(responce.data);
             setUpdate(false);
@@ -36,19 +36,19 @@ export default function Plants() {
     const onDetails = (id) => {
         setSelectedId(id); 
         setShowModal(true);
-        setModalConfig(plantDetails); 
+        setModalConfig(packTypeDetails); 
     }
 
     const onCreate = (id) => {
         setSelectedId(0);
         setShowModal(true);
-        setModalConfig(plantCreate);
+        setModalConfig(packTypeCreate);
     }
 
     const onDelete = async (id) => {
         if (id !== 0) {
             if (window.confirm(t("onDelete"))) {
-                await axios.delete(API_URL + "Plants/" + id, headers)
+                await axios.delete(API_URL + "PackTypes/" + id, headers)
             }
         }
 
@@ -70,7 +70,7 @@ export default function Plants() {
                 <Grid container display="flex"
                     justifyContent="space-between"
                     alignItems="center">
-                    <Typography level="h1" my={1}><Trans i18nKey={"pList"} /></Typography>
+                    <Typography level="h1" my={1}><Trans i18nKey={"ptList"} /></Typography>
                     <Grid width={250} display="flex"
                         justifyContent="space-between"
                         alignItems="center">
@@ -97,19 +97,59 @@ export default function Plants() {
                         <Cell dataKey="name" />
                     </Column>
 
-                    <Column width={250} sortable fullText>
+                    <Column flexGrow={3} minWidth={400} sortable>
                         <HeaderCell><Trans i18nKey={"desc"} /></HeaderCell>
                         <Cell dataKey="description" />
                     </Column>
 
-                    <Column flexGrow={3} fullText>
-                        <HeaderCell><Trans i18nKey={"chars"} /></HeaderCell>
+                    <Column width={80} sortable>
+                        <HeaderCell><Trans i18nKey={"image"} /></HeaderCell>
+                        <Cell dataKey="description">
+                            {rowData => (
+                                <AspectRatio
+                                    variant="outlined"
+                                    ratio="4/3"
+                                    sx={{
+                                        width: 70,
+                                        bgcolor: 'background.level2',
+                                        borderRadius: 'md',
+                                    }}
+                                >
+                                    <img
+                                        src={rowData.image}
+                                        loading="lazy"
+                                        alt=""
+                                        
+                                    />
+                                </AspectRatio>
+                            )}
+                        </Cell>
+                    </Column>
+
+                    <Column width={100} sortable>
+                        <HeaderCell><Trans i18nKey={"price"} /></HeaderCell>
+                        <Cell dataKey="price" />
+                    </Column>
+
+                    <Column width={200}>
+                        
+                        <HeaderCell><Trans i18nKey={"actions"} /></HeaderCell>
                         <Cell>
-                            {(rowData, rowIndex) => {
-                                return rowData.characteristics.map( char => {
-                                    return( <Chip color="info" size="sm" variant="soft" sx={{mx: 0.5}}>{char.name + ": " + char.value}</Chip> )
-                                })
-                            }}
+                        {rowData => (
+                            <Stack>
+                                {rowData.devicesInPack.map((el, idx) => {
+                                    return(
+                                        <Chip 
+                                            color="info" 
+                                            size="sm" 
+                                            variant="soft" 
+                                            sx={{m:1}}>
+                                                {el.name + ": X" + el.amount}
+                                        </Chip>            
+                                    )
+                                })}
+                            </Stack>)
+                        }
                         </Cell>
                     </Column>
 

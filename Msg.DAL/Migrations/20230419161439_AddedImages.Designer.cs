@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Msg.DAL;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Msg.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230419161439_AddedImages")]
+    partial class AddedImages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -449,6 +452,7 @@ namespace Msg.DAL.Migrations
                         .HasColumnType("double precision");
 
                     b.Property<long?>("WarningId")
+                        .IsRequired()
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -583,7 +587,7 @@ namespace Msg.DAL.Migrations
                         new
                         {
                             Id = 1L,
-                            DateBought = new DateOnly(2023, 4, 23),
+                            DateBought = new DateOnly(2023, 4, 19),
                             PackTypeId = 1L,
                             UserId = "b74ddd14-6340-4840-95c2-db12554843e5"
                         });
@@ -1035,15 +1039,15 @@ namespace Msg.DAL.Migrations
                         {
                             Id = "b74ddd14-6340-4840-95c2-db12554843e5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "290bdc5d-603d-44eb-94e0-e1d9ab84978e",
+                            ConcurrencyStamp = "301124cc-15f4-4440-bada-ac1912928b03",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPBHT4ftztHuTnrmqdGf5F/oKskXvvgq2Zw+e4KNec1E/6feLMOII93S6oe8Di6lIQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF7RuOln+j2b3JsJ9h9uW+5DBtJaLH8kdJLvYz1y1nHTAUQ+R4AbwqiHGiBLMkhLaQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1a2c1ca7-5ac4-476e-99bc-ea4aa8592a95",
+                            SecurityStamp = "33cde5d3-6c13-40e3-bde1-a8b363ed4f6b",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -1206,7 +1210,9 @@ namespace Msg.DAL.Migrations
 
                     b.HasOne("Msg.Core.BasicModels.Warning", "Warning")
                         .WithMany("DeviceDataPieces")
-                        .HasForeignKey("WarningId");
+                        .HasForeignKey("WarningId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("DataPiece");
 

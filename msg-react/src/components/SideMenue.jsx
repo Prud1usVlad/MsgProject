@@ -3,7 +3,7 @@ import GrassIcon from '@mui/icons-material/Grass';
 import { green, grey } from '@mui/material/colors';
 import Divider from '@mui/material/Divider';
 import { useTranslation, Trans } from "react-i18next";
-import { Feedback, Gradient, Grass, Home, InsertChart, Inventory, KeyboardArrowDown, SpeakerPhone } from "@mui/icons-material";
+import { Feedback, Gradient, Grass, Home, InsertChart, Inventory, KeyboardArrowDown, ListAlt, Login, Logout, SpeakerPhone } from "@mui/icons-material";
 import languageConfig, { langConfig } from "../config/langConfig";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -14,7 +14,7 @@ export default function SideMenue(props) {
     const { t, i18n } = useTranslation();
     const [selectedLang, setSelectedLang] = useState(i18n.language);
     const navigate = useNavigate();
-    const session = JSON.parse(localStorage.getItem("session"));
+    const session = JSON.parse(localStorage.getItem("session")) || {};
 
     const changeLanguage = (lng) => {
         i18n.changeLanguage(lng);
@@ -22,6 +22,10 @@ export default function SideMenue(props) {
 
     console.log(session);
 
+    const logOut = () => {
+        localStorage.removeItem("session");
+        navigate("/");
+    }
 
     return (
         <Stack sx={{
@@ -133,8 +137,34 @@ export default function SideMenue(props) {
                         <ListItemContent><Trans i18nKey={"statistic"}/></ListItemContent>
                     </ListItemButton>
                 </ListItem>
+                <ListItem onClick={() => navigate("/Orders")}>
+                    <ListItemButton>
+                        <ListItemDecorator><ListAlt /> </ListItemDecorator>
+                        <ListItemContent><Trans i18nKey={"orders"}/></ListItemContent>
+                    </ListItemButton>
+                </ListItem>
             </List>
             </Grid>}
+
+            <Divider variant="middle" />
+
+            <Grid container>
+            <List p={2}>
+                { session.token && <ListItem onClick={() => logOut()}>
+                    <ListItemButton>
+                        <ListItemDecorator><Logout /></ListItemDecorator>
+                        <ListItemContent><Trans i18nKey={"logOut"}/></ListItemContent>
+                    </ListItemButton>
+                </ListItem> }
+                { !session.token && <ListItem onClick={() => navigate("/Login")}>
+                    <ListItemButton>
+                        <ListItemDecorator><Login /></ListItemDecorator>
+                        <ListItemContent><Trans i18nKey={"logIn"}/></ListItemContent>
+                    </ListItemButton>
+                </ListItem> }
+            </List>
+            </Grid>
+
 
         </Stack>
     )

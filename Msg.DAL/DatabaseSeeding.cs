@@ -20,6 +20,9 @@ namespace Msg.DAL
             SeedDataPieces(builder);
             SeedSubstrates(builder);
             SeedPlants(builder);
+            SeedDeviceTypes(builder);
+            SeedPackTypes(builder);
+            SeedDevices(builder);
         }
 
         private void SeedAdmin(ModelBuilder builder)
@@ -135,6 +138,58 @@ namespace Msg.DAL
 
             builder.Entity<Plant>().HasData(plants);
             builder.Entity<PlantDataPiece>().HasData(dataPieces);
+        }
+
+        private void SeedDeviceTypes(ModelBuilder builder)
+        {
+            var deviceTypes = new List<DeviceType>()
+            {
+                new DeviceType() { Id = 1, Name = "MSG Logger I", Description = "MSG Logger I is a smart device that analyzes substrates and provides detailed information about their composition, helping users make informed decisions about their usage and handling."},
+                new DeviceType() { Id = 2, Name = "MSG Logger II", Description = "MSG Logger II is a smart device that designed to analyze the substrate, providing detailed information about its composition and properties, allowing for better decision-making and optimization of processes."},
+                new DeviceType() { Id = 3, Name = "MSG Logger III", Description = "MSG Logger III is a substrate analysis smart device uses sensors to provide real-time data on the quality and composition of soil or other substrates for optimized plant growth."}
+            };
+
+            builder.Entity<DeviceType>().HasData(deviceTypes);
+        }
+
+        private void SeedPackTypes(ModelBuilder builder)
+        {
+            var packTypes = new List<PackType>()
+            {
+                new PackType { Id = 1, Name = "Basic bundle", Price = 10, Description = "This tiny bundle of smart devices is a collection of small, interconnected devices that work together to provide various functionalities such as monitoring, tracking, and controlling. Despite their small size, they offer great convenience and versatility for a wide range of applications." },
+                new PackType { Id = 2, Name = "Mid bundle", Price = 22, Description = "The medium-sized bundle of smart devices includes a variety of tools that can be used for monitoring and controlling various aspects of a project. These devices can communicate with each other and with a central hub, providing real-time data and insights for project managers."},
+                new PackType { Id = 3, Name = "Advansed bundle", Price = 45, Description = "An advanced bundle of smart devices consists of highly sophisticated and interconnected devices that utilize cutting-edge technologies to enhance automation, productivity, and efficiency in various industries. These devices can be customized to fit specific needs and can communicate and exchange data with each other, leading to optimized performance and decision-making."},
+                new PackType { Id = 4, Name = "Professional bundle", Price = 99, Description = "The professional bundle of smart devices is a comprehensive set of tools designed for advanced data collection and analysis. It includes high-quality sensors, data loggers, and software for precise and accurate measurement in various industries, including scientific research, engineering, and manufacturing."}
+            };
+
+            var devicesInPack = new List<DeviceInPack>()
+            {
+                new DeviceInPack() { Id = 1, PackTypeId = 1, DeviceTypeId = 1, Amount = 4 },
+                new DeviceInPack() { Id = 2, PackTypeId = 2, DeviceTypeId = 1, Amount = 6 },
+                new DeviceInPack() { Id = 3, PackTypeId = 2, DeviceTypeId = 2, Amount = 2 },
+                new DeviceInPack() { Id = 4, PackTypeId = 3, DeviceTypeId = 1, Amount = 6 },
+                new DeviceInPack() { Id = 5, PackTypeId = 3, DeviceTypeId = 2, Amount = 5 },
+                new DeviceInPack() { Id = 6, PackTypeId = 3, DeviceTypeId = 3, Amount = 2 },
+                new DeviceInPack() { Id = 7, PackTypeId = 4, DeviceTypeId = 1, Amount = 10 },
+                new DeviceInPack() { Id = 8, PackTypeId = 4, DeviceTypeId = 2, Amount = 10 },
+                new DeviceInPack() { Id = 9, PackTypeId = 4, DeviceTypeId = 3, Amount = 4 },
+            };
+
+            builder.Entity<PackType>().HasData(packTypes);
+            builder.Entity<DeviceInPack>().HasData(devicesInPack);
+        }
+
+        private void SeedDevices(ModelBuilder builder)
+        {
+            builder.Entity<DevicePack>().HasData(new DevicePack
+            {
+                Id = 1, PackTypeId = 1, UserId = "b74ddd14-6340-4840-95c2-db12554843e5", DateBought = DateOnly.FromDateTime(DateTime.Now)
+            });
+            
+            builder.Entity<Device>().HasData(new Device
+            {
+                Id = 1, DevicePackId = 1, PlantId = 1, DeviceTypeId = 1, 
+            });
         }
     }
 }

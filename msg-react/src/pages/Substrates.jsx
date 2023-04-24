@@ -9,7 +9,7 @@ import DetailsModal from "../components/DetailsModal";
 import { substrateDetails, substrateCreate } from '../config/modalConfig';
 import { apiConfig } from "../config/apiConfig";
 
-const session = JSON.parse(localStorage.getItem("session"));
+const session = JSON.parse(localStorage.getItem("session")) || {};
 const headers = { headers: { 'Authorization': `Bearer ${session.token}`}};
 const API_URL = apiConfig.url;
 

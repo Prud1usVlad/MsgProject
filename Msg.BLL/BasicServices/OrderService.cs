@@ -143,7 +143,7 @@ namespace Msg.BLL.BasicServices
                         new Device()
                         {
                             DeviceTypeId = deviceInPack.DeviceTypeId,
-                            PackId = devicePack.Id,
+                            DevicePackId = devicePack.Id,
                         }
                     );
         }

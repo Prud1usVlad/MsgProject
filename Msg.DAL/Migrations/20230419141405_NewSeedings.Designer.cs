@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Msg.DAL;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Msg.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230419141405_NewSeedings")]
+    partial class NewSeedings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -405,6 +408,9 @@ namespace Msg.DAL.Migrations
                     b.Property<long>("DeviceTypeId")
                         .HasColumnType("bigint");
 
+                    b.Property<long>("PackId")
+                        .HasColumnType("bigint");
+
                     b.Property<long?>("PlantId")
                         .HasColumnType("bigint");
 
@@ -417,15 +423,6 @@ namespace Msg.DAL.Migrations
                     b.HasIndex("PlantId");
 
                     b.ToTable("Devices");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            DevicePackId = 1L,
-                            DeviceTypeId = 1L,
-                            PlantId = 1L
-                        });
                 });
 
             modelBuilder.Entity("Msg.Core.BasicModels.DeviceDataPiece", b =>
@@ -449,6 +446,7 @@ namespace Msg.DAL.Migrations
                         .HasColumnType("double precision");
 
                     b.Property<long?>("WarningId")
+                        .IsRequired()
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -486,71 +484,6 @@ namespace Msg.DAL.Migrations
                     b.HasIndex("PackTypeId");
 
                     b.ToTable("DevicesInPacks");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            Amount = 4,
-                            DeviceTypeId = 1L,
-                            PackTypeId = 1L
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            Amount = 6,
-                            DeviceTypeId = 1L,
-                            PackTypeId = 2L
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            Amount = 2,
-                            DeviceTypeId = 2L,
-                            PackTypeId = 2L
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            Amount = 6,
-                            DeviceTypeId = 1L,
-                            PackTypeId = 3L
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            Amount = 5,
-                            DeviceTypeId = 2L,
-                            PackTypeId = 3L
-                        },
-                        new
-                        {
-                            Id = 6L,
-                            Amount = 2,
-                            DeviceTypeId = 3L,
-                            PackTypeId = 3L
-                        },
-                        new
-                        {
-                            Id = 7L,
-                            Amount = 10,
-                            DeviceTypeId = 1L,
-                            PackTypeId = 4L
-                        },
-                        new
-                        {
-                            Id = 8L,
-                            Amount = 10,
-                            DeviceTypeId = 2L,
-                            PackTypeId = 4L
-                        },
-                        new
-                        {
-                            Id = 9L,
-                            Amount = 4,
-                            DeviceTypeId = 3L,
-                            PackTypeId = 4L
-                        });
                 });
 
             modelBuilder.Entity("Msg.Core.BasicModels.DevicePack", b =>
@@ -578,15 +511,6 @@ namespace Msg.DAL.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("DevicePacks");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            DateBought = new DateOnly(2023, 4, 23),
-                            PackTypeId = 1L,
-                            UserId = "b74ddd14-6340-4840-95c2-db12554843e5"
-                        });
                 });
 
             modelBuilder.Entity("Msg.Core.BasicModels.DeviceType", b =>
@@ -600,35 +524,12 @@ namespace Msg.DAL.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<string>("Image")
-                        .HasColumnType("text");
-
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.ToTable("DeviceTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            Description = "MSG Logger I is a smart device that analyzes substrates and provides detailed information about their composition, helping users make informed decisions about their usage and handling.",
-                            Name = "MSG Logger I"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            Description = "MSG Logger II is a smart device that designed to analyze the substrate, providing detailed information about its composition and properties, allowing for better decision-making and optimization of processes.",
-                            Name = "MSG Logger II"
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            Description = "MSG Logger III is a substrate analysis smart device uses sensors to provide real-time data on the quality and composition of soil or other substrates for optimized plant growth.",
-                            Name = "MSG Logger III"
-                        });
                 });
 
             modelBuilder.Entity("Msg.Core.BasicModels.Order", b =>
@@ -677,9 +578,6 @@ namespace Msg.DAL.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<string>("Image")
-                        .HasColumnType("text");
-
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -689,36 +587,6 @@ namespace Msg.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PackTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            Description = "This tiny bundle of smart devices is a collection of small, interconnected devices that work together to provide various functionalities such as monitoring, tracking, and controlling. Despite their small size, they offer great convenience and versatility for a wide range of applications.",
-                            Name = "Basic bundle",
-                            Price = 10.0
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            Description = "The medium-sized bundle of smart devices includes a variety of tools that can be used for monitoring and controlling various aspects of a project. These devices can communicate with each other and with a central hub, providing real-time data and insights for project managers.",
-                            Name = "Mid bundle",
-                            Price = 22.0
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            Description = "An advanced bundle of smart devices consists of highly sophisticated and interconnected devices that utilize cutting-edge technologies to enhance automation, productivity, and efficiency in various industries. These devices can be customized to fit specific needs and can communicate and exchange data with each other, leading to optimized performance and decision-making.",
-                            Name = "Advansed bundle",
-                            Price = 45.0
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            Description = "The professional bundle of smart devices is a comprehensive set of tools designed for advanced data collection and analysis. It includes high-quality sensors, data loggers, and software for precise and accurate measurement in various industries, including scientific research, engineering, and manufacturing.",
-                            Name = "Professional bundle",
-                            Price = 99.0
-                        });
                 });
 
             modelBuilder.Entity("Msg.Core.BasicModels.Plant", b =>
@@ -1035,15 +903,15 @@ namespace Msg.DAL.Migrations
                         {
                             Id = "b74ddd14-6340-4840-95c2-db12554843e5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "290bdc5d-603d-44eb-94e0-e1d9ab84978e",
+                            ConcurrencyStamp = "df20681b-e31d-4d57-bbdb-43a522d7695c",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPBHT4ftztHuTnrmqdGf5F/oKskXvvgq2Zw+e4KNec1E/6feLMOII93S6oe8Di6lIQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAED8whPEqNxi6a6eK36eaLSXIJCzp6kcPzXZwQEZGbWkxM/4Q7vRZcjnqwXnp4l+P7A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1a2c1ca7-5ac4-476e-99bc-ea4aa8592a95",
+                            SecurityStamp = "d432d47d-18fa-4f7a-9a28-f20cb9a390be",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -1206,7 +1074,9 @@ namespace Msg.DAL.Migrations
 
                     b.HasOne("Msg.Core.BasicModels.Warning", "Warning")
                         .WithMany("DeviceDataPieces")
-                        .HasForeignKey("WarningId");
+                        .HasForeignKey("WarningId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("DataPiece");
 
