@@ -18,15 +18,15 @@ namespace MsgWeb.Controllers.Advanced
         }
 
         [HttpPost]
-        public async Task<ActionResult<OptimizingModelResponce>> OptimizeChoice(OptimizingModelInput optimizingModelInput)
+        public async Task<ActionResult<OptimizingModelResponse>> OptimizeChoice(OptimizingModelInput optimizingModelInput)
         {
             try
             {
-                return await _optimizingModelService.GetOptimizedSubstrate(optimizingModelInput);
+                return await _optimizingModelService.Optimize(optimizingModelInput);
             }
             catch (Exception ex)
             {
-                return GetProperReturnValue<OptimizingModelResponce>(ex);
+                return GetProperReturnValue<OptimizingModelResponse>(ex);
             }
         }
     }
