@@ -32,21 +32,6 @@ namespace Msg.BLL.AdvancedServices
             {
                 Price = 23,
                 Volume = 5.62,
-                //Results = new List<OptimizedSubstrateModel>
-                //{
-                //    new OptimizedSubstrateModel
-                //    {
-                //        Substrate = new SubstrateModel { Name = "Substrate 1", Price = 2, Volume = 4 },
-                //        PacksAmount = 2,
-                //        Volume = 6,
-                //    },
-                //    new OptimizedSubstrateModel
-                //    {
-                //        Substrate = new SubstrateModel { Name = "Substrate 2", Price = 4, Volume = 2 },
-                //        PacksAmount = 1,
-                //        Volume = 1.8,
-                //    }
-                //}
             };
         }
 
@@ -71,7 +56,7 @@ namespace Msg.BLL.AdvancedServices
                 var dbEntity = await _context.Substrates.FirstAsync(s => s.Id == sub.Id);
                 var packsAmount = (int)Math.Ceiling((double)(sub.Volume / dbEntity.Volume));
 
-                res.Price += (double)(packsAmount * dbEntity.Volume * dbEntity.Price);
+                res.Price += (double)(packsAmount * dbEntity.Price);
 
                 res.Result.Add(new OptimizedSubstrateModel
                 {

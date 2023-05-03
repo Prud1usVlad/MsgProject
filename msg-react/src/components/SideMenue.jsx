@@ -92,6 +92,12 @@ export default function SideMenue(props) {
                         <ListItemContent><Trans i18nKey={"feedback"}/></ListItemContent>
                     </ListItemButton>
                 </ListItem>
+                <ListItem onClick={() => navigate("/Model")}>
+                    <ListItemButton>
+                        <ListItemDecorator><ListAlt/></ListItemDecorator>
+                        <ListItemContent><Trans i18nKey={"oModel"}/></ListItemContent>
+                    </ListItemButton>
+                </ListItem>
             </List>
             </Grid>
 
