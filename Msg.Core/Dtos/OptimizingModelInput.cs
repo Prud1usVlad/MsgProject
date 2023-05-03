@@ -12,5 +12,6 @@ namespace Msg.Core.Dtos
         public long SelectedPlantID { get; set; }
         public List<long> SelectedSubstratesId { get; set; }
         public double SubstrateVolume { get; set; }
+        public double Deviation { get; set; }
     }
 }

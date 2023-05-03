@@ -11,6 +11,7 @@ namespace Msg.BLL.Interfaces
 {
     public interface IOptimizingModelService
     {
-        public Task<OptimizingModelResponce> GetOptimizedSubstrate(OptimizingModelInput input);
+        public Task<OptimizingModelResponse> GetOptimizedSubstrate(OptimizingModelInput input);
+        public Task<OptimizingModelResponse> Optimize(OptimizingModelInput input);
     }
 }

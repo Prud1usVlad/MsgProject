@@ -19,6 +19,7 @@ import Orders from './pages/Orders';
 import Statistics from './pages/Statistics';
 import DeviceTypes from './pages/DeviceTypes';
 import PackTypes from './pages/PackTypes';
+import OptModel from './pages/OptModel';
 
 
 
@@ -50,6 +51,7 @@ function App() {
             <Route path="/Packs" element={ isLogined ? <PackTypes /> : <Home />} />
             <Route path="/Login" element={<Login />} />
             <Route path="/Offers" element={<Packs />} />
+            <Route path="/Model" element={<OptModel />} />
             <Route path="/Order/:packTypeId" element={<LeftOrder />} />
         </Routes>
 
