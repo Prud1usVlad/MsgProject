@@ -31,14 +31,24 @@ namespace Msg.Mobile.Services
             return true;
         }
 
-        public Task ChangePassword(string userId, string oldPass, string newPass)
+        public async Task ChangePassword(string userId, string oldPass, string newPass)
         {
-            throw new NotImplementedException();
+            await _httpService
+                .PostAsync<object, object>(
+                    "Users/ChangePassword",
+                    new { userId = userId, oldPassword = oldPass, newPassword = newPass }
+                );
         }
 
-        public Task Forget()
+        public async Task ChangeUserData(object data)
         {
-            throw new NotImplementedException();
+            await _httpService.PutAsync("Users", data);
+        }
+
+        public async Task Forget()
+        {
+            Preferences.Default.Remove("UserId");
+            Preferences.Default.Remove("Token");
         }
     }
 }
