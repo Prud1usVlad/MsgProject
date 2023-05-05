@@ -38,6 +38,8 @@ namespace Msg.Mobile
         public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder)
         {
             mauiAppBuilder.Services.AddTransient<WarningsViewModel>();
+            mauiAppBuilder.Services.AddTransient<ProfileViewModel>();
+            mauiAppBuilder.Services.AddTransient<ChangePasswordViewModel>();
 
             return mauiAppBuilder;
         }
@@ -48,6 +50,8 @@ namespace Msg.Mobile
             mauiAppBuilder.Services.AddTransient<MainPage>();
             mauiAppBuilder.Services.AddTransient<Login>();
             mauiAppBuilder.Services.AddTransient<Warnings>();
+            mauiAppBuilder.Services.AddTransient<Profile>();
+            mauiAppBuilder.Services.AddTransient<ChangePassword>();
 
             return mauiAppBuilder;
         }

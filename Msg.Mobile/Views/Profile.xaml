@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Msg.Mobile.Views.Profile"
+             Title="Profile"
+             Shell.NavBarIsVisible="False"
+             xmlns:vm="clr-namespace:Msg.Mobile.ViewModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:dxc="clr-namespace:DevExpress.Maui.Charts;assembly=DevExpress.Maui.Charts"
+             xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors">
+    <ScrollView>
+        <RefreshView
+            Command="{Binding LoadDataCommand}"
+            RefreshColor="{StaticResource color-primary-500}"
+            IsRefreshing="{Binding IsLoading}">
+            <ScrollView>
+                <VerticalStackLayout
+                    Padding="20"
+                    Spacing="15"
+                    BackgroundColor="{StaticResource color-surface-100}">
+                    <HorizontalStackLayout>
+                        <Image 
+                            Source="profile_icon.png"
+                            HeightRequest="50">
+                            <Image.Behaviors>
+                                <toolkit:IconTintColorBehavior TintColor="{StaticResource color-primary-500}"/>
+                            </Image.Behaviors>
+                        </Image>
+                        <Label 
+                            Text="Profile"
+                            TextColor="{StaticResource White}"
+                            FontSize="Title"
+                            VerticalOptions="Center"
+                            Margin="10,0"/>
+                    </HorizontalStackLayout>
+                    <Label 
+                        Text="Here you can change your data or log out"
+                        TextColor="{StaticResource color-surface-600}"
+                        FontSize="Subtitle" />
+
+                    <Frame>
+                        <VerticalStackLayout>
+                            <dxe:TextEdit 
+                                Text="{Binding UserId}"
+                                IsEnabled="False"
+                                LabelText="User Id"/>
+                            <dxe:TextEdit
+                                Text="{Binding Username}"
+                                LabelText="Username"/>
+                            <dxe:TextEdit
+                                Text="{Binding Email}"
+                                LabelText="Email"/>
+                            <dxe:TextEdit
+                                Text="{Binding Phone}"
+                                LabelText="Phone number"
+                                Mask="+ 00 (000) 000-0000"
+                                MaskPlaceholderChar="*"
+                                AffixColor="White"
+                                PlaceholderColor="White"/>
+
+                            <Button 
+                                Text="Submit"
+                                Command="{Binding UpdateDataCommand}"
+                                Margin="30, 10"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <Button 
+                        Text="Change password"
+                        Command="{Binding ChangePasswordCommand}"
+                        Margin="20, 10"/>
+
+                    <Button 
+                        Text="Log Out"
+                        Command="{Binding LogOutCommand}"
+                        Margin="20, 10"/>
+
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </RefreshView>
+    </ScrollView>
+</ContentPage>

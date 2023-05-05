@@ -79,11 +79,14 @@ namespace Msg.Mobile.ViewModels
 
                 await _userService.ChangeUserData(new
                 {
-                    userId = UserId,
+                    id = UserId,
                     email = Email,
                     phone = Phone,
                     username = Username, 
+                    roles = new string[0],
                 });
+
+                await App.Current.MainPage.DisplayAlert("Success", "Your profile data updated sucessfully", "OK");
             }
             catch (Exception ex)
             {
@@ -96,7 +99,7 @@ namespace Msg.Mobile.ViewModels
         [RelayCommand]
         private async Task ChangePassword()
         {
-            await App.Current.MainPage.DisplayAlert("CP", "ChangePass", "OK");
+            await Shell.Current.GoToAsync("changePassword");
         }
 
         [RelayCommand]
@@ -110,6 +113,6 @@ namespace Msg.Mobile.ViewModels
             new EmailAddressAttribute().IsValid(email);
 
         private bool IsPhoneValid(string phone) =>
-            Regex.IsMatch(@"^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$", phone);
+            Regex.IsMatch(phone, @"^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$");
     }
 }

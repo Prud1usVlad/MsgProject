@@ -10,6 +10,7 @@ namespace Msg.Mobile.Services.Interfaces
     {
         public Task<T> GetAsync<T>(string address);
         public Task<T> PostAsync<T, E>(string address, E body = default(E));
+        public Task PostAsync<E>(string address, E body = default(E));
         public Task PostAsync(string address);
         public Task PutAsync<E>(string address, E body);
         public Task DeleteAsync(string address);

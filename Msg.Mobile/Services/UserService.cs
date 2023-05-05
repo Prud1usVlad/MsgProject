@@ -34,7 +34,7 @@ namespace Msg.Mobile.Services
         public async Task ChangePassword(string userId, string oldPass, string newPass)
         {
             await _httpService
-                .PostAsync<object, object>(
+                .PostAsync(
                     "Users/ChangePassword",
                     new { userId = userId, oldPassword = oldPass, newPassword = newPass }
                 );

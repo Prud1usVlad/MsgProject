@@ -7,6 +7,8 @@ namespace Msg.Mobile
         public AppShell()
         {
             InitializeComponent();
+
+            Routing.RegisterRoute("changePassword", typeof(ChangePassword));
         }
 
         protected override void OnAppearing()
