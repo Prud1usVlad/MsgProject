@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Msg.Mobile.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,5 +13,6 @@ namespace Msg.Mobile.Services.Interfaces
         public Task Forget();
         public Task ChangePassword(string userId, string oldPass, string newPass);
         public Task ChangeUserData(object data);
+        public Task<User> GetUser(string id);
     }
 }

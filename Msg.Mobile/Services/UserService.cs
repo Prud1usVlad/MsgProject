@@ -50,5 +50,10 @@ namespace Msg.Mobile.Services
             Preferences.Default.Remove("UserId");
             Preferences.Default.Remove("Token");
         }
+
+        public async Task<User> GetUser(string id)
+        {
+            return await _httpService.GetAsync<User>("Users/" + id);
+        }
     }
 }
