@@ -26,7 +26,7 @@ namespace MsgWeb.Controllers.Crud
             {
                 var device = await _deviceService.GetDeviceAsync(id);
 
-                return Ok(GetModelFromDevice(device));
+                return Ok(GetModelFromDevice(device, true));
             }
             catch (Exception ex)
             {
@@ -41,7 +41,7 @@ namespace MsgWeb.Controllers.Crud
             {
                 var devices = await _deviceService.GetUserDevicesAsync(id);
 
-                return Ok(devices.Select(GetModelFromDevice));
+                return Ok(devices.Select(e => GetModelFromDevice(e)));
             }
             catch (Exception ex)
             {
@@ -49,7 +49,21 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
-        private DeviceModel GetModelFromDevice(Device device)
+        [HttpPost("ChangePlant/{plantId}/Device/{deviceId}")]
+        public async Task<ActionResult> GetUserDevices(long plantId, long deviceId)
+        {
+            try
+            {
+                await _deviceService.ChangeDevicePlant(deviceId, plantId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return GetProperReturnValue(ex);
+            }
+        }
+
+        private DeviceModel GetModelFromDevice(Device device, bool includeDataPieces = false)
         {
             return new DeviceModel
             {
@@ -57,14 +71,14 @@ namespace MsgWeb.Controllers.Crud
                 Name = device.DeviceType.Name,
                 Description = device.DeviceType.Description,
                 Image = device.DeviceType.Image,
-                DataPieces = device.DataPieces.
+                DataPieces = (includeDataPieces) ? device.DataPieces.
                     Select(p => new PropertyModel
                     {
                         DataPieceId = p.DataPieceId,
                         Name = p.DataPiece.Name,
                         Value = p.Value,
                     })
-                    .ToList(),
+                    .ToList() : null,
                 Plant = (device.Plant is not null) ? new PlantModel
                 {
                     Id = device.Plant.Id,

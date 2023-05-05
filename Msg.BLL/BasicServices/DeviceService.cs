@@ -61,5 +61,20 @@ namespace Msg.BLL.BasicServices
                 .Where(d => d.DevicePack.UserId == userId)
                 .ToListAsync();
         }
+        public async Task ChangeDevicePlant(long deviceId, long plantId)
+        {
+            var plant = await _context.Plants
+                .FirstOrDefaultAsync(p => p.Id == plantId);
+
+            var device = await _context.Devices
+                .FirstOrDefaultAsync(d => d.Id == deviceId);
+
+            if (device is null || plant is null)
+                throw new NullReferenceException("Some entities can not be found");
+
+            device.PlantId = plant.Id;
+            _context.Devices.Update(device);
+            _context.SaveChanges();
+        }
     }
 }

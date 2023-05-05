@@ -12,5 +12,6 @@ namespace Msg.BLL.Interfaces
         public Task<List<Device>> GetDevicesAsync();
         public Task<List<Device>> GetUserDevicesAsync(string userId);
         public Task<Device> GetDeviceAsync(long id);
+        public Task ChangeDevicePlant(long deviceId, long plantId);
     }
 }
