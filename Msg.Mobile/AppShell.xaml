@@ -6,7 +6,8 @@
     xmlns:local="clr-namespace:Msg.Mobile"
     xmlns:views="clr-namespace:Msg.Mobile.Views"
     Shell.FlyoutBehavior="Disabled"
-    Shell.BackgroundColor="{StaticResource color-surface-200}">
+    Shell.BackgroundColor="{StaticResource color-surface-200}"
+    Shell.NavBarIsVisible="False">
 
     <Shell.Resources>
         <ResourceDictionary>
@@ -28,7 +29,7 @@
         </Tab>
         <Tab Title="Devices"
             Icon="device_icon.png">
-            <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
+            <ShellContent ContentTemplate="{DataTemplate views:Devices}" />
         </Tab>
         <Tab Title="Helper"
             Icon="list_icon.png">

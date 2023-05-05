@@ -40,6 +40,7 @@ namespace Msg.Mobile
             mauiAppBuilder.Services.AddTransient<WarningsViewModel>();
             mauiAppBuilder.Services.AddTransient<ProfileViewModel>();
             mauiAppBuilder.Services.AddTransient<ChangePasswordViewModel>();
+            mauiAppBuilder.Services.AddTransient<DevicesViewModel>();
 
             return mauiAppBuilder;
         }
@@ -52,6 +53,7 @@ namespace Msg.Mobile
             mauiAppBuilder.Services.AddTransient<Warnings>();
             mauiAppBuilder.Services.AddTransient<Profile>();
             mauiAppBuilder.Services.AddTransient<ChangePassword>();
+            mauiAppBuilder.Services.AddTransient<Devices>();
 
             return mauiAppBuilder;
         }
@@ -85,6 +87,7 @@ namespace Msg.Mobile
             mauiAppBuilder.Services.AddTransient<IHttpService, HttpService>();
             mauiAppBuilder.Services.AddTransient<IUserService, UserService>();
             mauiAppBuilder.Services.AddTransient<IWarningService, WarningService>();
+            mauiAppBuilder.Services.AddTransient<IDeviceService, DeviceService>();
 
             return mauiAppBuilder;
         }
