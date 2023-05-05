@@ -9,6 +9,7 @@ namespace Msg.Mobile
             InitializeComponent();
 
             Routing.RegisterRoute("changePassword", typeof(ChangePassword));
+            Routing.RegisterRoute("deviceDetails", typeof(DeviceDetails));
         }
 
         protected override void OnAppearing()

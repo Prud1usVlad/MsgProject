@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Msg.Mobile.Views.DeviceDetails"
+             Title="DeviceDetails"
+             xmlns:vm="clr-namespace:Msg.Mobile.ViewModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:dxc="clr-namespace:DevExpress.Maui.Charts;assembly=DevExpress.Maui.Charts"
+             xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors">
+
+    <!--<ContentPage.BindingContext>
+        <vm:DeviceDetailsViewModel></vm:DeviceDetailsViewModel>
+    </ContentPage.BindingContext>-->
+    <ScrollView>
+        <RefreshView
+            Command="{Binding LoadDataCommand}"
+            RefreshColor="{StaticResource color-primary-500}"
+            IsRefreshing="{Binding IsLoading}">
+            <ScrollView>
+                <VerticalStackLayout
+                    Padding="20"
+                    Spacing="15"
+                    BackgroundColor="{StaticResource color-surface-100}">
+                    <HorizontalStackLayout>
+                        <Image 
+                            Source="info_icon.png"
+                            HeightRequest="50">
+                            <Image.Behaviors>
+                                <toolkit:IconTintColorBehavior TintColor="{StaticResource color-primary-500}"/>
+                            </Image.Behaviors>
+                        </Image>
+                        <Label 
+                            Text="Device details"
+                            TextColor="{StaticResource White}"
+                            FontSize="Title"
+                            VerticalOptions="Center"
+                            Margin="10,0"/>
+                    </HorizontalStackLayout>
+                    <Frame
+                        HeightRequest="200"
+                        CornerRadius="15"
+                        Margin="77,0"
+                        Padding="0">
+                        <Image
+                            Source="{Binding SelectedDevice.Image}"
+                            HeightRequest="200"/>
+                    </Frame>
+
+                    <Frame>
+                        <VerticalStackLayout
+                            Spacing="10">
+                            <HorizontalStackLayout>
+                                <Label 
+                                    Text="Name:  "
+                                    TextColor="{StaticResource color-primary-500}"
+                                    FontSize="Large"/>
+                                <Label 
+                                    Text="{Binding SelectedDevice.Name}"
+                                    TextColor="{StaticResource color-primary-500}"
+                                    FontSize="Large"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout>
+                                <Label 
+                                    Text="ID:  "
+                                    TextColor="{StaticResource color-surface-600}"
+                                    FontSize="Medium"/>
+                                <Label 
+                                    Text="{Binding SelectedDevice.Id}"
+                                    TextColor="{StaticResource color-surface-600}"
+                                    FontSize="Medium"/>
+                            </HorizontalStackLayout>
+                            <Label 
+                                Text="Description:  "
+                                TextColor="{StaticResource color-surface-600}"
+                                FontSize="Medium"/>
+                            <Label 
+                                Text="{Binding SelectedDevice.Description}"
+                                TextColor="{StaticResource color-surface-600}"
+                                FontSize="Subtitle"/>
+
+                            <dxe:ComboBoxEdit
+                                ItemsSource="{Binding Plants}"
+                                SelectedItem="{Binding SelectedPlant}"
+                                DisplayMember="Name"
+                                ValueMember="Name"
+                                LabelText="Attached plant"
+                                IsFilterEnabled="True"/>
+
+                            <Button 
+                                Text="Submit new plant"
+                                Margin="30,0"
+                                Command="{Binding ChangePlantCommand}"/>
+
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <Label 
+                        Text="Device readings:  "
+                        TextColor="{StaticResource color-primary-500}"
+                        FontSize="Large"/>
+
+                    <ScrollView Orientation="Horizontal">
+                        <dxc:ChartView
+                            BackgroundColor="{StaticResource color-surface-200}"
+                            HeightRequest="200"
+                            WidthRequest="500">
+                            <dxc:ChartView.ChartStyle>
+                                <dxc:ChartStyle 
+                                    BackgroundColor="{StaticResource color-surface-200}"/>
+                            </dxc:ChartView.ChartStyle>
+
+                            <dxc:ChartView.Legend>
+                                <dxc:Legend 
+                                    VerticalPosition="BottomOutside" 
+                                    HorizontalPosition="Center" 
+                                    Orientation="LeftToRight">
+                                    <dxc:Legend.Style>
+                                        <dxc:LegendStyle 
+                                            BackgroundColor="{StaticResource color-surface-200}">
+                                            <dxc:LegendStyle.TextStyle>
+                                                <dxc:TextStyle Color="{StaticResource White}"/>
+                                            </dxc:LegendStyle.TextStyle>
+                                        </dxc:LegendStyle>
+
+                                    </dxc:Legend.Style>
+                                </dxc:Legend>
+                            </dxc:ChartView.Legend>
+
+                            <dxc:ChartView.Series>
+                                <dxc:LineSeries
+                                    DisplayName="Acidity">
+                                    <dxc:LineSeries.Data>
+                                        <dxc:SeriesDataAdapter
+                                            DataSource="{Binding FirstSeries}"
+                                            ArgumentDataMember="Count">
+                                            <dxc:ValueDataMember Type="Value" Member="Value"/>
+                                        </dxc:SeriesDataAdapter>
+                                    </dxc:LineSeries.Data>
+                                </dxc:LineSeries>
+                                <dxc:LineSeries
+                                    DisplayName="Electrical Capacity">
+                                    <dxc:LineSeries.Data>
+                                        <dxc:SeriesDataAdapter
+                                            DataSource="{Binding SecondSeries}"
+                                            ArgumentDataMember="Count">
+                                            <dxc:ValueDataMember Type="Value" Member="Value"/>
+                                        </dxc:SeriesDataAdapter>
+                                    </dxc:LineSeries.Data>
+                                </dxc:LineSeries>
+                                <dxc:LineSeries
+                                    DisplayName="Moisure Content">
+                                    <dxc:LineSeries.Data>
+                                        <dxc:SeriesDataAdapter
+                                            DataSource="{Binding ThirdSeries}"
+                                            ArgumentDataMember="Count">
+                                            <dxc:ValueDataMember Type="Value" Member="Value"/>
+                                        </dxc:SeriesDataAdapter>
+                                    </dxc:LineSeries.Data>
+                                </dxc:LineSeries>
+                                
+                                
+                            </dxc:ChartView.Series>
+                            
+                            <dxc:ChartView.AxisX>
+                                <dxc:NumericAxisX>
+                                    <dxc:NumericAxisX.Label>
+                                        <dxc:AxisLabel>
+                                            <dxc:AxisLabel.Style >
+                                                <dxc:AxisLabelStyle>
+                                                    <dxc:AxisLabelStyle.TextStyle>
+                                                        <dxc:TextStyle 
+                                                                            Color="{StaticResource White}"/>
+                                                    </dxc:AxisLabelStyle.TextStyle>
+                                                </dxc:AxisLabelStyle>
+                                            </dxc:AxisLabel.Style>
+                                        </dxc:AxisLabel>
+                                    </dxc:NumericAxisX.Label>
+                                </dxc:NumericAxisX>
+                            </dxc:ChartView.AxisX>
+                            <dxc:ChartView.AxisY>
+                                <dxc:NumericAxisY>
+                                    <dxc:NumericAxisY.Label>
+                                        <dxc:AxisLabel>
+                                            <dxc:AxisLabel.Style >
+                                                <dxc:AxisLabelStyle>
+                                                    <dxc:AxisLabelStyle.TextStyle>
+                                                        <dxc:TextStyle Color="{StaticResource White}"/>
+                                                    </dxc:AxisLabelStyle.TextStyle>
+                                                </dxc:AxisLabelStyle>
+                                            </dxc:AxisLabel.Style>
+                                        </dxc:AxisLabel>
+                                    </dxc:NumericAxisY.Label>
+                                </dxc:NumericAxisY>
+                            </dxc:ChartView.AxisY>
+                        </dxc:ChartView>
+                    </ScrollView>
+                </VerticalStackLayout>
+            </ScrollView>
+        </RefreshView>
+    </ScrollView>
+</ContentPage>

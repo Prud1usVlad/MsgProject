@@ -53,8 +53,8 @@ namespace Msg.Mobile.ViewModels
         [RelayCommand]
         private async Task ShowDetails(long deviceId)
         {
-            Preferences.Default.Set("SelectedDeviceId", deviceId);
-            await App.Current.MainPage.DisplayAlert("Id:" + deviceId, "Details", "OK");
+            Preferences.Default.Set("SelectedDeviceId", (int)deviceId);
+            await Shell.Current.GoToAsync("deviceDetails");
         }
 
     }
