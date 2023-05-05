@@ -51,6 +51,13 @@ namespace Msg.Mobile.Services
             return JsonSerializer.Deserialize<T>(stringResult, _serializerOptions);
         }
 
+        public async Task PostAsync(string address)
+        {
+            HttpResponseMessage response = await _httpClient.PostAsync(address, null);
+
+            response.EnsureSuccessStatusCode();
+        }
+
         public async Task<T> PutAsync<T, E>(string address, E body)
         {
             HttpResponseMessage response = await _httpClient.PutAsync(address,

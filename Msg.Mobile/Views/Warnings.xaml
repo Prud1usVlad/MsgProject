@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Msg.Mobile.Views.Warnings"
+             Title="Warnings"
+             xmlns:vm="clr-namespace:Msg.Mobile.ViewModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:dxc="clr-namespace:DevExpress.Maui.Charts;assembly=DevExpress.Maui.Charts">
+
+    <!--<ContentPage.BindingContext>
+        <vm:WarningsViewModel/>
+    </ContentPage.BindingContext>-->
+
+    <ScrollView>
+        <RefreshView
+            Command="{Binding LoadDataCommand}"
+            RefreshColor="{StaticResource color-primary-500}"
+            IsRefreshing="{Binding IsLoading}"
+            HeightRequest="1000">
+            <ScrollView>
+                <VerticalStackLayout 
+                    Padding="20"
+                    Spacing="15"
+                    BackgroundColor="{StaticResource color-surface-100}">
+                    <Label 
+                        Text="MSG App"
+                        TextColor="{StaticResource color-primary-500}"
+                        FontSize="46"
+                        HorizontalTextAlignment="Center"
+                        Margin="0,0,0,-10"/>
+                    <Label 
+                        Text="Grow your own microgreens with ease"
+                        TextColor="{StaticResource color-surface-600}"
+                        FontSize="Caption"
+                        HorizontalTextAlignment="Center"/>
+                    <Frame>
+                        <VerticalStackLayout Spacing="10">
+                            <Label 
+                                Text="Greetings! Welcome to MSG App, the mobile application designed to help you grow your own microgreens at home."
+                                TextColor="{StaticResource White}"
+                                FontSize="Body"/>
+                            <Label 
+                                Text="Whether you're a seasoned gardener or a newbie to the world of indoor gardening, MSG App is the perfect tool to help you achieve success."
+                                TextColor="{StaticResource White}"
+                                FontSize="Body"/>
+                            <Label 
+                                Text="So why wait? Start using MSG App today and grow your own microgreens!"
+                                TextColor="{StaticResource White}"
+                                FontSize="Body"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <Label 
+                        Text="Warnings:"
+                        TextColor="{StaticResource White}"
+                        FontSize="Title"/>
+                    <HorizontalStackLayout>
+                        <Image 
+                            Source="{Binding Icon}"
+                            HeightRequest="30">
+                            <Image.Behaviors>
+                                <toolkit:IconTintColorBehavior TintColor="Yellow"/>
+                            </Image.Behaviors>
+                        </Image>
+                        <Label 
+                            Text="{Binding Subheader}"
+                            TextColor="{StaticResource White}"
+                            FontSize="Subtitle"
+                            VerticalOptions="Center"
+                            Margin="10,0"/>
+                    </HorizontalStackLayout>
+
+
+                    <CollectionView
+                        ItemsSource="{Binding Warnings}"
+                        SelectionMode="None"
+                        x:Name="WarningsList">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame
+                                    BackgroundColor="{StaticResource color-surface-200}"
+                                    Margin="0,10">
+                                    <VerticalStackLayout>
+                                        <HorizontalStackLayout
+                                            Margin="10,0,10,20">
+                                            <Label
+                                                FontSize="Medium"
+                                                TextColor="{StaticResource color-primary-500}"
+                                                Text="Warning ID: "/>
+                                            <Label
+                                                FontSize="Medium"
+                                                TextColor="{StaticResource color-primary-500}"
+                                                Text="{Binding Id}"/>
+                                        </HorizontalStackLayout>
+
+                                        <dxc:ChartView 
+                                            BackgroundColor="{StaticResource color-surface-200}"
+                                            HeightRequest="200">
+                                            <dxc:ChartView.ChartStyle>
+                                                <dxc:ChartStyle 
+                                                    BackgroundColor="{StaticResource color-surface-200}"/>
+                                            </dxc:ChartView.ChartStyle>
+                                            
+                                            <dxc:ChartView.Legend>
+                                                <dxc:Legend 
+                                                    VerticalPosition="BottomOutside" 
+                                                    HorizontalPosition="Center" 
+                                                    Orientation="LeftToRight">
+                                                    <dxc:Legend.Style>
+                                                        <dxc:LegendStyle 
+                                                            BackgroundColor="{StaticResource color-surface-200}">
+                                                            <dxc:LegendStyle.TextStyle>
+                                                                <dxc:TextStyle Color="{StaticResource White}"/>
+                                                            </dxc:LegendStyle.TextStyle>
+                                                        </dxc:LegendStyle>
+
+                                                    </dxc:Legend.Style>
+                                                </dxc:Legend>
+                                            </dxc:ChartView.Legend>
+                                            <dxc:ChartView.Series>
+                                                <dxc:BarSeries
+                                                    DisplayName="Measured Values">
+                                                    <dxc:BarSeries.Data>
+                                                        <dxc:SeriesDataAdapter 
+                                                            DataSource="{Binding Results}"
+                                                            ArgumentDataMember="Name">
+                                                            <dxc:ValueDataMember Type="Value" Member="Value"/>
+                                                        </dxc:SeriesDataAdapter>
+                                                    </dxc:BarSeries.Data>
+                                                </dxc:BarSeries>
+                                                <dxc:BarSeries
+                                                    DisplayName="Required Values">
+                                                    <dxc:BarSeries.Data>
+                                                        <dxc:SeriesDataAdapter 
+                                                            DataSource="{Binding Required}"
+                                                            ArgumentDataMember="Name">
+                                                            <dxc:ValueDataMember Type="Value" Member="Value"/>
+                                                        </dxc:SeriesDataAdapter>
+                                                    </dxc:BarSeries.Data>
+                                                </dxc:BarSeries>
+
+                                            </dxc:ChartView.Series>
+
+                                            <dxc:ChartView.AxisX>
+                                                <dxc:QualitativeAxisX>
+                                                    <dxc:QualitativeAxisX.Label>
+                                                        <dxc:AxisLabel>
+                                                            <dxc:AxisLabel.Style >
+                                                                <dxc:AxisLabelStyle>
+                                                                    <dxc:AxisLabelStyle.TextStyle>
+                                                                        <dxc:TextStyle 
+                                                                            Color="{StaticResource White}"/>
+                                                                    </dxc:AxisLabelStyle.TextStyle>
+                                                                </dxc:AxisLabelStyle>
+                                                            </dxc:AxisLabel.Style>
+                                                        </dxc:AxisLabel>
+                                                    </dxc:QualitativeAxisX.Label>
+                                                </dxc:QualitativeAxisX>
+                                            </dxc:ChartView.AxisX>
+                                            <dxc:ChartView.AxisY>
+                                                <dxc:NumericAxisY>
+                                                    <dxc:NumericAxisY.Label>
+                                                        <dxc:AxisLabel>
+                                                            <dxc:AxisLabel.Style >
+                                                                <dxc:AxisLabelStyle>
+                                                                    <dxc:AxisLabelStyle.TextStyle>
+                                                                        <dxc:TextStyle Color="{StaticResource White}"/>
+                                                                    </dxc:AxisLabelStyle.TextStyle>
+                                                                </dxc:AxisLabelStyle>
+                                                            </dxc:AxisLabel.Style>
+                                                        </dxc:AxisLabel>
+                                                    </dxc:NumericAxisY.Label>
+                                                </dxc:NumericAxisY>
+                                            </dxc:ChartView.AxisY>
+                                        </dxc:ChartView>
+
+                                        <Button
+                                            Text="Resolve"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:WarningsViewModel}}, Path=ResolveCommand}"
+                                            CommandParameter="{Binding Id}"
+                                            Margin="20,20,20,0"/>
+                                    </VerticalStackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
+
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </RefreshView>
+    </ScrollView>
+</ContentPage>

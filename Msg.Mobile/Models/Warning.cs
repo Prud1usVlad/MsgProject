@@ -9,6 +9,8 @@ namespace Msg.Mobile.Models
     public class Warning
     {
         public long Id { get; set; }
-        public long IsSolved { get; set; }
+        public bool IsSolved { get; set; }
+        public List<PropertyModel> Results { get; set; }
+        public List<PropertyModel> Required { get; set; }
     }
 }

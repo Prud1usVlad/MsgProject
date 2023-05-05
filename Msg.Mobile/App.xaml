@@ -38,6 +38,11 @@
                 <Setter Property="Margin" Value="30" />
             </Style>
 
+            <Style TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="{StaticResource color-surface-200}" />
+                <Setter Property="BorderColor" Value="{StaticResource color-surface-200}" />
+            </Style>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

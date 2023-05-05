@@ -5,6 +5,7 @@ using CommunityToolkit.Maui;
 using Msg.Mobile.Views;
 using Msg.Mobile.Services.Interfaces;
 using Msg.Mobile.Services;
+using Msg.Mobile.ViewModels;
 
 namespace Msg.Mobile
 {
@@ -36,6 +37,7 @@ namespace Msg.Mobile
 
         public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder)
         {
+            mauiAppBuilder.Services.AddTransient<WarningsViewModel>();
 
             return mauiAppBuilder;
         }
@@ -45,6 +47,7 @@ namespace Msg.Mobile
             mauiAppBuilder.Services.AddTransient<AppShell>();
             mauiAppBuilder.Services.AddTransient<MainPage>();
             mauiAppBuilder.Services.AddTransient<Login>();
+            mauiAppBuilder.Services.AddTransient<Warnings>();
 
             return mauiAppBuilder;
         }
@@ -77,6 +80,7 @@ namespace Msg.Mobile
         {
             mauiAppBuilder.Services.AddTransient<IHttpService, HttpService>();
             mauiAppBuilder.Services.AddTransient<IUserService, UserService>();
+            mauiAppBuilder.Services.AddTransient<IWarningService, WarningService>();
 
             return mauiAppBuilder;
         }

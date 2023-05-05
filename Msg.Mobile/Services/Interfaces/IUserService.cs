@@ -11,6 +11,6 @@ namespace Msg.Mobile.Services.Interfaces
         public Task<bool> Authenticate(string username, string password);
         public Task Forget();
         public Task ChangePassword(string userId, string oldPass, string newPass);
-        //public Task ChangeUserData();
+        public Task ChangeUserData(object data);
     }
 }
