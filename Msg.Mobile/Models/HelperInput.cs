@@ -10,7 +10,7 @@ namespace Msg.Mobile.Models
     {
         public long SelectedPlantId { get; set; }
         public List<long> SelectedSubstratesId { get; set;}
-        public long SubstrateVolume { get; set; }
-        public long Deviation { get; set; }
+        public double SubstrateVolume { get; set; }
+        public double Deviation { get; set; }
     }
 }

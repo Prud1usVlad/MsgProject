@@ -33,7 +33,7 @@
         </Tab>
         <Tab Title="Helper"
             Icon="list_icon.png">
-            <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
+            <ShellContent ContentTemplate="{DataTemplate views:HelperMain}" />
         </Tab>
         <Tab Title="Profile"
             Icon="profile_icon.png">
