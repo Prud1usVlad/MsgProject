@@ -53,7 +53,8 @@
                                 LabelText="Select a plant"
                                 IsFilterEnabled="True"
                                 FilterCondition="StartsWith"
-                                FilterComparisonType="CurrentCultureIgnoreCase"/>
+                                FilterComparisonType="CurrentCultureIgnoreCase"
+                                SelectionChangedCommand="{Binding PlantsChangedCommand}"/>
 
                             <Frame
                                 IsVisible="{Binding IsPlantCardVisible}"

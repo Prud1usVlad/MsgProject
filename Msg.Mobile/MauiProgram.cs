@@ -43,6 +43,7 @@ namespace Msg.Mobile
             mauiAppBuilder.Services.AddTransient<DevicesViewModel>();
             mauiAppBuilder.Services.AddTransient<DeviceDetailsViewModel>();
             mauiAppBuilder.Services.AddTransient<HelperMainViewModel>();
+            mauiAppBuilder.Services.AddTransient<HeplerResultViewModel>();
 
             return mauiAppBuilder;
         }
@@ -58,6 +59,7 @@ namespace Msg.Mobile
             mauiAppBuilder.Services.AddTransient<Devices>();
             mauiAppBuilder.Services.AddTransient<DeviceDetails>();
             mauiAppBuilder.Services.AddTransient<HelperMain>();
+            mauiAppBuilder.Services.AddTransient<HelperResult>();
 
             return mauiAppBuilder;
         }

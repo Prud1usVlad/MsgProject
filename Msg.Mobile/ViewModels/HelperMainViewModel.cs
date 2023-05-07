@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Core.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Msg.Mobile.Models;
 using Msg.Mobile.Services.Interfaces;
@@ -76,16 +77,9 @@ namespace Msg.Mobile.ViewModels
 
             try
             {
-                selectedPlant = null;
                 SelectedSubstrates.Clear();
-                Substrates.Clear();
-                Plants.Clear();
-
-                var pl = await _plantService.GetPlants();
-                var sub = await _substrateService.GetSubstrates();
-
-                pl.ForEach(Plants.Add);
-                sub.ForEach(Substrates.Add);
+                Plants = (await _plantService.GetPlants()).ToObservableCollection();
+                Substrates = (await _substrateService.GetSubstrates()).ToObservableCollection();
             }
             catch (Exception ex)
             {
@@ -109,7 +103,8 @@ namespace Msg.Mobile.ViewModels
             var dataStr = JsonSerializer.Serialize(data);
 
             Preferences.Default.Set(nameof(HelperInput), dataStr);
-            await App.Current.MainPage.DisplayAlert("Input", dataStr, "OK");
+
+            await Shell.Current.GoToAsync(nameof(Views.HelperResult));
         }
 
         [RelayCommand]
