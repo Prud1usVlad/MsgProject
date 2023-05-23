@@ -28,6 +28,8 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IMailingService, MailingService>();
 builder.Services.AddScoped<IStatisticsService, StatisticsService>();
 builder.Services.AddScoped<IOptimizingModelService, OptimizingModelService>();
+builder.Services.AddScoped<IWarningService, WarningService>();
+builder.Services.AddScoped<IDeviceService, DeviceService>();
 
 builder.Services.AddIdentityCore<User>(options =>
 {
