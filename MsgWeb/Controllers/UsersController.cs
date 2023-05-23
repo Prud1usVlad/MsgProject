@@ -6,6 +6,8 @@ using Msg.BLL.AuthenticationServices;
 using Msg.Core.ResponseModels;
 using Msg.BLL.Interfaces;
 using Msg.BLL.BasicServices;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace MsgWeb.Controllers
 {
@@ -22,6 +24,7 @@ namespace MsgWeb.Controllers
             _userService = userService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserViewModel>>> GetUsers()
         {
@@ -40,6 +43,8 @@ namespace MsgWeb.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "User")]
         [HttpGet("{id}")]
         public async Task<ActionResult<UserViewModel>> GetUserById(string id)
         {
@@ -55,6 +60,7 @@ namespace MsgWeb.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("Email/{email}")]
         public async Task<ActionResult<UserViewModel>> GetUserByName(string email)
         {
@@ -73,6 +79,8 @@ namespace MsgWeb.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "User")]
         [HttpPut]
         public async Task<IActionResult> PutUser(UserModel model)
         {
@@ -95,8 +103,9 @@ namespace MsgWeb.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDeviceType(string id)
+        public async Task<IActionResult> DeleteUser(string id)
         {
             try
             {
@@ -109,6 +118,7 @@ namespace MsgWeb.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<UserModel>> PostUser(UserModel model)
         {
@@ -137,6 +147,8 @@ namespace MsgWeb.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "User")]
         [HttpPost("ChangePassword")]
         public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
         {

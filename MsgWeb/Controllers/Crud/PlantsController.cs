@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +25,8 @@ namespace MsgWeb.Controllers.Crud
             _plantService = plantService;
         }
 
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "User")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PlantModel>>> GetPlants()
         {
@@ -38,6 +42,8 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
+        [Authorize(Roles = "User")]
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<ActionResult<Plant>> GetPlantById(long id)
         {
@@ -53,6 +59,8 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "User")]
         [HttpGet("Name/{name}")]
         public async Task<ActionResult<Plant>> GetPlantByName(string name)
         {
@@ -68,6 +76,7 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<IActionResult> PutPlant(PlantModel model)
         {
@@ -84,6 +93,7 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<long>> PostPlant(PlantModel model)
         {
@@ -98,6 +108,7 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePlant(long id)
         {

@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Msg.BLL.Interfaces;
 using Msg.Core.Dtos;
 using Msg.Core.ResponseModels;
+using System.Data;
 
 namespace MsgWeb.Controllers.Advanced
 {
@@ -17,6 +19,8 @@ namespace MsgWeb.Controllers.Advanced
             _optimizingModelService = optimizingModelService;
         }
 
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "User")]
         [HttpPost]
         public async Task<ActionResult<OptimizingModelResponse>> OptimizeChoice(OptimizingModelInput optimizingModelInput)
         {
