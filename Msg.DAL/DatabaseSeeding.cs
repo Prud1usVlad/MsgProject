@@ -16,6 +16,7 @@ namespace Msg.DAL
         {
             SeedRoles(builder);
             SeedAdmin(builder);
+            SeedUser(builder);
             SeedDataLabels(builder);
             SeedDataPieces(builder);
             SeedSubstrates(builder);
@@ -25,6 +26,7 @@ namespace Msg.DAL
             SeedDevices(builder);
             SeedWarnings(builder);
             SeedDeviceDataPieces(builder);
+            SeedOrders(builder);
         }
 
         private void SeedAdmin(ModelBuilder builder)
@@ -45,6 +47,27 @@ namespace Msg.DAL
             builder.Entity<User>().HasData(user);
             builder.Entity<IdentityUserRole<string>>().HasData(
                 new IdentityUserRole<string>() { RoleId = "fab4fac1-c546-41de-aebc-a14da6895711", UserId = "b74ddd14-6340-4840-95c2-db12554843e5" }
+            );
+        }
+
+        private void SeedUser(ModelBuilder builder)
+        {
+            User user = new User
+            {
+                Id = "fab4fac1-c546-41de-aebc-a14da6895711",
+                UserName = "test",
+                Email = "test@gmail.com",
+                NormalizedUserName = "TEST",
+                NormalizedEmail = "TEST@GMAIL.COM",
+                LockoutEnabled = false,
+            };
+
+            PasswordHasher<User> passwordHasher = new PasswordHasher<User>();
+            var password = passwordHasher.HashPassword(user, "test123");
+            user.PasswordHash = password;
+            builder.Entity<User>().HasData(user);
+            builder.Entity<IdentityUserRole<string>>().HasData(
+                new IdentityUserRole<string>() { RoleId = "fab4fac1-c546-41de-aebc-a14da6895711", UserId = "fab4fac1-c546-41de-aebc-a14da6895711" }
             );
         }
 
@@ -170,15 +193,14 @@ namespace Msg.DAL
 
             var devicesInPack = new List<DeviceInPack>()
             {
-                new DeviceInPack() { Id = 1, PackTypeId = 1, DeviceTypeId = 1, Amount = 4 },
-                new DeviceInPack() { Id = 2, PackTypeId = 2, DeviceTypeId = 1, Amount = 6 },
-                new DeviceInPack() { Id = 3, PackTypeId = 2, DeviceTypeId = 2, Amount = 2 },
-                new DeviceInPack() { Id = 4, PackTypeId = 3, DeviceTypeId = 1, Amount = 6 },
-                new DeviceInPack() { Id = 5, PackTypeId = 3, DeviceTypeId = 2, Amount = 5 },
-                new DeviceInPack() { Id = 6, PackTypeId = 3, DeviceTypeId = 3, Amount = 2 },
-                new DeviceInPack() { Id = 7, PackTypeId = 4, DeviceTypeId = 1, Amount = 10 },
-                new DeviceInPack() { Id = 8, PackTypeId = 4, DeviceTypeId = 2, Amount = 10 },
-                new DeviceInPack() { Id = 9, PackTypeId = 4, DeviceTypeId = 3, Amount = 4 },
+                new DeviceInPack() { Id = 1, PackTypeId = 1, DeviceTypeId = 1, Amount = 1 },
+                new DeviceInPack() { Id = 2, PackTypeId = 2, DeviceTypeId = 1, Amount = 2 },
+                new DeviceInPack() { Id = 3, PackTypeId = 2, DeviceTypeId = 2, Amount = 1 },
+                new DeviceInPack() { Id = 4, PackTypeId = 3, DeviceTypeId = 1, Amount = 2 },
+                new DeviceInPack() { Id = 5, PackTypeId = 3, DeviceTypeId = 2, Amount = 2 },
+                new DeviceInPack() { Id = 6, PackTypeId = 3, DeviceTypeId = 3, Amount = 1 },
+                new DeviceInPack() { Id = 7, PackTypeId = 4, DeviceTypeId = 2, Amount = 3 },
+                new DeviceInPack() { Id = 8, PackTypeId = 4, DeviceTypeId = 3, Amount = 2 },
             };
 
             builder.Entity<PackType>().HasData(packTypes);
@@ -283,6 +305,30 @@ namespace Msg.DAL
             };
 
             builder.Entity<DeviceDataPiece>().HasData(pieces);
+        }
+
+        private void SeedOrders(ModelBuilder builder)
+        {
+            var orders = new List<Order>()
+            {
+                new Order { Id = 1, Date = new DateOnly(2023, 5, 22), Email = "test@gmail.com", PackTypeId = 1, Phone = "1111111111", Processed = true },
+                new Order { Id = 2, Date = new DateOnly(2023, 5, 24), Email = "test@gmail.com", PackTypeId = 1, Phone = "1111111111", Processed = true },
+                new Order { Id = 3, Date = new DateOnly(2023, 5, 27), Email = "test@gmail.com", PackTypeId = 2, Phone = "1111111111", Processed = false },
+                new Order { Id = 4, Date = new DateOnly(2023, 5, 27), Email = "test@gmail.com", PackTypeId = 3, Phone = "1111111111", Processed = true },
+                new Order { Id = 5, Date = new DateOnly(2023, 5, 27), Email = "test@gmail.com", PackTypeId = 4, Phone = "1111111111", Processed = false },
+                new Order { Id = 6, Date = new DateOnly(2023, 5, 28), Email = "test@gmail.com", PackTypeId = 2, Phone = "1111111111", Processed = true },
+            };
+
+            var packs = new List<DevicePack>
+            {
+                new DevicePack { Id = 2, DateBought = new DateOnly(2023, 5, 22), UserId = "fab4fac1-c546-41de-aebc-a14da6895711", PackTypeId = 1 },
+                new DevicePack { Id = 3, DateBought = new DateOnly(2023, 5, 24), UserId = "fab4fac1-c546-41de-aebc-a14da6895711", PackTypeId = 1 },
+                new DevicePack { Id = 4, DateBought = new DateOnly(2023, 5, 27), UserId = "fab4fac1-c546-41de-aebc-a14da6895711", PackTypeId = 3 },
+                new DevicePack { Id = 5, DateBought = new DateOnly(2023, 5, 28), UserId = "fab4fac1-c546-41de-aebc-a14da6895711", PackTypeId = 2 },
+            };
+
+            builder.Entity<Order>().HasData(orders);
+            builder.Entity<DevicePack>().HasData(packs);
         }
     }
 }

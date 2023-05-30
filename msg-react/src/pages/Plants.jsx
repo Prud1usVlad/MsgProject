@@ -15,6 +15,7 @@ const API_URL = apiConfig.url;
 
 export default function Plants() {
     const { t, i18n } = useTranslation();
+    const [ autocompleteSelected, setAutocompleteSelected] = useState([]);
     const [ allData, setAllData] = useState([]);
     const [ data, setData ] = useState([]);
     const [ update, setUpdate ] = useState(true);
@@ -28,12 +29,23 @@ export default function Plants() {
             console.log(responce);
             setAllData(responce.data);
             setData(responce.data);
+            setAutocompleteSelected([]);
             setUpdate(false);
         }
 
         if (update === true)
             fetchData();
     }, [update]);
+
+    useEffect(() => {
+        let newData = allData;
+
+        if (autocompleteSelected.length > 0)
+            newData = newData.filter(e => autocompleteSelected.find(i => i.id === e.id))
+
+        setData(newData);
+        
+    }, [autocompleteSelected])
 
     const onDetails = (id) => {
         setSelectedId(id); 
@@ -95,14 +107,14 @@ export default function Plants() {
                     <Autocomplete
                         my={3}
                         placeholder={t("plants")}
-                        value={data}
+                        value={autocompleteSelected}
                         options={allData}
                         sx={{ width: "40%" }}
-                        limitTags={3}
                         getOptionLabel={(option) => option.name}
                         onChange={(event, newValue) => {
-                            setData(newValue);
+                            setAutocompleteSelected(newValue);
                         }}
+                        limitTags={3}
                         multiple
                         renderOption={(props, option) => (
                             <AutocompleteOption {...props}>

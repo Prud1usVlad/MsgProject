@@ -139,6 +139,15 @@ i18n
           fSpace: "Fielding space",
           packages: "Packages",
           tools:"Tools",
+          showProc:"Show processed",
+          showProcCap:"Processed orders will be added to the feed",
+          showNProc:"Show not processed",
+          showNProcCap:"Not processed orders will be added to the feed",
+          period: "Data period",
+          all:"All time",
+          year:"Last year",
+          month:"Last month",
+          week:"Last week",
         }
       },
       ua: {
@@ -271,6 +280,15 @@ i18n
             fSpace: "Площа вирощування",
             packages: "Пакетів",
             tools:"Інструменти",
+            showProc:"Відобразити оброблені",
+            showProcCap:"Оброблені замовлення будуть додані до таблиці",
+            showNProc:"Відобразити не оброблені",
+            showNProcCap:"Не оброблені замовлення будуть додані до таблиці",
+            period: "Період вибірки",
+            all:"Весь чес",
+            year:"Останній рік",
+            month:"Останній місяць",
+            week:"Останній тиждень",
         }
       }
     },

@@ -1,4 +1,4 @@
-import { Button, Grid, Stack, Box, Chip, Typography } from "@mui/joy";
+import { Button, Grid, Stack, Box, Chip, Typography, AutocompleteOption, Autocomplete, ListItemDecorator, ListItemContent, Slide, FormControl, FormLabel, FormHelperText, Switch  } from "@mui/joy";
 import { useTranslation, Trans } from "react-i18next";
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
@@ -15,23 +15,48 @@ const API_URL = apiConfig.url;
 
 export default function Orders() {
     const { t, i18n } = useTranslation();
+    const [ autocompleteSelected, setAutocompleteSelected] = useState([]);
+    const [ allData, setAllData ] = useState([]);
     const [ data, setData ] = useState([]);
     const [ update, setUpdate ] = useState(true);
     const [ selectedId, setSelectedId ] = useState(0);
     const [ showModal, setShowModal ] = useState(false);
     const [ modalConfig, setModalConfig ] = useState(orderDetails);
 
+    const [ showProcessed, setShowProcessed ] = useState(true);
+    const [ showNotProcessed, setShowNotProcessed ] = useState(true);
+
+
     useEffect(() => {
         async function fetchData() {
-            let responce = await axios.get(API_URL + "Orders", headers);
-            console.log(responce);
-            setData(responce.data);
+            let response = await axios.get(API_URL + "Orders", headers);
+            console.log(response);
+            setAllData(response.data);
+            setData(response.data);
+            setAutocompleteSelected([]);
             setUpdate(false);
         }
 
         if (update === true)
             fetchData();
     }, [update]);
+
+    useEffect(() => {
+        let newData = [];
+
+        if (showNotProcessed && showProcessed)
+            newData = allData;
+        else if (showNotProcessed)
+            newData = allData.filter(e => e.processed === false);
+        else if (showProcessed)
+            newData = allData.filter(e => e.processed === true);
+
+        if (autocompleteSelected.length > 0)
+            newData = newData.filter(e => autocompleteSelected.find(i => i.id === e.id))
+
+        setData(newData);
+        
+    }, [autocompleteSelected, showProcessed, showNotProcessed])
 
     const onDetails = (id) => {
         setSelectedId(id); 
@@ -75,6 +100,104 @@ export default function Orders() {
                             sx={{mx:4}}/></Button>
                     </Grid>
                 </Grid>
+
+
+                <Stack bgcolor={"background.body"}
+                    p={2}
+                    my={2}
+                    borderRadius={10}>
+                    <Typography level="h6" my={1}><Trans i18nKey={"tools"} /></Typography>
+
+                    <FormControl
+                        orientation="horizontal"
+                        sx={{ width: "30%", justifyContent: 'space-between', my:2 }}
+                        >
+                        <Box>
+                            <FormLabel><Trans i18nKey={"showProc"}/></FormLabel>
+                            <FormHelperText sx={{ mt: 0 }}><Trans i18nKey={"showProcCap"}/></FormHelperText>
+                        </Box>
+                        <Switch
+                            checked={showProcessed}
+                            onChange={(event) => setShowProcessed(event.target.checked)}
+                            color={showProcessed ? 'success' : 'neutral'}
+                            variant="outlined"
+                            endDecorator={showProcessed ? t("yes") : t("no")}
+                            slotProps={{
+                            endDecorator: {
+                                sx: {
+                                minWidth: 24,
+                                },
+                            },
+                            }}
+                        />
+                    </FormControl>
+
+                    <FormControl
+                        orientation="horizontal"
+                        sx={{ width: "30%", justifyContent: 'space-between', my:2 }}
+                        >
+                        <Box>
+                            <FormLabel><Trans i18nKey={"showNProc"}/></FormLabel>
+                            <FormHelperText sx={{ mt: 0 }}><Trans i18nKey={"showNProcCap"}/></FormHelperText>
+                        </Box>
+                        <Switch
+                            checked={showNotProcessed}
+                            onChange={(event) => setShowNotProcessed(event.target.checked)}
+                            color={showNotProcessed ? 'success' : 'neutral'}
+                            variant="outlined"
+                            endDecorator={showNotProcessed ? t("yes") : t("no")}
+                            slotProps={{
+                            endDecorator: {
+                                sx: {
+                                minWidth: 24,
+                                },
+                            },
+                            }}
+                        />
+                    </FormControl>
+
+
+
+                    <Autocomplete
+                        my={3}
+                        placeholder={t("orders")}
+                        value={autocompleteSelected}
+                        options={allData}
+                        sx={{ width: "40%" }}
+                        getOptionLabel={(option) => option.packType.name}
+                        onChange={(event, newValue) => {
+                            setAutocompleteSelected(newValue);
+                        }}
+                        limitTags={3}
+                        multiple
+                        renderOption={(props, option) => (
+                            <AutocompleteOption {...props}>
+                                <ListItemDecorator>
+                                    <Chip 
+                                        color={option.processed ? "success" : "danger"} 
+                                        size="sm" 
+                                        variant="soft" 
+                                        sx={{mx: 0.5}}>
+                                            { option.processed ? <Trans i18nKey={"yes"}/> : <Trans i18nKey={"no"}/> }
+                                    </Chip>
+                                </ListItemDecorator>
+                                <ListItemContent sx={{ fontSize: 'sm' }}>
+                                    <Typography level="body1" mx={2}>
+                                        { option.packType.name }
+                                    </Typography>
+                                    <Typography level="body2" mx={2}>
+                                        { "ID: " + option.id }
+                                    </Typography>
+                                    <Typography level="body2" mx={2}>
+                                        { "Date: " + option.date }
+                                    </Typography>
+                                </ListItemContent>
+                            </AutocompleteOption>
+                        )}
+                    />
+                </Stack>
+
+
                 <Table height={500} data={data} wordWrap hover={false}>
                     <Column width={140} sortable fixed>
                         <HeaderCell><Trans i18nKey={"id"} /></HeaderCell>
