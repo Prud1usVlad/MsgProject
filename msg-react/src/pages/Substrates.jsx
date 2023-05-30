@@ -1,4 +1,4 @@
-import { Button, Grid, Stack, Box, Chip, Typography } from "@mui/joy";
+import { Button, Grid, Stack, Box, Chip, Typography, AutocompleteOption, Autocomplete, ListItemDecorator, ListItemContent, Slider } from "@mui/joy";
 import { useTranslation, Trans } from "react-i18next";
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
@@ -15,23 +15,52 @@ const API_URL = apiConfig.url;
 
 export default function Substrates() {
     const { t, i18n } = useTranslation();
+    const [ autocompleteSelected, setAutocompleteSelected] = useState([]);
+    const [ allData, setAllData ] = useState([]);
     const [ data, setData ] = useState([]);
     const [ update, setUpdate ] = useState(true);
     const [ selectedId, setSelectedId ] = useState(0);
     const [ showModal, setShowModal ] = useState(false);
     const [ modalConfig, setModalConfig ] = useState(substrateDetails);
+    const [ priceFilter, setPriceFilter ] = useState([0, 10]);
+    const [ volumeFilter, setVolumeFilter ] = useState([0, 10]);
+
+    const [ maxPrice, setMaxPrice] = useState(10);
+    const [ maxVolume, setMaxVolume] = useState(10);
+
 
     useEffect(() => {
         async function fetchData() {
-            let responce = await axios.get(API_URL + "Substrates", headers);
-            console.log(responce);
-            setData(responce.data);
+            let response = await axios.get(API_URL + "Substrates", headers);
+            console.log(response);
+            setAllData(response.data);
+            setData(response.data);
+            setAutocompleteSelected([]);
             setUpdate(false);
+
+            let prices = response.data.map(el => el.price);
+            let volumes = response.data.map(el => el.volume);
+
+            setPriceFilter([Math.min(...prices), Math.max(...prices)]);
+            setVolumeFilter([Math.min(...volumes), Math.max(...volumes)]);
+            setMaxPrice(Math.max(...prices));
+            setMaxVolume(Math.max(...volumes));
         }
 
         if (update === true)
             fetchData();
     }, [update]);
+
+    useEffect(() => {
+        let newData = allData.filter(e => e.price >= priceFilter[0] && e.price <= priceFilter[1]);
+        newData = newData.filter(e => e.volume >= volumeFilter[0] && e.volume <= volumeFilter[1]);
+
+        if (autocompleteSelected.length > 0)
+            newData = newData.filter(e => autocompleteSelected.find(i => i.id === e.id))
+
+        setData(newData);
+        
+    }, [priceFilter, volumeFilter, autocompleteSelected])
 
     const onDetails = (id) => {
         setSelectedId(id); 
@@ -86,6 +115,78 @@ export default function Substrates() {
                             sx={{m:4}}/></Button>
                     </Grid>
                 </Grid>
+                <Stack bgcolor={"background.body"}
+                    p={2}
+                    my={2}
+                    borderRadius={10}>
+                    <Typography level="h6" my={1}><Trans i18nKey={"tools"} /></Typography>
+                    <Box sx={{ width: "40%" }}>
+                        <Typography level="body"><Trans i18nKey={"price"} />{` | ${priceFilter[0]}$ - ${priceFilter[1]}$`}</Typography>
+                        <Slider
+                            getAriaLabel={() => t("price")}
+                            value={priceFilter}
+                            onChange={(e, v) => {setPriceFilter(v)}}
+                            valueLabelDisplay="auto"
+                            getAriaValueText={v => (v + "$") }
+                            min={0}
+                            max={maxPrice}
+                            step={1}
+                        />
+                    </Box>
+
+                    <Box sx={{ width: "40%" }}>
+                        <Typography level="body"><Trans i18nKey={"volume"} />{` | ${volumeFilter[0]}L - ${volumeFilter[1]}L`}</Typography>
+                        <Slider
+                            getAriaLabel={() => t("volume")}
+                            value={volumeFilter}
+                            onChange={(e, v) => {setVolumeFilter(v)}}
+                            valueLabelDisplay="auto"
+                            min={0}
+                            max={maxVolume}
+                            step={0.5}
+                        />
+                    </Box>
+
+                    <Autocomplete
+                        my={3}
+                        placeholder={t("substrates")}
+                        value={autocompleteSelected}
+                        options={allData}
+                        sx={{ width: "40%" }}
+                        getOptionLabel={(option) => option.name}
+                        onChange={(event, newValue) => {
+                            setAutocompleteSelected(newValue);
+                        }}
+                        limitTags={3}
+                        multiple
+                        renderOption={(props, option) => (
+                            <AutocompleteOption {...props}>
+                                <ListItemDecorator>
+                                    <img
+                                        loading="lazy"
+                                        width="40"
+                                        src={option.photoUrl}
+                                        alt=""
+                                    />
+                                </ListItemDecorator>
+                                <ListItemContent sx={{ fontSize: 'sm' }}>
+                                    <Typography level="body1" mx={2}>
+                                        { option.name }
+                                    </Typography>
+                                    <Typography level="body2" mx={2}>
+                                        { "ID: " + option.id }
+                                    </Typography>
+                                    <Typography level="body2" mx={2}>
+                                        { "Price: " + option.price + "$" }
+                                    </Typography>
+                                    <Typography level="body2" mx={2}>
+                                        { "Volume: " + option.volume + "$" }
+                                    </Typography>
+                                </ListItemContent>
+                            </AutocompleteOption>
+                        )}
+                    />
+                </Stack>
                 <Table height={500} data={data} hover={false} wordWrap>
                     <Column width={140} sortable fixed>
                         <HeaderCell><Trans i18nKey={"id"} /></HeaderCell>

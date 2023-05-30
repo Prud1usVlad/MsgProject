@@ -137,7 +137,8 @@ i18n
           sSub: "Selected Substrates",
           deviation: "Deviation",
           fSpace: "Fielding space",
-          packages: "Packages"
+          packages: "Packages",
+          tools:"Tools",
         }
       },
       ua: {
@@ -269,6 +270,7 @@ i18n
             deviation: "Відхилення",
             fSpace: "Площа вирощування",
             packages: "Пакетів",
+            tools:"Інструменти",
         }
       }
     },

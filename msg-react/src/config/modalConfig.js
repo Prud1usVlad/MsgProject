@@ -149,7 +149,6 @@ export const substrateDetails = {
             type:"custom",
             disabled:false,
             generate: (chars, data, setData) => { 
-                console.log(chars)
                 return chars.map((char, index) => {
                     return (
                     <FormControl key={index}>
@@ -247,7 +246,6 @@ export const substrateCreate = {
             type:"custom",
             disabled:false,
             generate: (chars, data, setData) => { 
-                console.log(chars)
                 return chars.map((char, index) => {
                     return (
                     <FormControl key={index}>
@@ -315,7 +313,6 @@ export const plantDetails = {
             type:"custom",
             disabled:false,
             generate: (chars, data, setData) => { 
-                console.log(chars)
                 return chars.map((char, index) => {
                     return (
                     <FormControl key={index}>
@@ -401,7 +398,6 @@ export const plantCreate = {
             type:"custom",
             disabled:false,
             generate: (chars, data, setData) => { 
-                console.log(chars)
                 return chars.map((char, index) => {
                     return (
                     <FormControl key={index}>
@@ -667,7 +663,6 @@ export const packTypeCreate = {
     subheader:"dmsh_ptCreate",
     controllerAddress:API_URL + "PackTypes",
     submitAction: async (data, address, headers) => { 
-        console.log(data);
         await axios.post(address, data, headers)
 
     },

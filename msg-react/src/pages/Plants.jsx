@@ -1,4 +1,4 @@
-import { Button, Grid, Stack, Box, Chip, Typography } from "@mui/joy";
+import { Button, Grid, Stack, Box, Chip, Typography, Autocomplete, AutocompleteOption, ListItemDecorator, ListItemContent } from "@mui/joy";
 import { useTranslation, Trans } from "react-i18next";
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
@@ -15,6 +15,7 @@ const API_URL = apiConfig.url;
 
 export default function Plants() {
     const { t, i18n } = useTranslation();
+    const [ allData, setAllData] = useState([]);
     const [ data, setData ] = useState([]);
     const [ update, setUpdate ] = useState(true);
     const [ selectedId, setSelectedId ] = useState(0);
@@ -25,6 +26,7 @@ export default function Plants() {
         async function fetchData() {
             let responce = await axios.get(API_URL + "Plants", headers);
             console.log(responce);
+            setAllData(responce.data);
             setData(responce.data);
             setUpdate(false);
         }
@@ -63,9 +65,7 @@ export default function Plants() {
                 selectedId={selectedId}
                 headers={headers}
                 onClose={() => { setShowModal(false); setUpdate(true) }}
-            >
-
-            </DetailsModal>
+            />
             <Grid sm={12}>
                 <Grid container display="flex"
                     justifyContent="space-between"
@@ -86,6 +86,46 @@ export default function Plants() {
                             sx={{m:4}}/></Button>
                     </Grid>
                 </Grid>
+
+                <Stack bgcolor={"background.body"}
+                    p={2}
+                    my={2}
+                    borderRadius={10}>
+                    <Typography level="h6" my={1}><Trans i18nKey={"tools"} /></Typography>
+                    <Autocomplete
+                        my={3}
+                        placeholder={t("plants")}
+                        value={data}
+                        options={allData}
+                        sx={{ width: "40%" }}
+                        limitTags={3}
+                        getOptionLabel={(option) => option.name}
+                        onChange={(event, newValue) => {
+                            setData(newValue);
+                        }}
+                        multiple
+                        renderOption={(props, option) => (
+                            <AutocompleteOption {...props}>
+                                <ListItemDecorator>
+                                    <img
+                                        loading="lazy"
+                                        width="40"
+                                        src={option.photoUrl}
+                                        alt=""
+                                    />
+                                </ListItemDecorator>
+                                <ListItemContent sx={{ fontSize: 'sm' }}>
+                                    <Typography level="body1" mx={2}>
+                                        { option.name }
+                                    </Typography>
+                                    <Typography level="body2" mx={2}>
+                                        { "ID: " + option.id }
+                                    </Typography>
+                                </ListItemContent>
+                            </AutocompleteOption>
+                        )}
+                    />
+                </Stack>
                 <Table height={500} data={data} wordWrap hover={false}>
                     <Column width={140} sortable fixed>
                         <HeaderCell><Trans i18nKey={"id"} /></HeaderCell>

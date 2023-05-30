@@ -1,4 +1,4 @@
-import { Button, Grid, Stack, Box, Chip, Typography, AspectRatio } from "@mui/joy";
+import { Button, Grid, Stack, Box, Chip, Typography, AspectRatio, AutocompleteOption, Autocomplete, ListItemDecorator, ListItemContent, Slider  } from "@mui/joy";
 import { useTranslation, Trans } from "react-i18next";
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
@@ -15,6 +15,8 @@ const API_URL = apiConfig.url;
 
 export default function DeviceTypes() {
     const { t, i18n } = useTranslation();
+    const [ autocompleteSelected, setAutocompleteSelected] = useState([]);
+    const [ allData, setAllData ] = useState([]);
     const [ data, setData ] = useState([]);
     const [ update, setUpdate ] = useState(true);
     const [ selectedId, setSelectedId ] = useState(0);
@@ -23,15 +25,26 @@ export default function DeviceTypes() {
 
     useEffect(() => {
         async function fetchData() {
-            let responce = await axios.get(API_URL + "DeviceTypes", headers);
-            console.log(responce);
-            setData(responce.data);
+            let response = await axios.get(API_URL + "DeviceTypes", headers);
+            console.log(response);
+            setAllData(response.data);
+            setData(response.data);
+            setAutocompleteSelected([]);
             setUpdate(false);
         }
 
         if (update === true)
             fetchData();
     }, [update]);
+
+    useEffect(() => {
+        let newData = allData;
+        if (autocompleteSelected.length > 0)
+            newData = newData.filter(e => autocompleteSelected.find(i => i.id === e.id))
+
+        setData(newData);
+        
+    }, [autocompleteSelected])
 
     const onDetails = (id) => {
         setSelectedId(id); 
@@ -86,6 +99,48 @@ export default function DeviceTypes() {
                             sx={{m:4}}/></Button>
                     </Grid>
                 </Grid>
+
+                <Stack bgcolor={"background.body"}
+                    p={2}
+                    my={2}
+                    borderRadius={10}>
+                    <Typography level="h6" my={1}><Trans i18nKey={"tools"} /></Typography>
+                    <Autocomplete
+                        my={3}
+                        placeholder={t("dtList")}
+                        value={autocompleteSelected}
+                        options={allData}
+                        sx={{ width: "40%" }}
+                        getOptionLabel={(option) => option.name}
+                        onChange={(event, newValue) => {
+                            setAutocompleteSelected(newValue);
+                        }}
+                        limitTags={3}
+                        multiple
+                        renderOption={(props, option) => (
+                            <AutocompleteOption {...props}>
+                                <ListItemDecorator>
+                                    <img
+                                        loading="lazy"
+                                        width="40"
+                                        src={option.image}
+                                        alt=""
+                                    />
+                                </ListItemDecorator>
+                                <ListItemContent sx={{ fontSize: 'sm' }}>
+                                    <Typography level="body1" mx={2}>
+                                        { option.name }
+                                    </Typography>
+                                    <Typography level="body2" mx={2}>
+                                        { "ID: " + option.id }
+                                    </Typography>
+                                </ListItemContent>
+                            </AutocompleteOption>
+                        )}
+                    />
+                </Stack>
+
+
                 <Table height={500} data={data} wordWrap hover={false}>
                     <Column width={140} sortable fixed>
                         <HeaderCell><Trans i18nKey={"id"} /></HeaderCell>
