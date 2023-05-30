@@ -25,8 +25,7 @@ namespace MsgWeb.Controllers.Crud
             _plantService = plantService;
         }
 
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PlantModel>>> GetPlants()
         {
@@ -42,8 +41,7 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
-        [Authorize(Roles = "User")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("{id}")]
         public async Task<ActionResult<Plant>> GetPlantById(long id)
         {
@@ -59,8 +57,7 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("Name/{name}")]
         public async Task<ActionResult<Plant>> GetPlantByName(string name)
         {

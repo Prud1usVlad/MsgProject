@@ -19,8 +19,7 @@ namespace MsgWeb.Controllers.Advanced
             _optimizingModelService = optimizingModelService;
         }
 
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "Admin, User")]
         [HttpPost]
         public async Task<ActionResult<OptimizingModelResponse>> OptimizeChoice(OptimizingModelInput optimizingModelInput)
         {

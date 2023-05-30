@@ -21,8 +21,7 @@ namespace MsgWeb.Controllers.Crud
             _warningService = warningService;
         }
 
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("{id}")]
         public async Task<ActionResult<List<WarningModel>>> GetUserWarnings(string id)
         {
@@ -38,8 +37,7 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "Admin, User")]
         [HttpPost("Resolve/{warningId}/User/{userId}")]
         public async Task<ActionResult> ResolveWarning(long warningId, string userId)
         {

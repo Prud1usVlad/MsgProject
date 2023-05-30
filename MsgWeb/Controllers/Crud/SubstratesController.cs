@@ -19,8 +19,7 @@ namespace MsgWeb.Controllers.Crud
             _substrateService = substrateService;
         }
 
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SubstrateModel>>> GetSubstrates()
         {
@@ -36,8 +35,7 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("{id}")]
         public async Task<ActionResult<SubstrateModel>> GetSubstrateById(long id)
         {
@@ -53,8 +51,7 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("Name/{name}")]
         public async Task<ActionResult<SubstrateModel>> GetSubstrateByName(string name)
         {
@@ -70,8 +67,7 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "Admin, User")]
         [HttpPost("Filtre")]
         public async Task<ActionResult<IEnumerable<SubstrateModel>>> FiltreSubstrates(SubstrateFilterModel filtre)
         {

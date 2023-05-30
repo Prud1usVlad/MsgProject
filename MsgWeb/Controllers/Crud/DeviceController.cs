@@ -10,8 +10,7 @@ using System.Data;
 
 namespace MsgWeb.Controllers.Crud
 {
-    [Authorize(Roles = "Admin")]
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "Admin, User")]
     [Route("api/[controller]")]
     [ApiController]
     public class DeviceController : ErrorHandlingControllerBase

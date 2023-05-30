@@ -43,8 +43,7 @@ namespace MsgWeb.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("{id}")]
         public async Task<ActionResult<UserViewModel>> GetUserById(string id)
         {
@@ -79,8 +78,7 @@ namespace MsgWeb.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "Admin, User")]
         [HttpPut]
         public async Task<IActionResult> PutUser(UserModel model)
         {
@@ -147,8 +145,7 @@ namespace MsgWeb.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "Admin, User")]
         [HttpPost("ChangePassword")]
         public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
         {
