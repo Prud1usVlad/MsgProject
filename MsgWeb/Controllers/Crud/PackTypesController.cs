@@ -20,7 +20,6 @@ namespace MsgWeb.Controllers.Crud
             _packTypeService = packTypeService;
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PackTypeModel>>> GetPackTypes()
         {
