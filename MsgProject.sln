@@ -1,12 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MsgWeb", "MsgWeb\MsgWeb.csproj", "{1C9F2318-EF55-467C-9637-CC350A7D6B65}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33516.290
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MsgWeb", "MsgWeb\MsgWeb.csproj", "{1C9F2318-EF55-467C-9637-CC350A7D6B65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Msg.Core", "Msg.Core\Msg.Core.csproj", "{133E2E57-2D6B-481A-82ED-0D4972CD19C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Msg.Core", "Msg.Core\Msg.Core.csproj", "{133E2E57-2D6B-481A-82ED-0D4972CD19C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Msg.DAL", "Msg.DAL\Msg.DAL.csproj", "{B8C26FB5-2101-447F-8972-EB79183E984B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Msg.DAL", "Msg.DAL\Msg.DAL.csproj", "{B8C26FB5-2101-447F-8972-EB79183E984B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Msg.BLL", "Msg.BLL\Msg.BLL.csproj", "{8D3833FE-CBA6-43AC-A5A6-ADAE8A1CA5FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Msg.BLL", "Msg.BLL\Msg.BLL.csproj", "{8D3833FE-CBA6-43AC-A5A6-ADAE8A1CA5FE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Msg.MqttMicroservice", "Msg.MqttMicroservice\Msg.MqttMicroservice.csproj", "{B50426B1-5AD8-49AF-A9C4-B9FEF2339590}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Msg.Mobile", "Msg.Mobile\Msg.Mobile.csproj", "{206A240C-3C91-423A-A940-69908958708C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,5 +37,21 @@ Global
 		{8D3833FE-CBA6-43AC-A5A6-ADAE8A1CA5FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D3833FE-CBA6-43AC-A5A6-ADAE8A1CA5FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D3833FE-CBA6-43AC-A5A6-ADAE8A1CA5FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B50426B1-5AD8-49AF-A9C4-B9FEF2339590}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B50426B1-5AD8-49AF-A9C4-B9FEF2339590}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B50426B1-5AD8-49AF-A9C4-B9FEF2339590}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B50426B1-5AD8-49AF-A9C4-B9FEF2339590}.Release|Any CPU.Build.0 = Release|Any CPU
+		{206A240C-3C91-423A-A940-69908958708C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{206A240C-3C91-423A-A940-69908958708C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{206A240C-3C91-423A-A940-69908958708C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{206A240C-3C91-423A-A940-69908958708C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{206A240C-3C91-423A-A940-69908958708C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{206A240C-3C91-423A-A940-69908958708C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {899AF7D4-C6E3-4E5E-A435-4F3F598139B3}
 	EndGlobalSection
 EndGlobal

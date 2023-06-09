@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Msg.Mobile.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Msg.Mobile"
+    xmlns:views="clr-namespace:Msg.Mobile.Views"
+    Shell.FlyoutBehavior="Disabled"
+    Shell.BackgroundColor="{StaticResource color-surface-200}"
+    Shell.NavBarIsVisible="False">
+
+    <Shell.Resources>
+        <ResourceDictionary>
+            <Style TargetType="TabBar">
+                <Setter Property="Shell.TabBarBackgroundColor"
+                    Value="{StaticResource color-surface-200}" />
+                <Setter Property="Shell.TabBarTitleColor"
+                    Value="{StaticResource color-primary-500}" />
+                <Setter Property="Shell.TabBarUnselectedColor"
+                    Value="{StaticResource White}" />
+            </Style>
+        </ResourceDictionary>
+    </Shell.Resources>
+    
+    <TabBar>
+        <Tab Title="Home"
+            Icon="home_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate views:Warnings}" />
+        </Tab>
+        <Tab Title="Devices"
+            Icon="device_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate views:Devices}" />
+        </Tab>
+        <Tab Title="Helper"
+            Icon="list_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate views:HelperMain}" />
+        </Tab>
+        <Tab Title="Profile"
+            Icon="profile_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate views:Profile}" />
+        </Tab>
+    </TabBar>
+
+</Shell>

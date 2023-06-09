@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Msg.Mobile.Views.HelperResult"
+             Title="HelperResult"
+             xmlns:vm="clr-namespace:Msg.Mobile.ViewModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:dxc="clr-namespace:DevExpress.Maui.Charts;assembly=DevExpress.Maui.Charts"
+             xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
+             Shell.NavBarIsVisible="True">
+
+    <!--<ContentPage.BindingContext>
+        <vm:HeplerResultViewModel></vm:HeplerResultViewModel>
+    </ContentPage.BindingContext>-->
+    
+    <ScrollView>
+        <RefreshView
+            Command="{Binding LoadDataCommand}"
+            RefreshColor="{StaticResource color-primary-500}"
+            IsRefreshing="{Binding IsLoading}">
+            <ScrollView>
+                <VerticalStackLayout
+                    Padding="20"
+                    Spacing="15"
+                    BackgroundColor="{StaticResource color-surface-100}">
+                    <HorizontalStackLayout>
+                        <Image 
+                            Source="info_icon.png"
+                            HeightRequest="50">
+                            <Image.Behaviors>
+                                <toolkit:IconTintColorBehavior TintColor="{StaticResource color-primary-500}"/>
+                            </Image.Behaviors>
+                        </Image>
+                        <Label 
+                            Text="{Binding Header}"
+                            TextColor="{StaticResource White}"
+                            FontSize="Title"
+                            VerticalOptions="Center"
+                            Margin="10,0"/>
+                    </HorizontalStackLayout>
+                    <Label 
+                        Text="{Binding Subheader}"
+                        TextColor="{StaticResource color-surface-600}"
+                        FontSize="Subtitle" />
+
+                    <Label 
+                        Text="Results:  "
+                        TextColor="{StaticResource color-primary-500}"
+                        FontSize="Large"/>
+
+                    <CollectionView
+                        ItemsSource="{Binding HelperResult.Result}"
+                        SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame
+                                    BackgroundColor="{StaticResource color-surface-300}"
+                                    CornerRadius="15"
+                                    Padding="15"
+                                    Margin="0, 10">
+                                    <Grid
+                                        ColumnSpacing="10">
+                                        
+                                        <VerticalStackLayout
+                                            Grid.Column="1"
+                                            Spacing="5">
+                                            <Label
+                                                 Text="{Binding Substrate.Name}"
+                                                 TextColor="{StaticResource color-primary-500}"
+                                                 FontSize="Subtitle"/>
+
+                                            <HorizontalStackLayout>
+                                                <Label
+                                                    Text="Volume of substrate: "
+                                                    TextColor="{StaticResource White}"
+                                                    FontSize="Subtitle"/>
+                                                <Label
+                                                    Text="{Binding Volume}"
+                                                    TextColor="{StaticResource White}"
+                                                    FontSize="Subtitle"/>
+                                                <Label
+                                                    Text=" M^3"
+                                                    TextColor="{StaticResource White}"
+                                                    FontSize="Subtitle"/>
+                                            </HorizontalStackLayout>
+
+                                            <HorizontalStackLayout>
+                                                <Label
+                                                    Text="Paks needed: "
+                                                    TextColor="{StaticResource White}"
+                                                    FontSize="Subtitle"/>
+                                                <Label
+                                                    Text="{Binding PacksAmount}"
+                                                    TextColor="{StaticResource White}"
+                                                    FontSize="Subtitle"/>
+                                                <Label
+                                                    Text=" pts"
+                                                    TextColor="{StaticResource White}"
+                                                    FontSize="Subtitle"/>
+                                            </HorizontalStackLayout>
+                                            
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <Frame
+                        CornerRadius="15">
+                        <VerticalStackLayout
+                            Spacing="10">
+                            <HorizontalStackLayout>
+                                <Label
+                                    Text="Total price: "
+                                    TextColor="{StaticResource color-primary-500}"
+                                    FontSize="Large"/>
+                                <Label
+                                    Text="{Binding HelperResult.Price}"
+                                    TextColor="{StaticResource color-primary-500}"
+                                    FontSize="Large"/>
+                                <Label
+                                    Text="$"
+                                    TextColor="{StaticResource color-primary-500}"
+                                    FontSize="Large"/>
+                            </HorizontalStackLayout>
+
+                            <HorizontalStackLayout>
+                                <Label
+                                    Text="Mean deviation: "
+                                    TextColor="{StaticResource White}"
+                                    FontSize="Subtitle"/>
+                                <Label
+                                    Text="{Binding HelperResult.Deviation}"
+                                    TextColor="{StaticResource White}"
+                                    FontSize="Subtitle"/>
+                                <Label
+                                    Text="%"
+                                    TextColor="{StaticResource White}"
+                                    FontSize="Subtitle"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Frame>
+                </VerticalStackLayout>
+            </ScrollView>
+        </RefreshView>
+    </ScrollView>
+</ContentPage>

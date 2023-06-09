@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Msg.Mobile.Views.HelperMain"
+             xmlns:vm="clr-namespace:Msg.Mobile.ViewModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:dxc="clr-namespace:DevExpress.Maui.Charts;assembly=DevExpress.Maui.Charts"
+             xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors">
+
+    <ScrollView>
+        <RefreshView
+            Command="{Binding LoadDataCommand}"
+            RefreshColor="{StaticResource color-primary-500}"
+            IsRefreshing="{Binding IsLoading}">
+            <ScrollView>
+                <VerticalStackLayout
+                    Padding="20"
+                    Spacing="15"
+                    BackgroundColor="{StaticResource color-surface-100}">
+                    <HorizontalStackLayout>
+                        <Image 
+                            Source="list_icon.png"
+                            HeightRequest="50">
+                            <Image.Behaviors>
+                                <toolkit:IconTintColorBehavior TintColor="{StaticResource color-primary-500}"/>
+                            </Image.Behaviors>
+                        </Image>
+                        <Label 
+                            Text="Helper"
+                            TextColor="{StaticResource White}"
+                            FontSize="Title"
+                            VerticalOptions="Center"
+                            Margin="10,0"/>
+                    </HorizontalStackLayout>
+                    <Label 
+                        Text="Here you can browse through substrates select ones that fit your budget or needs and get detailed explanation what and in wich proportions you need to combinde to get blend that fits your plant, budget and facilities."
+                        TextColor="{StaticResource color-surface-600}"
+                        FontSize="Subtitle" />
+
+                    <Frame
+                        CornerRadius="15">
+                        <VerticalStackLayout>
+                            <Label
+                                Text="Step 1: Select plant"
+                                TextColor="{StaticResource White}"
+                                FontSize="Medium"/>
+
+                            <dxe:ComboBoxEdit
+                                ItemsSource="{Binding Plants}"
+                                SelectedItem="{Binding SelectedPlant}"
+                                DisplayMember="Name"
+                                ValueMember="Name"
+                                LabelText="Select a plant"
+                                IsFilterEnabled="True"
+                                FilterCondition="StartsWith"
+                                FilterComparisonType="CurrentCultureIgnoreCase"
+                                SelectionChangedCommand="{Binding PlantsChangedCommand}"/>
+
+                            <Frame
+                                IsVisible="{Binding IsPlantCardVisible}"
+                                BackgroundColor="{StaticResource color-surface-300}"
+                                CornerRadius="15"
+                                Padding="10">
+                                <Grid
+                                    ColumnDefinitions="*,2*"
+                                    ColumnSpacing="10">
+                                    <Frame
+                                        Padding="0"
+                                        CornerRadius="15">
+                                        <Image 
+                                            Source="{Binding SelectedPlant.PhotoUrl}"
+                                            HeightRequest="100"/>
+                                    </Frame>
+                                    <VerticalStackLayout
+                                        Grid.Column="1">
+                                        <Label
+                                            Text="{Binding SelectedPlant.Name}"
+                                            TextColor="{StaticResource color-primary-500}"
+                                            FontSize="Subtitle"/>
+                                        <Label
+                                            Text="{Binding SelectedPlant.Description}"
+                                            TextColor="{StaticResource color-surface-600}"
+                                            FontSize="Small"/>
+                                        <CollectionView
+                                            ItemsSource="{Binding SelectedPlant.Characteristics}"
+                                            SelectionMode="None"
+                                            FlowDirection="LeftToRight">
+                                            <CollectionView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Frame
+                                                        BackgroundColor="{StaticResource color-primary-500}"
+                                                        BorderColor="{StaticResource color-primary-100}"
+                                                        CornerRadius="15"
+                                                        Padding="10, 0"
+                                                        Margin="2">
+                                                        <HorizontalStackLayout>
+                                                            <Label 
+                                                                Text="{Binding Name}"
+                                                                TextColor="{StaticResource color-surface-100}"
+                                                                FontSize="Caption"/>
+                                                            <Label 
+                                                                Text=": "
+                                                                TextColor="{StaticResource color-surface-100}"
+                                                                FontSize="Caption"/>
+                                                            <Label 
+                                                                Text="{Binding Value}"
+                                                                TextColor="{StaticResource color-surface-100}"
+                                                                FontSize="Caption"/>
+                                                        </HorizontalStackLayout>
+                                                    </Frame>
+                                                </DataTemplate>
+                                            </CollectionView.ItemTemplate>
+                                        </CollectionView>
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Frame>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <Frame
+                        CornerRadius="15">
+                        <VerticalStackLayout>
+                            <Label
+                                Text="Step 2: Select substrates"
+                                TextColor="{StaticResource White}"
+                                FontSize="Medium"/>
+
+                            <dxe:TokenEdit 
+                                ItemsSource="{Binding Substrates}"
+                                SelectedItems="{Binding SelectedSubstrates}"
+                                SelectionChangedCommand="{Binding SubstratesChangedCommand}"
+                                DisplayMember="Name"
+                                ValueMember="Name"
+                                LabelText="Select substrates"
+                                IsFilterEnabled="True"
+                                FilterCondition="StartsWith"
+                                FilterComparisonType="CurrentCultureIgnoreCase"
+                                TextColor="White"
+                                PlaceholderColor="White"
+                                StartIconColor="White"
+                                >
+                                <dxe:TokenEdit.TokenAppearance>
+                                    <dxe:TokenAppearance 
+                                        BorderColor="{StaticResource color-primary-100}"
+                                        BackgroundColor="{StaticResource color-primary-600}"/>
+                                </dxe:TokenEdit.TokenAppearance>
+                            </dxe:TokenEdit>
+
+                            <CollectionView 
+                                IsVisible="{Binding IsSubstratesCardsVisible}"
+                                ItemsSource="{Binding SelectedSubstrates}"
+                                SelectionMode="None">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Frame
+                                            BackgroundColor="{StaticResource color-surface-300}"
+                                            CornerRadius="15"
+                                            Padding="10"
+                                            Margin="0, 10">
+                                            <Grid
+                                                ColumnDefinitions="*,2*"
+                                                ColumnSpacing="10">
+                                                <Frame
+                                                    Padding="0"
+                                                    CornerRadius="15">
+                                                    <Image 
+                                                        Source="{Binding PhotoUrl}"/>
+                                                </Frame>
+                                                <VerticalStackLayout
+                                                    Grid.Column="1">
+                                                    <Label
+                                                        Text="{Binding Name}"
+                                                        TextColor="{StaticResource color-primary-500}"
+                                                        FontSize="Subtitle"/>
+                                                    <Label
+                                                        Text="{Binding Description}"
+                                                        TextColor="{StaticResource color-surface-600}"
+                                                        FontSize="Caption"/>
+                                                    <CollectionView
+                                                        ItemsSource="{Binding Characteristics}"
+                                                        SelectionMode="None"
+                                                        FlowDirection="LeftToRight">
+                                                        <CollectionView.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <Frame
+                                                                    BackgroundColor="{StaticResource color-primary-500}"
+                                                                    BorderColor="{StaticResource color-primary-100}"
+                                                                    CornerRadius="15"
+                                                                    Padding="10, 0"
+                                                                    Margin="2">
+                                                                    <HorizontalStackLayout>
+                                                                        <Label 
+                                                                            Text="{Binding Name}"
+                                                                            TextColor="{StaticResource color-surface-100}"
+                                                                            FontSize="Caption"/>
+                                                                        <Label 
+                                                                            Text=": "
+                                                                            TextColor="{StaticResource color-surface-100}"
+                                                                            FontSize="Caption"/>
+                                                                        <Label 
+                                                                            Text="{Binding Value}"
+                                                                            TextColor="{StaticResource color-surface-100}"
+                                                                            FontSize="Caption"/>
+                                                                    </HorizontalStackLayout>
+                                                                </Frame>
+                                                            </DataTemplate>
+                                                        </CollectionView.ItemTemplate>
+                                                    </CollectionView>
+                                                </VerticalStackLayout>
+                                            </Grid>
+                                        </Frame>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <Frame 
+                        CornerRadius="15">
+                        <VerticalStackLayout>
+                            <Label
+                                Text="Step 3: Enter fielding facilities parameters"
+                                TextColor="{StaticResource White}"
+                                FontSize="Medium"/>
+
+                            <dxe:NumericEdit
+                                Value="{Binding X}"
+                                DisplayFormat="n2"
+                                MaxDecimalDigitCount="2"
+                                LabelText="Length"
+                                IsUpDownIconVisible="True"
+                                Suffix="M" />
+
+                            <dxe:NumericEdit
+                                Value="{Binding Y}"
+                                DisplayFormat="n2"
+                                MaxDecimalDigitCount="2"
+                                LabelText="Width"
+                                IsUpDownIconVisible="True"
+                                Suffix="M" />
+
+                            <dxe:NumericEdit
+                                Value="{Binding Z}"
+                                DisplayFormat="n2"
+                                MaxDecimalDigitCount="2"
+                                LabelText="Depth"
+                                IsUpDownIconVisible="True"
+                                Suffix="M" />
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <Frame 
+                        CornerRadius="15">
+                        <VerticalStackLayout>
+                            <Label
+                                Text="Step 4: Specify deviation (0.1-0.15 recomended)"
+                                TextColor="{StaticResource White}"
+                                FontSize="Medium"/>
+
+                            <dxe:NumericEdit
+                                Value="{Binding D}"
+                                DisplayFormat="n2"
+                                MaxDecimalDigitCount="2"
+                                LabelText="Deviation"
+                                IsUpDownIconVisible="True"
+                                MaxValue="1"
+                                MinValue="0.01"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <Button 
+                        Text="Get results"
+                        Command="{Binding OptimizeCommand}"/>
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </RefreshView>
+    </ScrollView>
+</ContentPage>
