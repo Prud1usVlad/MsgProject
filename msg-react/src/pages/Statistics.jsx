@@ -46,7 +46,6 @@ export default function Statistics() {
             })
 
             setUpdate(false);
-            console.log(packs.data);
         }
 
         if (update === true)
@@ -55,6 +54,7 @@ export default function Statistics() {
 
     const updateByPeriod = (data) => {
         let index = periods.indexOf(selectedPeriod);
+        console.log('data', data)
 
         setPacksStat(data.packs);
 
@@ -74,18 +74,21 @@ export default function Statistics() {
     }
 
     const setData = (data, pivot) => {
-        setOrdersStat(data.orders.filter(i => {
-            var dateParts = i.Label.split(".");
-            var date = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
-            console.log('i', i, date > pivot, pivot, date)
+
+        const ordersData = data.orders.filter(i => {
+            var dateParts = i.Label.split("/");
+            var date = new Date(+dateParts[2], dateParts[0] - 1, +dateParts[1]);
             return date > pivot;
-        }));
-        setMqttStat(data.mqtt.filter(i => {
-            var dateParts = i.Label.split(".");
-            var date = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
-            console.log('i', i, date > pivot, pivot, date)
+        })
+
+        const mqttData = data.mqtt.filter(i => {
+            var dateParts = i.Label.split("/");
+            var date = new Date(+dateParts[2], dateParts[0] - 1, +dateParts[1]);
             return date > pivot;
-        }));
+        })
+
+        setOrdersStat(ordersData.length > 0 ? ordersData : [{}]);
+        setMqttStat(mqttData.length > 0 ? mqttData : [{}]);
     }
 
     return (
