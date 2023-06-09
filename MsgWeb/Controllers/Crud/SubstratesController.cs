@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Msg.BLL.Interfaces;
 using Msg.Core.BasicModels;
 using Msg.Core.RequestModels;
+using System.Data;
 
 namespace MsgWeb.Controllers.Crud
 {
@@ -17,6 +19,7 @@ namespace MsgWeb.Controllers.Crud
             _substrateService = substrateService;
         }
 
+        [Authorize(Roles = "Admin, User")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SubstrateModel>>> GetSubstrates()
         {
@@ -32,6 +35,7 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("{id}")]
         public async Task<ActionResult<SubstrateModel>> GetSubstrateById(long id)
         {
@@ -47,6 +51,7 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("Name/{name}")]
         public async Task<ActionResult<SubstrateModel>> GetSubstrateByName(string name)
         {
@@ -62,6 +67,7 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
+        [Authorize(Roles = "Admin, User")]
         [HttpPost("Filtre")]
         public async Task<ActionResult<IEnumerable<SubstrateModel>>> FiltreSubstrates(SubstrateFilterModel filtre)
         {
@@ -77,6 +83,7 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<IActionResult> PutSubstrate(SubstrateModel model)
         {
@@ -92,6 +99,7 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<long>> PostSubstrate(SubstrateModel model)
         {
@@ -106,6 +114,7 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSubstrate(long id)
         {

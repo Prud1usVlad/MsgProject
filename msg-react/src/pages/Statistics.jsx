@@ -1,4 +1,5 @@
-import { Button, Grid, Stack, Box, Chip, Typography, TabPanel, TabList, Tabs } from "@mui/joy";
+import { Button, Grid, Stack, Box, Chip, Typography, TabPanel, TabList, Tabs, RadioGroup, Radio } from "@mui/joy";
+import CheckIcon from '@mui/icons-material/Check';
 import { useTranslation, Trans } from "react-i18next";
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
@@ -16,12 +17,16 @@ const headers = { headers: { 'Authorization': `Bearer ${session.token}`}};
 const API_URL = apiConfig.url;
 
 export default function Statistics() {
+    const periods = [ "all", "year", "month", "week"]
+
     const { t, i18n } = useTranslation();
     const [ update, setUpdate ] = useState(true);
+
     const [ packsStat, setPacksStat ] = useState([{}]);
     const [ ordersStat, setOrdersStat ] = useState([{}]);
     const [ mqttStat, setMqttStat ] = useState([{}]);
-    const [ selectedId, setSelectedId ] = useState(0);
+
+    const [selectedPeriod, setSelectedPeriod] = useState("all");
 
     const [index, setIndex] = useState(0);
 
@@ -34,18 +39,54 @@ export default function Statistics() {
             let orders = await axios.get(API_URL + "Statistics/Orders", headers);
             let mqtt = await axios.get(API_URL + "Statistics/MqttPayload", headers);
 
-            setPacksStat(packs.data);
-            setOrdersStat(orders.data);
-            setMqttStat(mqtt.data);
+            updateByPeriod({
+                packs: packs.data,
+                orders: orders.data,
+                mqtt: mqtt.data
+            })
 
             setUpdate(false);
-            console.log(mqtt.data);
+            console.log(packs.data);
         }
 
         if (update === true)
             fetchData();
     }, [update]);
 
+    const updateByPeriod = (data) => {
+        let index = periods.indexOf(selectedPeriod);
+
+        setPacksStat(data.packs);
+
+        if (index === 0) {
+            setOrdersStat(data.orders);
+            setMqttStat(data.mqtt);
+        } else if (index === 1) {
+            let pivot = new Date().setFullYear(new Date().getFullYear() - 1)
+            setData(data, pivot);
+        } else if (index === 2) {
+            let pivot = new Date().setMonth(new Date().getMonth() - 1)
+            setData(data, pivot);
+        } else if (index === 3) {
+            let pivot = new Date().setDate(new Date().getDate() - 7)
+            setData(data, pivot);            
+        }
+    }
+
+    const setData = (data, pivot) => {
+        setOrdersStat(data.orders.filter(i => {
+            var dateParts = i.Label.split(".");
+            var date = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
+            console.log('i', i, date > pivot, pivot, date)
+            return date > pivot;
+        }));
+        setMqttStat(data.mqtt.filter(i => {
+            var dateParts = i.Label.split(".");
+            var date = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
+            console.log('i', i, date > pivot, pivot, date)
+            return date > pivot;
+        }));
+    }
 
     return (
         <Stack p={3}>
@@ -63,6 +104,7 @@ export default function Statistics() {
                     aria-label="Pipeline"
                     value={index}
                     onChange={(event, value) => setIndex(value)}
+                    bgcolor={"background.body"}
                     sx={{ '--Tabs-gap': '0px' }}
                 >
                     <TabList
@@ -118,16 +160,16 @@ export default function Statistics() {
                     })}
                     />
                     <Box
+                    bgcolor={"background.body"}
                     sx={(theme) => ({
-                        '--bg': theme.vars.palette.background.level1,
-                        background: 'var(--bg)',
                         boxShadow: '0 0 0 100vmax var(--bg)',
                         clipPath: 'inset(0 -100vmax)',
                         px: 4,
                         py: 2,
                     })}
                     >
-                        <TabPanel value={0}>
+                        <TabPanel value={0} 
+                            bgcolor={"background.body"}>
                             <Stack p={1}
                                 justifyContent="center"
                                 alignItems="center">
@@ -156,6 +198,50 @@ export default function Statistics() {
                             <Stack p={1}
                                 justifyContent="center"
                                 alignItems="center">
+                                <Stack
+                                    bgcolor={"background.level1"}
+                                    p={2}
+                                    my={2}
+                                    borderRadius={10}>
+                                    <Typography level="h6" m={2}><Trans i18nKey={"period"} /></Typography>
+
+                                    <Box>
+                                        <RadioGroup
+                                            orientation="horizontal"
+                                            sx={{ flexWrap: 'wrap', gap: 1 }}
+                                        >
+                                            {periods.map((period) => {
+                                                const checked = selectedPeriod === period;
+                                                return (
+                                                    <Chip
+                                                        key={period}
+                                                        variant={checked ? 'soft' : 'plain'}
+                                                        color={checked ? 'info' : 'neutral'}
+                                                        startDecorator={
+                                                            checked && <CheckIcon sx={{ zIndex: 1, pointerEvents: 'none' }} />
+                                                        }
+                                                    >
+                                                        <Radio
+                                                            variant="outlined"
+                                                            color={checked ? 'info' : 'neutral'}
+                                                            disableIcon
+                                                            overlay
+                                                            label={t(period)}
+                                                            value={t(period)}
+                                                            checked={checked}
+                                                            onChange={(event) => {
+                                                                if (event.target.checked) {
+                                                                    setSelectedPeriod(period);
+                                                                    setUpdate(true);
+                                                                }
+                                                            }}
+                                                        />
+                                                    </Chip>
+                                                );
+                                            })}
+                                        </RadioGroup>
+                                    </Box>
+                                </Stack>
                                 
                                 <Typography level="h6" m={2}><Trans i18nKey={"oByDate"} /></Typography>
 
@@ -202,8 +288,53 @@ export default function Statistics() {
                             <Stack p={1}
                                 justifyContent="center"
                                 alignItems="center">
+
+                                <Stack
+                                    bgcolor={"background.level1"}
+                                    p={2}
+                                    my={2}
+                                    borderRadius={10}>
+                                    <Typography level="h6" m={2}><Trans i18nKey={"period"} /></Typography>
+
+                                    <Box>
+                                        <RadioGroup
+                                            orientation="horizontal"
+                                            sx={{ flexWrap: 'wrap', gap: 1 }}
+                                        >
+                                            {periods.map((period) => {
+                                                const checked = selectedPeriod === period;
+                                                return (
+                                                    <Chip
+                                                        key={period}
+                                                        variant={checked ? 'soft' : 'plain'}
+                                                        color={checked ? 'info' : 'neutral'}
+                                                        startDecorator={
+                                                            checked && <CheckIcon sx={{ zIndex: 1, pointerEvents: 'none' }} />
+                                                        }
+                                                    >
+                                                        <Radio
+                                                            variant="outlined"
+                                                            color={checked ? 'info' : 'neutral'}
+                                                            disableIcon
+                                                            overlay
+                                                            label={t(period)}
+                                                            value={t(period)}
+                                                            checked={checked}
+                                                            onChange={(event) => {
+                                                                if (event.target.checked) {
+                                                                    setSelectedPeriod(period);
+                                                                    setUpdate(true);
+                                                                }
+                                                            }}
+                                                        />
+                                                    </Chip>
+                                                );
+                                            })}
+                                        </RadioGroup>
+                                    </Box>
+                                </Stack>
                                 
-                                <Typography level="h6" m={2}><Trans i18nKey={"oByDate"} /></Typography>
+                                <Typography level="h6" m={2}><Trans i18nKey={"mpStat"} /></Typography>
 
                                 <LineChart
                                     width={800}

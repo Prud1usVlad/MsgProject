@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Msg.BLL.Interfaces;
+using System.Data;
 
 namespace MsgWeb.Controllers.Advanced
 {
@@ -15,7 +17,7 @@ namespace MsgWeb.Controllers.Advanced
             _statisticsService = statisticsService;
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpGet("DevicePack")]
         public async Task<ActionResult<List<Dictionary<string, string>>>> GetDevicePackStatistics() 
         {
@@ -29,6 +31,7 @@ namespace MsgWeb.Controllers.Advanced
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("Orders")]
         public async Task<ActionResult<List<Dictionary<string, string>>>> GetOrdersStatistics()
         {
@@ -42,6 +45,7 @@ namespace MsgWeb.Controllers.Advanced
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("MqttPayload")]
         public async Task<ActionResult<List<Dictionary<string, string>>>> GetMqttPayloadStatistics()
         {

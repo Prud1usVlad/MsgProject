@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Msg.BLL.BasicServices;
 using Msg.BLL.Interfaces;
 using Msg.Core.BasicModels;
 using Msg.Core.RequestModels;
+using System.Data;
 
 namespace MsgWeb.Controllers.Crud
 {
@@ -63,6 +65,7 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<IActionResult> PutPackType(PackTypeModel model)
         {
@@ -78,6 +81,7 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<long>> PostPackType(PackTypeModel model)
         {
@@ -92,6 +96,7 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePackType(long id)
         {

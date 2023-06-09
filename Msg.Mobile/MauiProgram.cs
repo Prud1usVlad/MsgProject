@@ -76,6 +76,11 @@ namespace Msg.Mobile
                 };
 
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
+                
+                var token = Preferences.Default.Get("Token", "none");
+
+                if (token != "none")
+                    client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
 
                 return client;
             });

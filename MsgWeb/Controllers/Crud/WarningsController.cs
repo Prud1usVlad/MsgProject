@@ -5,6 +5,8 @@ using Msg.BLL.Interfaces;
 using Msg.Core.BasicModels;
 using Msg.Core.ResponseModels;
 using Msg.Core.RequestModels;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace MsgWeb.Controllers.Crud
 {
@@ -19,6 +21,7 @@ namespace MsgWeb.Controllers.Crud
             _warningService = warningService;
         }
 
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("{id}")]
         public async Task<ActionResult<List<WarningModel>>> GetUserWarnings(string id)
         {
@@ -34,6 +37,7 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
+        [Authorize(Roles = "Admin, User")]
         [HttpPost("Resolve/{warningId}/User/{userId}")]
         public async Task<ActionResult> ResolveWarning(long warningId, string userId)
         {

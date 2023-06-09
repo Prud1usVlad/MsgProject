@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Msg.BLL.BasicServices;
 using Msg.BLL.Interfaces;
 using Msg.Core.BasicModels;
 using Msg.Core.RequestModels;
 using Msg.Core.ResponseModels;
+using System.Data;
 
 namespace MsgWeb.Controllers.Crud
 {
@@ -21,6 +23,7 @@ namespace MsgWeb.Controllers.Crud
             _mailingService = mailingService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OrderViewModel>>> GetOrders()
         {
@@ -68,6 +71,7 @@ namespace MsgWeb.Controllers.Crud
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("Confirm/{id}")]
         public async Task<IActionResult> ConfirmOrder(long id)
         {

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Msg.DAL;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Msg.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230523132727_UpdatedSeedings")]
+    partial class UpdatedSeedings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -154,11 +157,6 @@ namespace Msg.DAL.Migrations
                         new
                         {
                             UserId = "b74ddd14-6340-4840-95c2-db12554843e5",
-                            RoleId = "fab4fac1-c546-41de-aebc-a14da6895711"
-                        },
-                        new
-                        {
-                            UserId = "fab4fac1-c546-41de-aebc-a14da6895711",
                             RoleId = "fab4fac1-c546-41de-aebc-a14da6895711"
                         });
                 });
@@ -1035,56 +1033,63 @@ namespace Msg.DAL.Migrations
                         new
                         {
                             Id = 1L,
-                            Amount = 1,
+                            Amount = 4,
                             DeviceTypeId = 1L,
                             PackTypeId = 1L
                         },
                         new
                         {
                             Id = 2L,
-                            Amount = 2,
+                            Amount = 6,
                             DeviceTypeId = 1L,
                             PackTypeId = 2L
                         },
                         new
                         {
                             Id = 3L,
-                            Amount = 1,
+                            Amount = 2,
                             DeviceTypeId = 2L,
                             PackTypeId = 2L
                         },
                         new
                         {
                             Id = 4L,
-                            Amount = 2,
+                            Amount = 6,
                             DeviceTypeId = 1L,
                             PackTypeId = 3L
                         },
                         new
                         {
                             Id = 5L,
-                            Amount = 2,
+                            Amount = 5,
                             DeviceTypeId = 2L,
                             PackTypeId = 3L
                         },
                         new
                         {
                             Id = 6L,
-                            Amount = 1,
+                            Amount = 2,
                             DeviceTypeId = 3L,
                             PackTypeId = 3L
                         },
                         new
                         {
                             Id = 7L,
-                            Amount = 3,
-                            DeviceTypeId = 2L,
+                            Amount = 10,
+                            DeviceTypeId = 1L,
                             PackTypeId = 4L
                         },
                         new
                         {
                             Id = 8L,
-                            Amount = 2,
+                            Amount = 10,
+                            DeviceTypeId = 2L,
+                            PackTypeId = 4L
+                        },
+                        new
+                        {
+                            Id = 9L,
+                            Amount = 4,
                             DeviceTypeId = 3L,
                             PackTypeId = 4L
                         });
@@ -1120,37 +1125,9 @@ namespace Msg.DAL.Migrations
                         new
                         {
                             Id = 1L,
-                            DateBought = new DateOnly(2023, 5, 30),
+                            DateBought = new DateOnly(2023, 5, 23),
                             PackTypeId = 1L,
                             UserId = "b74ddd14-6340-4840-95c2-db12554843e5"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            DateBought = new DateOnly(2023, 5, 22),
-                            PackTypeId = 1L,
-                            UserId = "fab4fac1-c546-41de-aebc-a14da6895711"
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            DateBought = new DateOnly(2023, 5, 24),
-                            PackTypeId = 1L,
-                            UserId = "fab4fac1-c546-41de-aebc-a14da6895711"
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            DateBought = new DateOnly(2023, 5, 27),
-                            PackTypeId = 3L,
-                            UserId = "fab4fac1-c546-41de-aebc-a14da6895711"
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            DateBought = new DateOnly(2023, 5, 28),
-                            PackTypeId = 2L,
-                            UserId = "fab4fac1-c546-41de-aebc-a14da6895711"
                         });
                 });
 
@@ -1232,62 +1209,6 @@ namespace Msg.DAL.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Orders");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            Date = new DateOnly(2023, 5, 22),
-                            Email = "test@gmail.com",
-                            PackTypeId = 1L,
-                            Phone = "1111111111",
-                            Processed = true
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            Date = new DateOnly(2023, 5, 24),
-                            Email = "test@gmail.com",
-                            PackTypeId = 1L,
-                            Phone = "1111111111",
-                            Processed = true
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            Date = new DateOnly(2023, 5, 27),
-                            Email = "test@gmail.com",
-                            PackTypeId = 2L,
-                            Phone = "1111111111",
-                            Processed = false
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            Date = new DateOnly(2023, 5, 27),
-                            Email = "test@gmail.com",
-                            PackTypeId = 3L,
-                            Phone = "1111111111",
-                            Processed = true
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            Date = new DateOnly(2023, 5, 27),
-                            Email = "test@gmail.com",
-                            PackTypeId = 4L,
-                            Phone = "1111111111",
-                            Processed = false
-                        },
-                        new
-                        {
-                            Id = 6L,
-                            Date = new DateOnly(2023, 5, 28),
-                            Email = "test@gmail.com",
-                            PackTypeId = 2L,
-                            Phone = "1111111111",
-                            Processed = true
-                        });
                 });
 
             modelBuilder.Entity("Msg.Core.BasicModels.PackType", b =>
@@ -1694,33 +1615,17 @@ namespace Msg.DAL.Migrations
                         {
                             Id = "b74ddd14-6340-4840-95c2-db12554843e5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1e491891-2e19-4808-a7ef-494f1810af29",
+                            ConcurrencyStamp = "e7423fa1-5725-41bf-93fd-b0bc47dcc6a2",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPxiWsfl+yA6+TsEoDLfEfi2gXAbTFPZNM5GFLDuHRvJqb7QeDyq47CDzcDL4TsD/Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENCyylhgQzzf5T6UTEA+LPDMfeh6h+iaUlLuZlHgtT9ru29iaI67OIAw27I9ydRHsQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6deb6912-18e1-4cdd-8790-cc313d33b679",
+                            SecurityStamp = "a3f1644d-e577-491f-8eee-34bc7a7d5d91",
                             TwoFactorEnabled = false,
                             UserName = "admin"
-                        },
-                        new
-                        {
-                            Id = "fab4fac1-c546-41de-aebc-a14da6895711",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "380c107a-a618-420f-8bb1-b3b0d406670e",
-                            Email = "test@gmail.com",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "TEST@GMAIL.COM",
-                            NormalizedUserName = "TEST",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJ6vXnUSWYfnuugOhDiTfb+1GgafyC7FKmz1xXL0f4+8jrs+YhobBTCSodCPZYNnug==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "e7bde8c9-bd42-4bfa-bead-960354a00ad1",
-                            TwoFactorEnabled = false,
-                            UserName = "test"
                         });
                 });
 

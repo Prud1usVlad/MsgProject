@@ -53,7 +53,7 @@ export default function Login() {
             alignItems="center">
             <Grid sm={3.5}></Grid>
             <Grid sm={5} 
-                bgcolor={"background.level1"}
+                bgcolor={"background.body"}
                 boxShadow="md"
                 borderRadius={"md"}>
                 <Stack p={3}

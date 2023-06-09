@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Msg.DAL;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Msg.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230530122319_SomeNewSeeds")]
+    partial class SomeNewSeeds
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1123,34 +1126,6 @@ namespace Msg.DAL.Migrations
                             DateBought = new DateOnly(2023, 5, 30),
                             PackTypeId = 1L,
                             UserId = "b74ddd14-6340-4840-95c2-db12554843e5"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            DateBought = new DateOnly(2023, 5, 22),
-                            PackTypeId = 1L,
-                            UserId = "fab4fac1-c546-41de-aebc-a14da6895711"
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            DateBought = new DateOnly(2023, 5, 24),
-                            PackTypeId = 1L,
-                            UserId = "fab4fac1-c546-41de-aebc-a14da6895711"
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            DateBought = new DateOnly(2023, 5, 27),
-                            PackTypeId = 3L,
-                            UserId = "fab4fac1-c546-41de-aebc-a14da6895711"
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            DateBought = new DateOnly(2023, 5, 28),
-                            PackTypeId = 2L,
-                            UserId = "fab4fac1-c546-41de-aebc-a14da6895711"
                         });
                 });
 
@@ -1232,62 +1207,6 @@ namespace Msg.DAL.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Orders");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            Date = new DateOnly(2023, 5, 22),
-                            Email = "test@gmail.com",
-                            PackTypeId = 1L,
-                            Phone = "1111111111",
-                            Processed = true
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            Date = new DateOnly(2023, 5, 24),
-                            Email = "test@gmail.com",
-                            PackTypeId = 1L,
-                            Phone = "1111111111",
-                            Processed = true
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            Date = new DateOnly(2023, 5, 27),
-                            Email = "test@gmail.com",
-                            PackTypeId = 2L,
-                            Phone = "1111111111",
-                            Processed = false
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            Date = new DateOnly(2023, 5, 27),
-                            Email = "test@gmail.com",
-                            PackTypeId = 3L,
-                            Phone = "1111111111",
-                            Processed = true
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            Date = new DateOnly(2023, 5, 27),
-                            Email = "test@gmail.com",
-                            PackTypeId = 4L,
-                            Phone = "1111111111",
-                            Processed = false
-                        },
-                        new
-                        {
-                            Id = 6L,
-                            Date = new DateOnly(2023, 5, 28),
-                            Email = "test@gmail.com",
-                            PackTypeId = 2L,
-                            Phone = "1111111111",
-                            Processed = true
-                        });
                 });
 
             modelBuilder.Entity("Msg.Core.BasicModels.PackType", b =>
@@ -1694,15 +1613,15 @@ namespace Msg.DAL.Migrations
                         {
                             Id = "b74ddd14-6340-4840-95c2-db12554843e5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1e491891-2e19-4808-a7ef-494f1810af29",
+                            ConcurrencyStamp = "affb1710-b456-4b21-8a0d-f0b20d56ced6",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPxiWsfl+yA6+TsEoDLfEfi2gXAbTFPZNM5GFLDuHRvJqb7QeDyq47CDzcDL4TsD/Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKrniSs6dZQLkTFwXPDwrTaiP8yuZ+BbLEqXeID3h58GX+e9JkYWuUkQRHOfGoM8DQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6deb6912-18e1-4cdd-8790-cc313d33b679",
+                            SecurityStamp = "6f0ce148-5b43-4a6b-a655-817c41490c7c",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         },
@@ -1710,15 +1629,15 @@ namespace Msg.DAL.Migrations
                         {
                             Id = "fab4fac1-c546-41de-aebc-a14da6895711",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "380c107a-a618-420f-8bb1-b3b0d406670e",
+                            ConcurrencyStamp = "2f1e94eb-5d9f-49c4-913e-b5c99c5349f3",
                             Email = "test@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "TEST@GMAIL.COM",
                             NormalizedUserName = "TEST",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJ6vXnUSWYfnuugOhDiTfb+1GgafyC7FKmz1xXL0f4+8jrs+YhobBTCSodCPZYNnug==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELBnGL1iPUXhohq4PuTEJgGKm34DHLLdUibV8J7Mu5vVdPgEqf8714C2ExWOphnFTA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e7bde8c9-bd42-4bfa-bead-960354a00ad1",
+                            SecurityStamp = "f807b6ad-f5e6-419d-926a-5aaedab40565",
                             TwoFactorEnabled = false,
                             UserName = "test"
                         });

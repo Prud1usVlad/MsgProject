@@ -5,9 +5,12 @@ using Msg.BLL.Interfaces;
 using Msg.Core.BasicModels;
 using Msg.Core.ResponseModels;
 using Msg.Core.RequestModels;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace MsgWeb.Controllers.Crud
 {
+    [Authorize(Roles = "Admin, User")]
     [Route("api/[controller]")]
     [ApiController]
     public class DeviceController : ErrorHandlingControllerBase
